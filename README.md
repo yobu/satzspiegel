@@ -36,7 +36,9 @@ Render the review edition instead:
 pandoc plan.md -d satzspiegel-review -o plan.html
 ```
 
-That is one file, and it needs nothing installed on the other side.
+That is one file, and it needs nothing installed on the other side. This is what the reviewer sees, in both themes, after two comments and a reply:
+
+![The review edition in Patina and Archive: highlighted passages, comment cards beside them, a reply, and the bar with Save a copy, Merge files and Export](docs/img/review.png)
 
 ```
   you                                              your reviewer

@@ -101,7 +101,7 @@
   }
   .sz-card { position: absolute; inset-inline-start: 1rem; inline-size: 20rem; margin: 0 !important; }
   .sz-bar { position: fixed; inset-inline: 0; }
-  body { padding-block-start: 3rem; }
+  body { padding-block-start: 3.5rem; }
 }
 
 .sz-toast {

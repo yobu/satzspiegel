@@ -119,11 +119,13 @@ readme: ## README.md as index.html (the home page) and readme-review.html (its r
 	$(call assert-embedded,readme-review.html)
 	@echo "index.html and readme-review.html rendered from README.md"
 
-showcase: ## docs/showcase.md in both themes, the source of docs/img/themes.png
+showcase: ## docs/showcase.md in both themes, plain and review, the sources of docs/img/themes.png and review.png
 	mkdir -p build/showcase
 	$(RENDER) -f $(READER_MD) -V fonts-css=../../fonts.css -V nocolophon -c ../../satzspiegel.css -c ../../satzspiegel-code.css docs/showcase.md -o build/showcase/patina.html
 	$(RENDER) -f $(READER_MD) -V theme=archive -V fonts-css=../../fonts.css -V nocolophon -c ../../satzspiegel.css -c ../../satzspiegel-code.css docs/showcase.md -o build/showcase/archive.html
-	@echo "rendered build/showcase/{patina,archive}.html; shoot docs/img/themes.png with scripts/themes-shot.js"
+	$(REVIEW) -f $(READER_MD) -V nocolophon docs/showcase.md -o build/showcase/patina-review.html
+	$(REVIEW) -f $(READER_MD) -V theme=archive -V nocolophon docs/showcase.md -o build/showcase/archive-review.html
+	@echo "rendered build/showcase/*.html; shoot docs/img/themes.png with scripts/themes-shot.js and docs/img/review.png with scripts/review-shot.js"
 
 site: readme ## the GitHub Pages site into _site/
 	rm -rf _site
