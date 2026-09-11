@@ -8,7 +8,13 @@ So I built Satzspiegel. It turns a Markdown file into a page set like a book, an
 
 ## One command
 
-Install [Pandoc](https://pandoc.org/installing.html) once. On Mac or Linux:
+Install [Pandoc](https://pandoc.org/installing.html). On a Mac:
+
+```bash
+brew install pandoc
+```
+
+Then, on Mac or Linux:
 
 ```bash
 git clone https://github.com/yobu/satzspiegel.git && cd satzspiegel && make install

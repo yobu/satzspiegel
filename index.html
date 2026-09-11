@@ -26,22 +26,25 @@ you.</p>
 <p><img src="docs/img/themes.png"
 alt="The same document in the two themes: Patina on the left, Archive on the right" /></p>
 <h2 id="one-command">One command</h2>
-<p>Install <a href="https://pandoc.org/installing.html">Pandoc</a> once.
-On Mac or Linux:</p>
+<p>Install <a href="https://pandoc.org/installing.html">Pandoc</a>. On a
+Mac:</p>
 <div class="sourceCode" id="cb1"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/yobu/satzspiegel.git <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> satzspiegel <span class="kw">&amp;&amp;</span> <span class="fu">make</span> install</span></code></pre></div>
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install pandoc</span></code></pre></div>
+<p>Then, on Mac or Linux:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/yobu/satzspiegel.git <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> satzspiegel <span class="kw">&amp;&amp;</span> <span class="fu">make</span> install</span></code></pre></div>
 <p>On Windows, in PowerShell, with <a
 href="https://git-scm.com/download/win">Git for Windows</a> or the
 repository unpacked from a zip:</p>
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>git clone https<span class="op">://</span>github<span class="op">.</span><span class="fu">com</span><span class="op">/</span>yobu<span class="op">/</span>satzspiegel<span class="op">.</span><span class="fu">git</span><span class="op">;</span> <span class="fu">cd</span> satzspiegel<span class="op">;</span> powershell <span class="op">-</span>ExecutionPolicy Bypass <span class="op">-</span>File install<span class="op">.</span><span class="fu">ps1</span></span></code></pre></div>
-<p>Then, anywhere:</p>
 <div class="sourceCode" id="cb3"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> plan.md <span class="at">-d</span> satzspiegel <span class="at">-o</span> plan.html</span></code></pre></div>
+class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>git clone https<span class="op">://</span>github<span class="op">.</span><span class="fu">com</span><span class="op">/</span>yobu<span class="op">/</span>satzspiegel<span class="op">.</span><span class="fu">git</span><span class="op">;</span> <span class="fu">cd</span> satzspiegel<span class="op">;</span> powershell <span class="op">-</span>ExecutionPolicy Bypass <span class="op">-</span>File install<span class="op">.</span><span class="fu">ps1</span></span></code></pre></div>
+<p>Then, anywhere:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> plan.md <span class="at">-d</span> satzspiegel <span class="at">-o</span> plan.html</span></code></pre></div>
 <h2 id="send-it-get-it-back-with-comments">Send it, get it back with
 comments</h2>
-<div class="sourceCode" id="cb4"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> plan.md <span class="at">-d</span> satzspiegel-review <span class="at">-o</span> plan.html</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> plan.md <span class="at">-d</span> satzspiegel-review <span class="at">-o</span> plan.html</span></code></pre></div>
 <p>One file, about 1.1 MB, nothing to install on the other side. This is
 what a reviewer sees after two comments and a reply:</p>
 <p><img src="docs/img/review.png"
