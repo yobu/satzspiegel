@@ -1,5 +1,5 @@
 // Shoots docs/img/review.png: the showcase document as a review edition in
-// Patina and Archive, with comments and a reply added in the browser, stacked.
+// Patina, with comments and a reply added in the browser.
 // Needs `make showcase`, the static server on 8765, and Playwright:
 //   cd ~/.claude/skills/playwright-skill && node run.js /path/to/scripts/review-shot.js
 const { chromium } = require('playwright');
@@ -28,7 +28,7 @@ async function comment(page, who, selector, from, to, text) {
 (async () => {
   const browser = await chromium.launch({ headless: true });
   const shots = [];
-  for (const theme of ['patina', 'archive']) {
+  for (const theme of ['patina']) {
     const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
     await page.goto(`http://127.0.0.1:8765/build/showcase/${theme}-review.html`, { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
@@ -45,10 +45,7 @@ async function comment(page, who, selector, from, to, text) {
     shots.push(await page.screenshot({ type: 'png' }));
     await page.close();
   }
-  const page = await browser.newPage({ viewport: { width: W, height: H * 2 + 16 }, deviceScaleFactor: 1 });
-  await page.setContent(`<!doctype html><style>body{margin:0;background:#DAD9D4;display:flex;flex-direction:column;gap:16px}img{display:block;width:${W}px;height:${H}px}</style>` +
-    shots.map(b => `<img src="data:image/png;base64,${b.toString('base64')}">`).join(''));
-  await page.screenshot({ path: OUT });
+  require('fs').writeFileSync(OUT, shots[0]);
   console.log('wrote', OUT);
   await browser.close();
 })();

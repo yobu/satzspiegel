@@ -1,9 +1,23 @@
+# returned review files and merges: never commit a colleague's comments by accident
 *.annotated.html
 *.merged.html
-.DS_Store
-.claude/settings.local.json
-__pycache__/
-_site/
+
+# build outputs (make sample, review, examples, check, site)
 build/
+_site/
+
+# generated Claude Design working files; scripts in plates/canvas/ rebuild them
+plates/canvas/*.dc.html
+plates/canvas/canvas.json
+
+# local tool state
+.claude/
 docs/show-hn.md
 node_modules/
+__pycache__/
+*.pyc
+
+# operating system litter
+.DS_Store
+Thumbs.db
+desktop.ini
