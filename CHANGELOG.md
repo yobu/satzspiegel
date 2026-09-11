@@ -20,6 +20,7 @@ Decisions adopted from the design plates:
 - The section pause is a short centred hairline in Patina and a full hairline in Archive; neither text face carries an ornament glyph, and a fallback dingbat is worse than a rule.
 - Faint ink was raised in both palettes so list markers pass contrast.
 - Class maps cover Pandoc (skylighting), Prism, highlight.js and Shiki's css-variables theme.
+- GitHub Pages is built by a workflow from `make site`; the template links the typefaces only when told where they are.
 - Hardening: the annotation payload escapes every `<`; merged items are validated; the font fetcher verifies host, status and WOFF2 signature and writes `fonts/SHA256SUMS`; `make check` and `make verify-fonts`; CI pins its action by commit and Pandoc by checksum; `make uninstall` refuses to run with empty paths; `install.ps1` for Windows.
 - The README is written as a landing page, problem first, with the review loop as a diagram; the reference material moved to `docs/usage.md`. `readme-review.html` ships as the README's own review edition.
 - `fonts.css` is linked by the template rather than imported by the stylesheet, so `-V nofonts` (or the `satzspiegel-review-light` defaults) produces a self-contained file of about 90 KB in system fonts instead of 1.1 MB.

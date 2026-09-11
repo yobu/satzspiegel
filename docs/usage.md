@@ -20,7 +20,7 @@ The [README](../README.md) tells the story and gives the two commands. This guid
 
 Pandoc Markdown reads footnotes, definition lists, task lists, pipe tables, fenced divs, implicit figures, smart punctuation, GitHub alerts and `==marks==`; the defaults files turn all of these on. Mathematics renders as MathML, so equations need no script. A small Lua filter wraps every table in a scrolling container and labels its cells for the stacked-table variant.
 
-Without `make install`, Pandoc can take the template by URL and the stylesheets by URL; only the filter must be local:
+Without `make install`, Pandoc can take the template by URL and the stylesheets by URL; only the filter must be local. The template links the typefaces only when it is told where they are, so pass `fonts.css` as the first stylesheet:
 
 ```bash
 pandoc doc.md -s --template=https://yobu.github.io/satzspiegel/pandoc/templates/satzspiegel.html \
