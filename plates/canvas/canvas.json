@@ -1,0 +1,343 @@
+{
+  "pages": [
+    {
+      "id": "page-1",
+      "name": "Specimens"
+    },
+    {
+      "id": "page-2",
+      "name": "Anatomy"
+    },
+    {
+      "id": "page-3",
+      "name": "Decisions"
+    },
+    {
+      "id": "page-4",
+      "name": "Directions"
+    },
+    {
+      "id": "page-5",
+      "name": "Patina & Archive"
+    }
+  ],
+  "artboards": [
+    {
+      "file": "Main.dc.html",
+      "title": "Plate 1 Letter",
+      "page": "page-1",
+      "x": 0,
+      "y": 0,
+      "w": 1216,
+      "h": 6192
+    },
+    {
+      "file": "Grid.dc.html",
+      "title": "Plate 2 Grid",
+      "page": "page-1",
+      "x": 1336,
+      "y": 0,
+      "w": 1216,
+      "h": 5202
+    },
+    {
+      "file": "Screen.dc.html",
+      "title": "Plate 3 Screen",
+      "page": "page-1",
+      "x": 2672,
+      "y": 0,
+      "w": 1216,
+      "h": 5886
+    },
+    {
+      "file": "Table.dc.html",
+      "title": "Plate 4 Table",
+      "page": "page-2",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 1636
+    },
+    {
+      "file": "List.dc.html",
+      "title": "Plate 5 List",
+      "page": "page-2",
+      "x": 1560,
+      "y": 0,
+      "w": 1440,
+      "h": 2260
+    },
+    {
+      "file": "Headings.dc.html",
+      "title": "Plate 6 Heading ladder",
+      "page": "page-2",
+      "x": 3120,
+      "y": 0,
+      "w": 1440,
+      "h": 1525
+    },
+    {
+      "file": "Alerts.dc.html",
+      "title": "Plate 7 Alerts",
+      "page": "page-2",
+      "x": 0,
+      "y": 2420,
+      "w": 1440,
+      "h": 1232
+    },
+    {
+      "file": "Code.dc.html",
+      "title": "Plate 12 Code",
+      "page": "page-2",
+      "x": 1560,
+      "y": 2420,
+      "w": 1440,
+      "h": 2228
+    },
+    {
+      "file": "Paragraphs.dc.html",
+      "title": "Plate 8 Paragraphs in Letter",
+      "page": "page-3",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 1640
+    },
+    {
+      "file": "DarkPalette.dc.html",
+      "title": "Plate 9 Screen dark palette",
+      "page": "page-3",
+      "x": 1560,
+      "y": 0,
+      "w": 1440,
+      "h": 2806
+    },
+    {
+      "file": "SectionRule.dc.html",
+      "title": "Plate 10 Section rule in Grid",
+      "page": "page-3",
+      "x": 3120,
+      "y": 0,
+      "w": 1440,
+      "h": 1755
+    },
+    {
+      "file": "Pause.dc.html",
+      "title": "Plate 11 Pause in Letter",
+      "page": "page-3",
+      "x": 0,
+      "y": 2966,
+      "w": 1440,
+      "h": 1977
+    },
+    {
+      "file": "SyntaxPalette.dc.html",
+      "title": "Plate 13 Syntax palette",
+      "page": "page-3",
+      "x": 1560,
+      "y": 2966,
+      "w": 1440,
+      "h": 1764
+    },
+    {
+      "file": "Linen.dc.html",
+      "title": "A  Linen, recto margins",
+      "page": "page-4",
+      "x": 0,
+      "y": 0,
+      "w": 1100,
+      "h": 1700
+    },
+    {
+      "file": "Patina.dc.html",
+      "title": "B  Patina, marginalia",
+      "page": "page-4",
+      "x": 1200,
+      "y": 0,
+      "w": 1100,
+      "h": 1700
+    },
+    {
+      "file": "Archive.dc.html",
+      "title": "C  Archive, numbered catalogue",
+      "page": "page-4",
+      "x": 2400,
+      "y": 0,
+      "w": 1100,
+      "h": 1700
+    },
+    {
+      "file": "MapRoom.dc.html",
+      "title": "D  Map Room, hanging heads",
+      "page": "page-4",
+      "x": 3600,
+      "y": 0,
+      "w": 1100,
+      "h": 1700
+    },
+    {
+      "file": "Sandberg.dc.html",
+      "title": "E  Sandberg, poster page",
+      "page": "page-4",
+      "x": 0,
+      "y": 1880,
+      "w": 1100,
+      "h": 1700
+    },
+    {
+      "file": "Modular.dc.html",
+      "title": "F  Modular, two columns",
+      "page": "page-4",
+      "x": 1200,
+      "y": 1880,
+      "w": 1100,
+      "h": 1700
+    },
+    {
+      "file": "Signal.dc.html",
+      "title": "G  Signal, centred axis",
+      "page": "page-4",
+      "x": 2400,
+      "y": 1880,
+      "w": 1100,
+      "h": 1700
+    },
+    {
+      "file": "Programme.dc.html",
+      "title": "H  Programme, dark theatre",
+      "page": "page-4",
+      "x": 3600,
+      "y": 1880,
+      "w": 1100,
+      "h": 1700
+    },
+    {
+      "file": "Marais.dc.html",
+      "title": "I  Marais, indented text",
+      "page": "page-4",
+      "x": 0,
+      "y": 3760,
+      "w": 1100,
+      "h": 1700
+    },
+    {
+      "file": "Evening.dc.html",
+      "title": "J  Evening, gold on night",
+      "page": "page-4",
+      "x": 1200,
+      "y": 3760,
+      "w": 1100,
+      "h": 1700
+    },
+    {
+      "file": "PatinaFull.dc.html",
+      "title": "B1  Patina, Spectral with Schibsted heads",
+      "page": "page-5",
+      "x": 0,
+      "y": 0,
+      "w": 1100,
+      "h": 4972
+    },
+    {
+      "file": "PatinaSerif.dc.html",
+      "title": "B2  Patina, Spectral alone, italic heads",
+      "page": "page-5",
+      "x": 1200,
+      "y": 0,
+      "w": 1100,
+      "h": 2173
+    },
+    {
+      "file": "PatinaGrotesk.dc.html",
+      "title": "B3  Patina, Schibsted Grotesk alone",
+      "page": "page-5",
+      "x": 2400,
+      "y": 0,
+      "w": 1100,
+      "h": 2078
+    },
+    {
+      "file": "PatinaCaslon.dc.html",
+      "title": "B4  Patina, Libre Caslon text and display",
+      "page": "page-5",
+      "x": 3600,
+      "y": 0,
+      "w": 1100,
+      "h": 2204
+    },
+    {
+      "file": "ArchiveFull.dc.html",
+      "title": "C1  Archive, Source Serif with Plex Mono apparatus",
+      "page": "page-5",
+      "x": 0,
+      "y": 5172,
+      "w": 1100,
+      "h": 4895
+    },
+    {
+      "file": "ArchivePlex.dc.html",
+      "title": "C2  Archive, IBM Plex Sans and Mono",
+      "page": "page-5",
+      "x": 1200,
+      "y": 5172,
+      "w": 1100,
+      "h": 2133
+    },
+    {
+      "file": "ArchiveGaramond.dc.html",
+      "title": "C3  Archive, EB Garamond with Plex Mono",
+      "page": "page-5",
+      "x": 2400,
+      "y": 5172,
+      "w": 1100,
+      "h": 2098
+    },
+    {
+      "file": "ArchiveTypescript.dc.html",
+      "title": "C4  Archive, Courier Prime typescript",
+      "page": "page-5",
+      "x": 3600,
+      "y": 5172,
+      "w": 1100,
+      "h": 2187
+    }
+  ],
+  "annotations": [
+    {
+      "id": "read-me",
+      "page": "page-1",
+      "x": 0,
+      "y": -420,
+      "w": 520,
+      "text": "Three themes over one component layer, rendered by the real markdown.css. Tweak chips above each specimen: the theme spot colour, and the open decision that belongs to that theme (paragraph model, section rule, underline weight). Text edits in place; the type, measure and rhythm live in the stylesheet at the top of each artboard."
+    },
+    {
+      "id": "decisions-note",
+      "page": "page-3",
+      "x": 0,
+      "y": -360,
+      "w": 520,
+      "text": "Each decision plate shows every option side by side with the verdict below. Candidate rules are at the end of the stylesheet, written as they would be added to markdown.css."
+    },
+    {
+      "id": "directions-note",
+      "page": "page-4",
+      "x": 0,
+      "y": -560,
+      "w": 620,
+      "text": "Ten directions, A to J. Each is a complete theme token block over the real markdown.css plus one layout device, so a pick is a paste. A to D take the four museum palettes you named; E and F are the Amsterdam grotesk lineage; G is Copenhagen sign lettering; H and I are Paris, theatre and bookish; J is the museum after hours. The spot colour is a tweak on every one. Pick one, or name the palette from one and the layout from another."
+    },
+    {
+      "id": "deepdive-note",
+      "page": "page-5",
+      "x": 0,
+      "y": -560,
+      "w": 620,
+      "text": "Patina (B) above, Archive (C) below. The first board in each row carries every object a Markdown pipeline emits: six heading levels, inline marks, ordered, unordered, task and definition lists, two tables, quotation and pull quote, rule, highlighted code with filename and line numbers, a diff, alerts, a figure and footnotes. The three boards beside it are typographic variations on the same palette and layout. Tweaks on every board: spot colour, size, measure, leading."
+    }
+  ],
+  "launch": {
+    "view": "canvas",
+    "page": "page-5"
+  }
+}

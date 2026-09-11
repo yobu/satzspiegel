@@ -1,0 +1,1184 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Libre+Caslon+Display&family=IBM+Plex+Mono:wght@400;500&family=JetBrains+Mono:wght@400..700&display=swap">
+  <style>
+/* ============================================================================
+   markdown.css — a component set for rendering Markdown
+   Derived from 2025/2026 typographic, book-design and web-design award winners.
+
+   Three token themes, one component layer:
+     [data-md-theme="letter"]  Book / Buchkunst lineage. Serif, long measure.
+     [data-md-theme="grid"]    Swiss–Dutch editorial. Grotesk, rules, one spot.
+     [data-md-theme="screen"]  Variable-font, dark-first, fluid.
+
+   Code blocks live in the companion file markdown-code.css and are OPTIONAL.
+   Without it, fenced blocks fall back to a quiet, book-style set block.
+
+   Usage:  <article class="md" data-md-theme="letter"> … </article>
+   ============================================================================ */
+
+@layer md.tokens, md.root, md.headings, md.text, md.lists, md.table,
+       md.quote, md.figure, md.notes, md.alerts, md.code-fallback, md.print;
+
+/* ---------------------------------------------------------------------------
+   1. TOKENS
+   Palettes are derivations, not reproductions. Each is a 5-value base:
+   paper / ink / ink-muted / rule / spot.  One spot colour per theme — the
+   discipline every book-design jury rewards.
+   --------------------------------------------------------------------------- */
+@layer md.tokens {
+
+  .md {
+    /* rhythm primitives — every vertical space is a multiple of one unit */
+    --md-rhythm: calc(var(--md-leading) * var(--md-size));
+    --md-space-block: var(--md-rhythm);          /* between paragraphs        */
+    --md-space-section: calc(var(--md-rhythm) * 2);
+    --md-hairline: 1px;
+    --md-bleed: 3rem;            /* how far figures/tables/code may break out */
+
+    /* interaction */
+    --md-focus: var(--md-spot);
+    --md-selection: color-mix(in oklab, var(--md-spot) 22%, transparent);
+  }
+
+  /* ---- LETTER -------------------------------------------------------------
+     Reference: Stiftung Buchkunst / Goldene Letter lineage; letterpress red.
+     Ratio 1.25 (major third). Base 19px, leading 1.62 — serif text wants air.
+     ------------------------------------------------------------------------ */
+  .md[data-md-theme="letter"] {
+    --md-paper:      #FAF9F5;
+    --md-paper-sunk: #F1EFE7;
+    --md-ink:        #16151A;
+    --md-ink-muted:  #5C5A63;
+    --md-ink-faint:  #8B8892;
+    --md-rule:       #D8D5CB;
+    --md-spot:       #A8261B;   /* cinnabar — the letterpress second forme    */
+
+    --md-face-text: "Literata", "Source Serif 4", "Iowan Old Style",
+                    "Palatino Linotype", Palatino, Georgia, serif;
+    --md-face-display: var(--md-face-text);
+    --md-face-mono: "IBM Plex Mono", "SFMono-Regular", ui-monospace, monospace;
+
+    --md-size: 1.1875rem;      /* 19px */
+    --md-leading: 1.62;
+    --md-measure: 68ch;
+    --md-ratio: 1.25;
+
+    --md-h1: 2.441em;  --md-h2: 1.563em;  --md-h3: 1.25em;
+    --md-h4: 1em;      --md-h5: 1em;      --md-h6: 0.9em;
+
+    --md-h-weight: 600;
+    --md-h-tracking: -0.008em;
+    --md-h-leading: 1.16;
+
+    --md-figures-text: oldstyle-nums proportional-nums;
+    --md-figures-data: lining-nums tabular-nums;
+
+    --md-list-indent: 1.9em;
+    --md-quote-indent: 2em;
+    --md-radius: 0;
+  }
+
+  /* ---- GRID ---------------------------------------------------------------
+     Reference: the St. Gallen / Spector Books register that recurs across the
+     2026 Buchkunst and Best Book Design winners — small type, wide margins,
+     hairline rules, a single ultramarine forme.
+     Ratio 1.2. Base 16px, leading 1.5. Short measure. Big h1 jump.
+     ------------------------------------------------------------------------ */
+  .md[data-md-theme="grid"] {
+    --md-paper:      #FFFFFF;
+    --md-paper-sunk: #F4F4F2;
+    --md-ink:        #000000;
+    --md-ink-muted:  #575757;
+    --md-ink-faint:  #8E8E8E;
+    --md-rule:       #C9C9C9;
+    --md-spot:       #1B1BE8;   /* ultramarine — one spot, used structurally  */
+
+    --md-face-text: "Archivo", "Helvetica Now Text", "Neue Haas Grotesk",
+                    Helvetica, Arial, sans-serif;
+    --md-face-display: var(--md-face-text);
+    --md-face-mono: "JetBrains Mono", "SFMono-Regular", ui-monospace, monospace;
+
+    --md-size: 1rem;           /* 16px */
+    --md-leading: 1.5;
+    --md-measure: 62ch;
+    --md-ratio: 1.2;
+
+    --md-h1: 3.052em;  --md-h2: 1.44em;   --md-h3: 1.2em;
+    --md-h4: 1em;      --md-h5: 1em;      --md-h6: 0.875em;
+
+    --md-h-weight: 550;
+    --md-h-tracking: -0.018em;
+    --md-h-leading: 1.04;
+
+    --md-figures-text: lining-nums proportional-nums;
+    --md-figures-data: lining-nums tabular-nums;
+
+    --md-list-indent: 1.6em;
+    --md-quote-indent: 1.25em;
+    --md-radius: 0;
+  }
+
+  /* ---- SCREEN -------------------------------------------------------------
+     Reference: Awwwards Site of the Year 2025 register and TDC72's variable-
+     font winners — fluid sizing, optical-size axes, dark as the native state.
+     Ratio ~1.26. Fluid base 17→19px.
+     ------------------------------------------------------------------------ */
+  .md[data-md-theme="screen"] {
+    --md-paper:      #101317;
+    --md-paper-sunk: #171B21;
+    --md-ink:        #E8EAEF;
+    --md-ink-muted:  #A2A8B4;
+    --md-ink-faint:  #6F7684;
+    --md-rule:       #2A2F38;
+    --md-spot:       #8FA0FF;   /* periwinkle — the only saturated value      */
+
+    --md-face-text: "Instrument Sans", "Inter", system-ui, sans-serif;
+    --md-face-display: "Instrument Sans", "Inter", system-ui, sans-serif;
+    --md-face-mono: "JetBrains Mono", "SFMono-Regular", ui-monospace, monospace;
+
+    --md-size: clamp(1.0625rem, 0.98rem + 0.35vw, 1.1875rem);
+    --md-leading: 1.58;
+    --md-measure: 66ch;
+    --md-ratio: 1.26;
+
+    --md-h1: clamp(2rem, 1.5rem + 2.4vw, 2.5rem);
+    --md-h2: 1.588em;  --md-h3: 1.26em;
+    --md-h4: 1em;      --md-h5: 1em;      --md-h6: 0.9em;
+
+    --md-h-weight: 600;
+    --md-h-tracking: -0.014em;
+    --md-h-leading: 1.12;
+
+    --md-figures-text: lining-nums proportional-nums;
+    --md-figures-data: lining-nums tabular-nums;
+
+    --md-list-indent: 1.7em;
+    --md-quote-indent: 1.25em;
+    --md-radius: 4px;
+  }
+
+  /* Light counterpart for `screen`, if the host page is light. */
+  .md[data-md-theme="screen"][data-md-mode="light"] {
+    --md-paper: #FCFCFD; --md-paper-sunk: #F3F4F7;
+    --md-ink: #14161B;   --md-ink-muted: #565D6B; --md-ink-faint: #868D9B;
+    --md-rule: #DEE1E7;  --md-spot: #3A4FD8;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   2. ROOT / MEASURE
+   --------------------------------------------------------------------------- */
+@layer md.root {
+
+  .md {
+    color: var(--md-ink);
+    background: var(--md-paper);
+    font-family: var(--md-face-text);
+    font-size: var(--md-size);
+    line-height: var(--md-leading);
+    font-variant-numeric: var(--md-figures-text);
+    font-kerning: normal;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    hanging-punctuation: first last;
+  }
+
+  /* THE MEASURE.
+     The column is made by padding the container, not by capping each child.
+     This matters: `ch` resolves against the *element's own* font size, so
+     `max-width: 68ch` on every child gives an h2 a column ~60% wider than a
+     paragraph's — three different left edges down one page. Resolving the
+     measure once, on .md, at body size, gives every block one true left edge
+     while keeping `ch` adaptive to whichever face actually loaded. */
+  .md {
+    padding-inline: max(0px, calc((100% - var(--md-measure)) / 2));
+  }
+
+  /* Blocks that may break out of the column. Guarded by width: below 62rem
+     there is no margin to borrow, so the bleed simply doesn't apply. */
+  @media (min-width: 62rem) {
+    .md > .md-bleed,
+    .md > figure,
+    .md > .md-table-scroll,
+    .md > .md-code,
+    .md > pre {
+      margin-inline: calc(var(--md-bleed) * -1);
+    }
+  }
+
+  .md > * + * { margin-block-start: var(--md-space-block); }
+  .md > :first-child { margin-block-start: 0; }
+  .md > :last-child  { margin-block-end: 0; }
+
+  .md ::selection { background: var(--md-selection); }
+
+  .md :focus-visible {
+    outline: 2px solid var(--md-focus);
+    outline-offset: 2px;
+    border-radius: 1px;
+  }
+
+  /* Optional: justified setting. Only enable where hyphenation is available —
+     unhyphenated justification is what juries penalise, not justification. */
+  .md--justified p {
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphenate-limit-chars: 6 3 3;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   3. HEADINGS
+   Rules taken straight from book practice:
+   - space above a heading exceeds space below it (headings belong forward)
+   - below level 3, change style rather than size: books signal depth with
+     italic and small caps, not with an endless size ramp
+   - h1 appears once; h2 is the section; h3 is the subsection
+   --------------------------------------------------------------------------- */
+@layer md.headings {
+
+  .md :is(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--md-face-display);
+    font-weight: var(--md-h-weight);
+    line-height: var(--md-h-leading);
+    letter-spacing: var(--md-h-tracking);
+    text-wrap: balance;
+    scroll-margin-block-start: var(--md-space-section);
+  }
+
+  .md > :is(h1, h2, h3, h4, h5, h6) + * { margin-block-start: calc(var(--md-rhythm) * 0.5); }
+
+  .md h1 {
+    font-size: var(--md-h1);
+    margin-block-end: 0;
+  }
+  .md > h1 + * { margin-block-start: var(--md-rhythm); }
+
+  .md > h2 { margin-block-start: var(--md-space-section); font-size: var(--md-h2); }
+  .md > h3 { margin-block-start: calc(var(--md-rhythm) * 1.5); font-size: var(--md-h3); }
+
+  /* Depth by style, not size */
+  .md h4 {
+    font-size: var(--md-h4);
+    font-weight: 650;
+    letter-spacing: 0;
+  }
+  .md h5 {
+    font-size: var(--md-h5);
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0;
+  }
+  .md h6 {
+    font-size: var(--md-h6);
+    font-weight: 500;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.06em;
+    color: var(--md-ink-muted);
+  }
+  .md > :is(h4, h5, h6) { margin-block-start: var(--md-rhythm); }
+
+  /* Theme accents */
+  .md[data-md-theme="letter"] h1 { font-weight: 500; }
+  .md[data-md-theme="letter"] h2 { font-style: italic; font-weight: 500; }
+
+  .md[data-md-theme="grid"] > h2 {
+    padding-block-start: calc(var(--md-rhythm) * 0.4);
+    border-block-start: var(--md-hairline) solid var(--md-ink);
+  }
+  .md[data-md-theme="grid"] h1 { font-weight: 600; }
+
+  /* Run-in heading: the book move markdown can't express on its own.
+     Add {.md-runin} / class="md-runin" to an h4 to fold it into the next para. */
+  .md h4.md-runin {
+    display: inline;
+    float: left;
+    margin-block: 0;
+    margin-inline-end: 0.6ch;
+  }
+  .md h4.md-runin + p { display: block; }
+  .md h4.md-runin::after { content: "."; }
+
+  /* Anchor links, revealed on hover/focus only */
+  .md :is(h2, h3, h4) > .md-anchor {
+    margin-inline-start: 0.4ch;
+    color: var(--md-ink-faint);
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 120ms;
+  }
+  .md :is(h2, h3, h4):hover > .md-anchor,
+  .md .md-anchor:focus-visible { opacity: 1; }
+}
+
+/* ---------------------------------------------------------------------------
+   4. RUNNING TEXT
+   --------------------------------------------------------------------------- */
+@layer md.text {
+
+  .md p {
+    text-wrap: pretty;
+    orphans: 2;
+    widows: 2;
+  }
+
+  /* Lead paragraph — first para after h1, or class="md-lead" */
+  .md > h1 + p,
+  .md p.md-lead {
+    font-size: 1.15em;
+    line-height: calc(var(--md-leading) * 0.94);
+    color: var(--md-ink);
+  }
+  .md[data-md-theme="letter"] > h1 + p { font-style: italic; }
+  .md[data-md-theme="grid"]  > h1 + p { font-weight: 450; }
+
+  .md strong, .md b { font-weight: 650; letter-spacing: -0.002em; }
+  .md em, .md i    { font-style: italic; }
+  .md em em        { font-style: normal; }
+
+  .md a {
+    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-color: color-mix(in oklab, var(--md-spot) 55%, transparent);
+    text-decoration-thickness: 0.075em;
+    text-underline-offset: 0.16em;
+    text-decoration-skip-ink: auto;
+    transition: text-decoration-color 120ms, color 120ms;
+  }
+  .md a:hover { color: var(--md-spot); text-decoration-color: var(--md-spot); }
+
+  .md del  { text-decoration-thickness: 0.08em; color: var(--md-ink-muted); }
+  .md ins  { text-decoration: none; background: var(--md-selection); }
+  .md mark { background: var(--md-selection); color: inherit; padding: 0 0.15em; }
+
+  .md small { font-size: 0.86em; color: var(--md-ink-muted); }
+  .md sub, .md sup { font-size: 0.72em; line-height: 0; }
+
+  .md abbr[title] {
+    text-decoration: underline dotted;
+    text-underline-offset: 0.18em;
+    cursor: help;
+  }
+
+  .md kbd {
+    font-family: var(--md-face-mono);
+    font-size: 0.82em;
+    padding: 0.15em 0.42em;
+    border: var(--md-hairline) solid var(--md-rule);
+    border-block-end-width: 2px;
+    border-radius: 3px;
+    background: var(--md-paper-sunk);
+    white-space: nowrap;
+  }
+
+  /* Inline code stays in the text layer, not the code layer — it must survive
+     when the code module is dropped. */
+  .md :not(pre) > code {
+    font-family: var(--md-face-mono);
+    font-size: 0.875em;
+    font-variant-ligatures: none;
+    padding: 0.12em 0.34em;
+    border-radius: 3px;
+    background: var(--md-paper-sunk);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .md[data-md-theme="grid"] :not(pre) > code {
+    background: none;
+    border: var(--md-hairline) solid var(--md-rule);
+  }
+
+  /* Rule. Not a border across the measure — a typographic pause. */
+  .md hr {
+    border: 0;
+    margin-block: var(--md-space-section);
+    height: auto;
+    text-align: center;
+  }
+  .md[data-md-theme="letter"] hr::before {
+    content: "❊";
+    color: var(--md-ink-faint);
+    font-size: 0.8em;
+  }
+  .md[data-md-theme="grid"] hr {
+    border-block-start: var(--md-hairline) solid var(--md-ink);
+  }
+  /* An hr immediately before an h2 would draw the same rule twice. */
+  .md[data-md-theme="grid"] hr + :is(h2, h3) {
+    border-block-start: 0;
+    padding-block-start: 0;
+    margin-block-start: var(--md-rhythm);
+  }
+  .md[data-md-theme="screen"] hr {
+    border-block-start: var(--md-hairline) solid var(--md-rule);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   5. LISTS
+   The details that separate set lists from browser-default lists:
+   - markers hang outside the text block, so the text edge stays true
+   - ordered markers use tabular lining figures, so 9. and 10. align
+   - nested sequences change counter style, not just indent
+   - tight vs loose lists get different leading, as in GFM's own model
+   --------------------------------------------------------------------------- */
+@layer md.lists {
+
+  .md :is(ul, ol) {
+    padding-inline-start: var(--md-list-indent);
+    list-style-position: outside;
+  }
+  .md li + li { margin-block-start: calc(var(--md-rhythm) * 0.25); }
+
+  /* loose list (markdown put <p> inside <li>) gets full rhythm */
+  .md li > p { margin-block: 0; }
+  .md li > p + p { margin-block-start: calc(var(--md-rhythm) * 0.5); }
+  .md li:has(> p) + li:has(> p) { margin-block-start: calc(var(--md-rhythm) * 0.5); }
+
+  .md ul { list-style-type: disc; }
+  .md ul ul { list-style-type: "\2013\00a0"; }
+  .md ul ul ul { list-style-type: "\00b7\00a0"; }
+
+  .md ol { list-style-type: decimal; }
+  .md ol ol { list-style-type: lower-alpha; }
+  .md ol ol ol { list-style-type: lower-roman; }
+
+  .md li::marker {
+    color: var(--md-ink-faint);
+    font-variant-numeric: var(--md-figures-data);
+  }
+  .md ol > li::marker { color: var(--md-ink-muted); }
+
+  .md[data-md-theme="grid"] ol > li::marker { color: var(--md-spot); font-weight: 500; }
+  .md[data-md-theme="grid"] ul > li::marker { color: var(--md-spot); }
+
+  .md :is(ul, ol) :is(ul, ol) { margin-block-start: calc(var(--md-rhythm) * 0.25); }
+
+  /* Legal / spec numbering: 1 → 1.1 → 1.1.1. Opt in with .md-ol-nested. */
+  .md ol.md-ol-nested { counter-reset: md-l1; list-style: none; padding-inline-start: 0; }
+  .md ol.md-ol-nested > li { counter-increment: md-l1; position: relative; padding-inline-start: 3.4ch; }
+  .md ol.md-ol-nested > li::before {
+    content: counter(md-l1) ".";
+    position: absolute; inset-inline-start: 0;
+    font-variant-numeric: var(--md-figures-data);
+    color: var(--md-ink-muted);
+  }
+  .md ol.md-ol-nested ol { counter-reset: md-l2; list-style: none; padding-inline-start: 0; }
+  .md ol.md-ol-nested ol > li { counter-increment: md-l2; position: relative; padding-inline-start: 4.6ch; }
+  .md ol.md-ol-nested ol > li::before {
+    content: counter(md-l1) "." counter(md-l2);
+    position: absolute; inset-inline-start: 0;
+    font-variant-numeric: var(--md-figures-data);
+    color: var(--md-ink-muted);
+  }
+
+  /* Task lists */
+  .md li:has(> input[type="checkbox"]) {
+    list-style: none;
+    margin-inline-start: calc(var(--md-list-indent) * -1);
+    padding-inline-start: var(--md-list-indent);
+    position: relative;
+  }
+  .md li > input[type="checkbox"] {
+    position: absolute;
+    inset-inline-start: 0.1em;
+    inset-block-start: 0.34em;
+    margin: 0;
+    accent-color: var(--md-spot);
+    inline-size: 0.85em;
+    block-size: 0.85em;
+  }
+  .md li:has(> input:checked) { color: var(--md-ink-muted); }
+
+  /* Definition lists — under-used in markdown, and the cleanest way to set
+     glossaries, API parameters and metadata. */
+  .md dl { display: grid; row-gap: calc(var(--md-rhythm) * 0.35); }
+  .md dt {
+    font-weight: 650;
+    color: var(--md-ink);
+  }
+  .md dd { margin-inline-start: 0; padding-inline-start: var(--md-list-indent); }
+  .md dd + dt { margin-block-start: calc(var(--md-rhythm) * 0.5); }
+
+  @container (min-width: 34rem) {
+    .md dl.md-dl-columns {
+      grid-template-columns: minmax(8ch, 22ch) 1fr;
+      column-gap: 2ch;
+      align-items: baseline;
+    }
+    .md dl.md-dl-columns dt { grid-column: 1; }
+    .md dl.md-dl-columns dd { grid-column: 2; padding-inline-start: 0; }
+    .md dl.md-dl-columns dd + dt { margin-block-start: 0; }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   6. TABLES
+   The single biggest gap between award-standard setting and default markdown
+   rendering. Rules, all from editorial practice:
+   - no vertical rules, ever
+   - three horizontal hairlines maximum: over head, under head, under body
+   - no zebra striping by default — whitespace does that work
+   - tabular lining figures in numeric columns, right-aligned
+   - caption above the table, not below
+   - the table may break out of the measure; it must never break the page
+   --------------------------------------------------------------------------- */
+@layer md.table {
+
+  /* Wrap tables in .md-table-scroll for safe overflow. */
+  .md .md-table-scroll {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .md table {
+    inline-size: 100%;
+    border-collapse: collapse;
+    font-size: 0.94em;
+    line-height: 1.4;
+    font-variant-numeric: var(--md-figures-text);
+    text-align: start;
+  }
+
+  .md caption {
+    caption-side: top;
+    text-align: start;
+    color: var(--md-ink-muted);
+    font-size: 0.88em;
+    line-height: 1.4;
+    padding-block-end: calc(var(--md-rhythm) * 0.4);
+  }
+
+  .md thead th {
+    font-weight: 600;
+    text-align: start;
+    color: var(--md-ink);
+    vertical-align: bottom;
+    border-block-start: var(--md-hairline) solid var(--md-ink);
+    border-block-end: var(--md-hairline) solid var(--md-ink);
+  }
+
+  .md :is(th, td) {
+    padding-block: calc(var(--md-rhythm) * 0.36);
+    padding-inline: 0 2ch;
+    vertical-align: baseline;
+  }
+  .md :is(th, td):last-child { padding-inline-end: 0; }
+
+  .md tbody tr + tr :is(th, td) {
+    border-block-start: var(--md-hairline) solid
+      color-mix(in oklab, var(--md-rule) 55%, transparent);
+  }
+  .md tbody tr:last-child :is(th, td) {
+    border-block-end: var(--md-hairline) solid var(--md-ink);
+  }
+  .md tbody th { font-weight: 600; }
+
+  .md tfoot :is(th, td) {
+    border-block-start: none;
+    padding-block-start: calc(var(--md-rhythm) * 0.4);
+    color: var(--md-ink-muted);
+    font-size: 0.94em;
+  }
+
+  /* Numeric alignment. GFM `---:` emits align/text-align; catch both, and
+     give right-aligned cells tabular figures automatically. */
+  .md :is(th, td):is([align="right"], [style*="right"]) {
+    text-align: right;
+    font-variant-numeric: var(--md-figures-data);
+    font-feature-settings: "tnum" 1;
+  }
+  .md :is(th, td):is([align="center"], [style*="center"]) { text-align: center; }
+  .md table.md-table--numeric tbody td {
+    font-variant-numeric: var(--md-figures-data);
+  }
+
+  /* Compact variant for dense reference tables */
+  .md table.md-table--compact { font-size: 0.86em; }
+  .md table.md-table--compact :is(th, td) {
+    padding-block: calc(var(--md-rhythm) * 0.22);
+    padding-inline-end: 1.4ch;
+  }
+
+  /* Zebra is available but off by default. */
+  .md table.md-table--zebra tbody tr:nth-child(even) {
+    background: var(--md-paper-sunk);
+  }
+  .md table.md-table--zebra tbody tr + tr :is(th, td) { border-block-start: none; }
+
+  .md[data-md-theme="grid"] thead th {
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.05em;
+    font-weight: 550;
+  }
+  .md[data-md-theme="screen"] :is(thead th, tbody tr:last-child :is(th, td)) {
+    border-color: var(--md-ink-faint);
+  }
+
+  /* Small screens: fold each row into a labelled stack. Requires
+     data-label on each cell (most static-site pipelines can emit this). */
+  @container (max-width: 30rem) {
+    .md table.md-table--stack thead { display: none; }
+    .md table.md-table--stack :is(tr, td) { display: block; }
+    .md table.md-table--stack tr {
+      border-block-end: var(--md-hairline) solid var(--md-rule);
+      padding-block: calc(var(--md-rhythm) * 0.5);
+    }
+    .md table.md-table--stack td { border: 0; padding-block: 0.1em; }
+    .md table.md-table--stack td::before {
+      content: attr(data-label) " ";
+      color: var(--md-ink-faint);
+      font-size: 0.85em;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   7. QUOTATIONS
+   Books indent quotations; the web bolts a bar to the left of them. The bar
+   is a screen convention, so it belongs only in the screen theme.
+   --------------------------------------------------------------------------- */
+@layer md.quote {
+
+  .md blockquote {
+    margin-inline: 0;
+    padding-inline-start: var(--md-quote-indent);
+    color: var(--md-ink);
+  }
+  .md blockquote > :first-child { margin-block-start: 0; }
+  .md blockquote > * + * { margin-block-start: calc(var(--md-rhythm) * 0.6); }
+
+  .md[data-md-theme="letter"] blockquote {
+    padding-inline: var(--md-quote-indent);
+    font-size: 0.94em;
+    line-height: calc(var(--md-leading) * 0.97);
+  }
+  .md[data-md-theme="grid"] blockquote {
+    border-inline-start: 2px solid var(--md-ink);
+  }
+  .md[data-md-theme="screen"] blockquote {
+    border-inline-start: 2px solid var(--md-spot);
+  }
+
+  /* Attribution: a trailing line beginning with an em dash, or <cite>. */
+  .md blockquote :is(cite, .md-attrib) {
+    display: block;
+    font-style: normal;
+    font-size: 0.88em;
+    color: var(--md-ink-muted);
+    margin-block-start: calc(var(--md-rhythm) * 0.4);
+  }
+  .md blockquote :is(cite, .md-attrib)::before { content: "— "; }
+
+  /* Pull quote — opt-in, breaks the measure deliberately. */
+  .md blockquote.md-pull {
+    font-size: 1.3em;
+    line-height: 1.28;
+    text-wrap: balance;
+    border: 0;
+    padding-inline: 0;
+    max-width: none;
+    color: var(--md-ink);
+  }
+  .md[data-md-theme="letter"] blockquote.md-pull { font-style: italic; }
+}
+
+/* ---------------------------------------------------------------------------
+   8. FIGURES & IMAGES
+   --------------------------------------------------------------------------- */
+@layer md.figure {
+
+  .md :is(img, svg, video) {
+    max-inline-size: 100%;
+    block-size: auto;
+    display: block;
+    border-radius: var(--md-radius);
+  }
+  .md p > img { margin-inline: auto; }
+
+  .md figure { margin-block: 0; }
+  .md figcaption {
+    margin-block-start: calc(var(--md-rhythm) * 0.4);
+    font-size: 0.86em;
+    line-height: 1.42;
+    color: var(--md-ink-muted);
+    text-wrap: pretty;
+  }
+  .md[data-md-theme="grid"] figcaption {
+    border-block-start: var(--md-hairline) solid var(--md-rule);
+    padding-block-start: calc(var(--md-rhythm) * 0.3);
+  }
+  .md figcaption > .md-fig-num {
+    color: var(--md-ink);
+    font-weight: 600;
+    font-variant-numeric: var(--md-figures-data);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   9. FOOTNOTES  (GFM / remark-footnotes markup)
+   --------------------------------------------------------------------------- */
+@layer md.notes {
+
+  .md sup a[data-footnote-ref],
+  .md sup a[href^="#fn"] {
+    text-decoration: none;
+    font-variant-numeric: var(--md-figures-data);
+    padding-inline: 0.1em;
+    color: var(--md-spot);
+  }
+
+  .md .footnotes {
+    margin-block-start: var(--md-space-section);
+    padding-block-start: calc(var(--md-rhythm) * 0.6);
+    border-block-start: var(--md-hairline) solid var(--md-rule);
+    font-size: 0.88em;
+    line-height: 1.5;
+    color: var(--md-ink-muted);
+  }
+  .md .footnotes h2 { /* usually visually hidden by the generator */
+    font-size: 0.95em;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.06em;
+    margin-block: 0 calc(var(--md-rhythm) * 0.4);
+    border: 0;
+    padding: 0;
+  }
+  .md .footnotes ol { padding-inline-start: 2.4ch; }
+  .md .footnotes li:target {
+    background: var(--md-selection);
+    outline: 4px solid var(--md-selection);
+  }
+  .md .footnotes a[data-footnote-backref] { text-decoration: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   10. ALERTS / ADMONITIONS  (GitHub `> [!NOTE]` and Docusaurus/MkDocs shapes)
+   Boxes are the least book-like device in markdown, so they earn their weight
+   through a single vertical rule and a label — not a filled card.
+   --------------------------------------------------------------------------- */
+@layer md.alerts {
+
+  .md .md-alert {
+    --md-alert-tone: var(--md-ink-muted);
+    padding-inline-start: 1.4ch;
+    border-inline-start: 3px solid var(--md-alert-tone);
+    color: var(--md-ink);
+  }
+  .md .md-alert > * + * { margin-block-start: calc(var(--md-rhythm) * 0.4); }
+  .md .md-alert-title {
+    font-weight: 650;
+    font-size: 0.92em;
+    color: var(--md-alert-tone);
+    letter-spacing: 0.005em;
+  }
+
+  .md .md-alert--note      { --md-alert-tone: var(--md-spot); }
+  .md .md-alert--tip       { --md-alert-tone: #1F7A54; }
+  .md .md-alert--important { --md-alert-tone: #6B3FA0; }
+  .md .md-alert--warning   { --md-alert-tone: #9A6300; }
+  .md .md-alert--caution   { --md-alert-tone: #A8261B; }
+
+  .md[data-md-theme="screen"] .md-alert--tip       { --md-alert-tone: #4FD1A0; }
+  .md[data-md-theme="screen"] .md-alert--important { --md-alert-tone: #C4A5FF; }
+  .md[data-md-theme="screen"] .md-alert--warning   { --md-alert-tone: #E3B341; }
+  .md[data-md-theme="screen"] .md-alert--caution   { --md-alert-tone: #FF8A7A; }
+}
+
+/* ---------------------------------------------------------------------------
+   11. CODE FALLBACK
+   This layer is what renders fenced blocks when markdown-code.css is NOT
+   loaded. It is deliberately book-like: a set-off block in the mono face,
+   bounded by rules, no chrome, no colour. Many documents are better this way.
+   --------------------------------------------------------------------------- */
+@layer md.code-fallback {
+
+  .md pre {
+    font-family: var(--md-face-mono);
+    font-size: 0.85em;
+    line-height: 1.5;
+    tab-size: 2;
+    overflow-x: auto;
+    white-space: pre;
+    color: var(--md-ink);
+    padding-block: calc(var(--md-rhythm) * 0.6);
+    border-block: var(--md-hairline) solid var(--md-rule);
+    background: none;
+  }
+  .md pre > code {
+    font: inherit;
+    background: none;
+    padding: 0;
+    border: 0;
+    font-variant-ligatures: none;
+  }
+
+  /* Hard kill switch: hide fenced blocks entirely for print or plain editions. */
+  .md--nocode pre { display: none; }
+  .md--nocode :not(pre) > code {
+    background: none;
+    border: 0;
+    padding: 0;
+    font-style: italic;
+    font-family: var(--md-face-text);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   12. PRINT
+   --------------------------------------------------------------------------- */
+@layer md.print {
+  @media print {
+    .md {
+      --md-paper: #fff; --md-ink: #000;
+      --md-size: 10.5pt; --md-measure: none;
+      background: none;
+    }
+    .md :is(h1, h2, h3, h4, h5, h6) { break-after: avoid; }
+    .md :is(figure, table, pre, blockquote) { break-inside: avoid; }
+    .md a { text-decoration: none; }
+    .md a[href^="http"]::after {
+      content: " (" attr(href) ")";
+      font-size: 0.8em; color: #555; word-break: break-all;
+    }
+    .md .md-anchor { display: none; }
+  }
+}
+
+/* --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .md *, .md *::before, .md *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================================
+   markdown-code.css — OPTIONAL code module for markdown.css
+
+   Drop this file and fenced code blocks still render correctly: markdown.css
+   ships a book-style fallback (mono face, hairline rules, no colour). Nothing
+   in this file is required by any other component.
+
+   Three ways to leave code out, in increasing severity:
+     1. Don't load this file            → quiet set block, still readable
+     2. Add class md--nocode            → fenced blocks hidden, inline code
+                                          reverts to italic text face
+     3. Strip fences at build time      → nothing to style
+
+   Load order: markdown.css, then this file.
+   ============================================================================ */
+
+@layer md.code {
+
+  /* --- tokens ------------------------------------------------------------- */
+  .md {
+    --md-code-bg: var(--md-paper-sunk);
+    --md-code-size: 0.845em;
+    --md-code-leading: 1.55;
+    --md-code-pad: 1.1em;
+    --md-code-gutter: 3.5ch;
+
+    /* Syntax palette. Six roles only — more than six and the block stops
+       being text and starts being decoration. */
+    --md-syn-text:    var(--md-ink);
+    --md-syn-comment: var(--md-ink-faint);
+    --md-syn-keyword: #8A2846;
+    --md-syn-string:  #1F6A4A;
+    --md-syn-number:  #7A4B12;
+    --md-syn-name:    #2A4D8F;
+  }
+
+  .md[data-md-theme="screen"] {
+    --md-syn-keyword: #FF9CC0;
+    --md-syn-string:  #8BE0B8;
+    --md-syn-number:  #F0C674;
+    --md-syn-name:    #9DB8FF;
+  }
+
+  /* Grid theme runs code in ink only — a single forme, as on press. */
+  .md[data-md-theme="grid"] {
+    --md-syn-keyword: var(--md-ink);
+    --md-syn-string:  var(--md-ink-muted);
+    --md-syn-number:  var(--md-ink-muted);
+    --md-syn-name:    var(--md-spot);
+  }
+
+  /* --- block -------------------------------------------------------------- */
+  .md pre {
+    font-family: var(--md-face-mono);
+    font-size: var(--md-code-size);
+    line-height: var(--md-code-leading);
+    font-variant-ligatures: none;
+    font-variant-numeric: lining-nums tabular-nums;
+    tab-size: 2;
+    -moz-tab-size: 2;
+
+    background: var(--md-code-bg);
+    color: var(--md-syn-text);
+    border: 0;
+    border-radius: var(--md-radius);
+    padding: var(--md-code-pad) var(--md-code-pad);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+    white-space: pre;
+  }
+  .md[data-md-theme="grid"] pre {
+    background: none;
+    border: var(--md-hairline) solid var(--md-rule);
+  }
+  .md[data-md-theme="letter"] pre {
+    border-inline-start: 2px solid var(--md-rule);
+  }
+
+  .md pre > code {
+    font: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    display: block;
+    min-inline-size: fit-content;
+  }
+
+  /* Soft wrap variant, for prose-heavy snippets and narrow columns. */
+  .md pre.md-code--wrap { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .md pre.md-code--wrap > code { min-inline-size: 0; }
+
+  /* --- filename / language label ------------------------------------------
+     Emit as: <div class="md-code"><div class="md-code-head">…</div><pre>…
+     Not a window-chrome bar: a caption, set like figcaption. */
+  .md .md-code { display: block; }
+  .md .md-code-head {
+    display: flex;
+    gap: 1.5ch;
+    align-items: baseline;
+    font-family: var(--md-face-mono);
+    font-size: 0.78em;
+    color: var(--md-ink-muted);
+    padding-block-end: 0.45em;
+  }
+  .md .md-code-head .md-code-lang {
+    margin-inline-start: auto;
+    color: var(--md-ink-faint);
+  }
+  .md .md-code-head + pre { margin-block-start: 0; }
+
+  /* --- line numbers -------------------------------------------------------
+     Opt-in. Numbers are tabular and right-aligned so the code edge stays true;
+     they are also unselectable, so copy-paste stays clean. */
+  .md pre.md-code--numbered > code {
+    counter-reset: md-line;
+    display: grid;
+  }
+  .md pre.md-code--numbered .md-line {
+    counter-increment: md-line;
+    display: grid;
+    grid-template-columns: var(--md-code-gutter) 1fr;
+    column-gap: 1.5ch;
+  }
+  .md pre.md-code--numbered .md-line::before {
+    content: counter(md-line);
+    text-align: right;
+    color: var(--md-ink-faint);
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .md pre.md-code--numbered .md-line--mark {
+    background: color-mix(in oklab, var(--md-spot) 12%, transparent);
+    box-shadow: -0.6em 0 0 color-mix(in oklab, var(--md-spot) 12%, transparent),
+                 0.6em 0 0 color-mix(in oklab, var(--md-spot) 12%, transparent);
+  }
+
+  /* --- diff --------------------------------------------------------------- */
+  .md pre .md-line--add { background: color-mix(in oklab, #1F7A54 14%, transparent); }
+  .md pre .md-line--del { background: color-mix(in oklab, #A8261B 12%, transparent); }
+
+  /* --- syntax tokens (Prism / highlight.js / Shiki class names) ----------- */
+  .md :is(.token.comment, .token.prolog, .token.doctype, .token.cdata,
+          .hljs-comment, .hljs-quote) {
+    color: var(--md-syn-comment);
+    font-style: italic;
+  }
+  .md :is(.token.keyword, .token.rule, .token.important, .token.atrule,
+          .hljs-keyword, .hljs-selector-tag, .hljs-literal) {
+    color: var(--md-syn-keyword);
+    font-weight: 550;
+  }
+  .md :is(.token.string, .token.char, .token.regex, .token.attr-value,
+          .hljs-string, .hljs-regexp, .hljs-addition) {
+    color: var(--md-syn-string);
+  }
+  .md :is(.token.number, .token.boolean, .token.constant, .token.symbol,
+          .hljs-number, .hljs-literal) {
+    color: var(--md-syn-number);
+  }
+  .md :is(.token.function, .token.class-name, .token.tag, .token.selector,
+          .token.attr-name, .hljs-title, .hljs-name, .hljs-attr,
+          .hljs-section, .hljs-type) {
+    color: var(--md-syn-name);
+  }
+  .md :is(.token.operator, .token.punctuation, .token.entity,
+          .hljs-punctuation, .hljs-operator) {
+    color: var(--md-ink-muted);
+  }
+  .md .token.deleted { color: var(--md-syn-keyword); }
+  .md .token.inserted { color: var(--md-syn-string); }
+
+  /* --- inline code, upgraded --------------------------------------------- */
+  .md :not(pre) > code {
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .md a > code { text-decoration: inherit; }
+
+  /* --- print -------------------------------------------------------------- */
+  @media print {
+    .md pre {
+      background: none;
+      border: 0.5pt solid #999;
+      font-size: 8.5pt;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .md pre * { color: #000 !important; }
+    .md pre .token.comment { color: #555 !important; }
+  }
+}
+
+
+  /* candidate rules adopted for this page: numbering that survives tokens,
+     comments as text, single-forme alerts, full-row diff */
+  .md pre.md-code--numbered > code { display: block; }
+  .md pre.md-code--numbered .md-line { display: block; }
+  .md pre.md-code--numbered .md-line::before { display: inline-block; inline-size: var(--md-code-gutter); margin-inline-end: 1.5ch; }
+  .md pre:not(.md-code--numbered) .md-line { display: block; }
+  .md { --md-syn-comment: var(--md-ink-muted); --md-syn-keyword: var(--md-ink); --md-syn-string: var(--md-ink-muted); --md-syn-number: var(--md-ink-muted); --md-syn-name: var(--md-spot); }
+  .md .md-alert { --md-alert-tone: var(--md-ink-muted); }
+  .md .md-alert--note { --md-alert-tone: var(--md-spot); }
+  .md .md-alert-title { color: var(--md-ink); }
+  .md pre .md-line--add { background: color-mix(in oklab, var(--md-spot) 12%, transparent); }
+  .md pre .md-line--del { background: var(--md-paper-sunk); color: var(--md-ink-faint); text-decoration: line-through; }
+
+
+  .md[data-md-theme="patina"] {
+    --md-paper: #F3F6F4; --md-paper-sunk: #E4EBE7;
+    --md-ink: #1D2A24; --md-ink-muted: #56705F; --md-ink-faint: #8FA69A;
+    --md-rule: #C7D5CC; --md-spot: #2F5B4A;
+    --md-face-text: "Libre Caslon Text", Georgia, serif; --md-face-display: "Libre Caslon Display", Georgia, serif; --md-face-mono: "IBM Plex Mono", ui-monospace, monospace;
+    --md-size: 1.03125rem; --md-leading: 1.6; --md-measure: 60ch; --md-ratio: 1.2;
+    --md-h1: 2.9em; --md-h2: 1.78em; --md-h3: 1.33em; --md-h4: 1em; --md-h5: 1em; --md-h6: 0.9em;
+    --md-h-weight: 400; --md-h-tracking: -0.01em; --md-h-leading: 1.12;
+    --md-figures-text: lining-nums proportional-nums; --md-figures-data: lining-nums tabular-nums;
+    --md-list-indent: 1.8em; --md-quote-indent: 1.5em; --md-radius: 0;
+  }
+  
+  
+  body { margin: 0; background: #DAD9D4; font-family: "Archivo", Helvetica, Arial, sans-serif; }
+  .label { padding: 18px 24px 12px; font-size: 13px; line-height: 1.4; color: #5C5A63; display: grid; grid-template-columns: 1fr auto; gap: 24px; }
+  .label b { color: #16151A; font-weight: 600; }
+  .label .sw { display: flex; gap: 6px; align-items: center; }
+  .label .sw i { display: block; width: 18px; height: 18px; border: 1px solid rgba(0,0,0,.12); }
+  .md { padding-block: 64px 56px; box-shadow: 0 1px 2px rgba(0,0,0,.12), 0 12px 36px rgba(0,0,0,.08); }
+  .md > .runhead { margin-block-start: 0; } .md > .runhead + h1 { margin-block-start: 0; }
+  .note { padding: 14px 24px 22px; font-size: 13px; line-height: 1.45; color: #3B352F; max-width: 74ch; }
+  .note b { font-weight: 600; }
+  a { color: inherit; } a:hover { color: var(--md-spot, inherit); }
+
+  .md { display: grid; grid-template-columns: minmax(0, 1fr) 18ch; column-gap: 3ch; padding-inline: 8% 7%; }
+  .md > * { grid-column: 1; }
+  .md > .footnotes { grid-column: 2; grid-row: 2 / span 60; align-self: start; margin: 0; padding: 0; border: 0; font-size: 0.78em; line-height: 1.45; }
+  .md > .footnotes ol { padding-inline-start: 1.6ch; }
+  .md > .runhead { grid-column: 1 / -1; display: flex; justify-content: space-between; font-family: var(--md-face-display); font-size: 0.72em; font-weight: 600; color: var(--md-ink-muted); padding-block-end: 0.5em; border-block-end: var(--md-hairline) solid var(--md-spot); margin-block-end: calc(var(--md-rhythm) * 2); }
+  .md > .folio { display: none; }
+  .md blockquote cite { color: var(--md-spot); }
+  .md > .md-table-scroll, .md > figure, .md > pre, .md > .md-code { margin-inline: 0; }
+  .md blockquote.md-pull { grid-column: 1 / -1; }
+  </style>
+</helmet>
+<div style="width: 1100px; background: #DAD9D4; display: flex; flex-direction: column;">
+  <div class="label">
+    <div><b>B4  Patina, Libre Caslon text and display</b><br>16.5 px on 60 ch, leading 1.6</div>
+    <div class="sw"><i style="background: #F3F6F4"></i><i style="background: #E4EBE7"></i><i style="background: #C7D5CC"></i><i style="background: #56705F"></i><i style="background: #1D2A24"></i><i style="background: #2F5B4A; margin-left: 8px"></i><span>patina green #2F5B4A</span></div>
+  </div>
+  <div style="padding: 0 24px;">
+    <article class="md" data-md-theme="patina" style="--md-spot: {{spot}}; --md-size: {{sizeRem}}; --md-measure: {{measureCh}}; --md-leading: {{leading}}">
+
+<p class="runhead"><span>Book design awards</span><span>2025–2026</span></p>
+<h1>Book design awards, 2025–2026</h1>
+<p>Everything reported here is fact from the awarding bodies or the trade press. The principles drawn from it are a derivation: no jury publishes a palette, and no citation names a typeface.</p>
+<h2>Best Book Design from all over the World 2026</h2>
+<p>Announced 12 March 2026 and awarded at the <a href="#">Leipzig Book Fair</a> on 20 March. Around 570 books from 33 nations were reviewed by Sunandini Banerjee, Artur Frankowski, Fraser Muggeridge, Isabel Seiffert and Raül Vicent.<sup><a href="#fn1" data-footnote-ref>1</a></sup> Only books that have <strong>already won a national competition</strong> are eligible, which makes this the <em>single highest-signal</em> book design award. The measure is set once, as <code>--md-measure</code>, and <abbr title="Type Directors Club">TDC</abbr> medals are counted in <del>four</del> <ins>three</ins> disciplines. Press <kbd>⌘</kbd><kbd>K</kbd> to search; the <mark>Goldene Letter</mark> is the top prize.</p>
+<h3>Goldene Letter</h3>
+<p><em>Ourouboros Wings</em>, designed by Benaiah French at the Royal Academy of Art, The Hague. 207 × 294 mm, 160 pages, 200 copies, self-published.</p>
+<h4>Formats</h4>
+<p>Nine of the fourteen prizewinners are under 230 mm on the long edge, and one is 50 × 68 mm.</p>
+<h5>Read the formats column</h5>
+<p>Small format means a short measure and small type carried by generous margins.</p>
+<h6>Jury</h6>
+<p>Banerjee, Frankowski, Muggeridge, Seiffert, Vicent.</p>
+<h3>Bronze Medals</h3>
+<div class="md-table-scroll">
+<table>
+<caption>The five Bronze Medals, with formats as reported by Stiftung Buchkunst.</caption>
+<thead><tr><th>Work</th><th>Design</th><th>Country</th><th align="right">Width</th><th align="right">Height</th><th align="right">Pages</th></tr></thead>
+<tbody>
+<tr><td><em>Heatwave</em></td><td>Bänziger, Florio, Kasper</td><td>Switzerland</td><td align="right">165</td><td align="right">220</td><td align="right">264</td></tr>
+<tr><td><em>Collapsed Mythologies</em></td><td>Dayna Casey</td><td>Netherlands</td><td align="right">142</td><td align="right">225</td><td align="right">344</td></tr>
+<tr><td><em>Anthology for Listening, Vol. II</em></td><td>Linn Henrichson</td><td>Denmark</td><td align="right">270</td><td align="right">163</td><td align="right">400</td></tr>
+<tr><td><em>Mountain 239</em></td><td>Shin Sohyun</td><td>South Korea</td><td align="right">50</td><td align="right">68</td><td align="right">288</td></tr>
+<tr><td><em>Os Ovários das Papoilas</em></td><td>Macedo Cannatà</td><td>Portugal</td><td align="right">145</td><td align="right">100</td><td align="right">112</td></tr>
+</tbody>
+<tfoot><tr><td colspan="6">Dimensions in millimetres, width before height.</td></tr></tfoot>
+</table>
+</div>
+<h2>What the juries rewarded</h2>
+<ol start="7">
+<li>Legibility under load. Both of the year's top prizes reward type that has to work.</li>
+<li>Small is the professional register.</li>
+<li>Nine. Here is where alignment usually breaks.</li>
+<li>Ten. The periods share a column and the figures stack.</li>
+</ol>
+<blockquote>
+<p>They treat signs, typefaces and typography as cultural, social and political facts.</p>
+<cite>Jury citation, Jan Tschichold Award 2026</cite>
+</blockquote>
+<pre><code class="language-javascript"><span class="token keyword">const</span> unit <span class="token operator">=</span> <span class="token string">"rhythm"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token function-variable function">rhythm</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">leading<span class="token punctuation">,</span> size</span><span class="token punctuation">)</span> <span class="token operator">=></span> leading <span class="token operator">*</span> size<span class="token punctuation">;</span>
+<span class="token comment">// every vertical space is a multiple of one unit</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> space <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">item</span><span class="token operator">:</span> <span class="token function">rhythm</span><span class="token punctuation">(</span><span class="token number">1.55</span><span class="token punctuation">,</span> <span class="token number">15.5</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">0.25</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">block</span><span class="token operator">:</span> <span class="token function">rhythm</span><span class="token punctuation">(</span><span class="token number">1.55</span><span class="token punctuation">,</span> <span class="token number">15.5</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">section</span><span class="token operator">:</span> <span class="token function">rhythm</span><span class="token punctuation">(</span><span class="token number">1.55</span><span class="token punctuation">,</span> <span class="token number">15.5</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<section class="footnotes">
+<h2>Notes</h2>
+<ol><li id="fn1">The jury reviewed the entries at the German National Library, 19 to 21 February 2026.</li></ol>
+</section>
+<p class="folio">17</p>
+    </article>
+  </div>
+  <p class="note"><b>Type.</b> A true text and display pair at ratio 1.333. The display cut carries the headings at weight 400, so scale, not weight, makes the hierarchy. Formal; a catalogue raisonné.</p>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"spot":{"editor":"color","default":"#2F5B4A","section":"Theme"},"size":{"editor":"float","default":16.5,"min":13,"max":22,"step":0.5,"unit":"px","section":"Type"},"measure":{"editor":"int","default":60,"min":45,"max":80,"unit":"ch","section":"Type"},"leading":{"editor":"float","default":1.6,"min":1.3,"max":1.8,"step":0.02,"section":"Type"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    return { spot: p.spot ?? '#2F5B4A', sizeRem: ((p.size ?? 16.5) / 16) + 'rem', measureCh: (p.measure ?? 60) + 'ch', leading: String(p.leading ?? 1.6) };
+  }
+}
+</script>
+</body>
+</html>

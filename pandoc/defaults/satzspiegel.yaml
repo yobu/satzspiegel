@@ -1,0 +1,16 @@
+# pandoc -d satzspiegel doc.md -o doc.html
+# Pandoc Markdown in, a Satzspiegel page out, stylesheet from GitHub Pages.
+# Theme: Patina unless -V theme=archive, or `theme: archive` in the front matter.
+standalone: true
+template: satzspiegel
+from: markdown+footnotes+definition_lists+task_lists+pipe_tables+fenced_divs+implicit_figures+smart+alerts+mark
+to: html
+css:
+  - https://yobu.github.io/satzspiegel/satzspiegel.css
+  - https://yobu.github.io/satzspiegel/satzspiegel-code.css
+variables:
+  fonts-css: https://yobu.github.io/satzspiegel/fonts.css
+html-math-method:
+  method: mathml        # equations rendered by the browser, no script, no network
+filters:
+  - satzspiegel.lua

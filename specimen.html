@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Satzspiegel — specimen</title>
+
+
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="satzspiegel.css">
+<link rel="stylesheet" href="satzspiegel-code.css" id="code-module">
+
+<style>
+  /* Specimen chrome only. Deliberately outside .md so it inherits nothing. */
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Schibsted Grotesk", system-ui, sans-serif;
+    background: #E9E9E6;
+  }
+  .bar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; flex-wrap: wrap; gap: 1.25rem 2rem; align-items: center;
+    padding: 0.75rem clamp(1rem, 4vw, 3rem);
+    background: #16151A; color: #F2F2F0;
+    font-size: 0.8125rem;
+  }
+  .bar h1 { font-size: 0.8125rem; font-weight: 600; margin: 0; letter-spacing: 0.01em; }
+  .bar fieldset { border: 0; margin: 0; padding: 0; display: flex; gap: 0.75rem; align-items: center; }
+  .bar legend { float: left; padding: 0 0.6rem 0 0; color: #8B8892; }
+  .bar label { display: inline-flex; gap: 0.3rem; align-items: center; cursor: pointer; }
+  .bar input { accent-color: #8FA0FF; margin: 0; }
+  .stage { padding: clamp(1rem, 3vw, 2.5rem) clamp(0.5rem, 1.5vw, 1.5rem) 6rem; }
+  .sheet {
+    container-type: inline-size;
+    max-width: 120rem; margin-inline: auto;
+    padding: clamp(2rem, 4vw, 4rem) clamp(0.25rem, 1vw, 1rem);
+    box-shadow: 0 1px 2px rgba(0,0,0,.10), 0 12px 40px rgba(0,0,0,.07);
+  }
+  .ruler {
+    font: 0.6875rem/1 "JetBrains Mono", monospace;
+    color: #8B8892; margin-bottom: 2.5rem; letter-spacing: 0.02em;
+  }
+  .ruler b { color: #16151A; font-weight: 500; }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <h1>Satzspiegel specimen</h1>
+
+  <fieldset>
+    <legend>Theme</legend>
+    <label><input type="radio" name="theme" value="patina" checked> Patina</label>
+    <label><input type="radio" name="theme" value="archive"> Archive</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Options</legend>
+    <label><input type="checkbox" id="opt-code" checked> code module</label>
+    <label><input type="checkbox" id="opt-nocode"> hide fences</label>
+    <label><input type="checkbox" id="opt-just"> justify</label>
+    <label><input type="checkbox" id="opt-indent"> indent paragraphs</label>
+    <label><input type="checkbox" id="opt-tinted"> tinted alerts</label>
+  </fieldset>
+</div>
+
+<div class="stage">
+<div class="sheet md-host" id="sheet">
+
+<p class="ruler">Measure <b id="r-measure">93ch</b>, base <b id="r-size">19px</b>, leading <b id="r-lead">1.62</b>, spot <b id="r-spot">#2F5B4A</b></p>
+
+<article class="md" data-md-theme="patina" id="doc">
+
+<h1>Setting Markdown to a book standard</h1>
+
+<p>Every element below is plain Markdown output. No element has been hand-adjusted for this page; the whole difference between this and a browser default is the stylesheet. The measure is capped at the container level so that tables, figures and code can break out of it while running text stays inside — the single structural decision most default renderers get wrong.</p>
+
+<p>The two themes are token sets over one component layer. Switching theme changes the palette, the faces, the measure and a handful of structural devices; it does not change the markup, and it does not change which components exist.</p>
+
+<h2>Headings and depth</h2>
+
+<p>Below level three, depth is signalled by a change of style rather than a further reduction in size. Six sizes is a ramp nobody can read; three sizes plus italic and small caps is a hierarchy anyone can. Space above a heading always exceeds space below it, so the heading reads as belonging to the text that follows.</p>
+
+<h3>A third-level heading</h3>
+
+<p>Third level is the last size step. It carries a subsection inside a section, and it is the deepest level worth using in most documents.</p>
+
+<h4>A fourth-level heading</h4>
+
+<p>Fourth level is set at text size in a heavier weight. It behaves as a label on a paragraph rather than a structural division, which is what most authors actually mean when they reach for it.</p>
+
+<h5>A fifth-level heading</h5>
+
+<p>Fifth level goes to italic at text size. Notice that it still reads as a heading despite being no larger than the body text — weight and slope carry the signal, size is not needed.</p>
+
+<h6>A sixth-level heading</h6>
+
+<p>Sixth level is small caps in the muted ink. If a document needs this level, it probably needs restructuring instead, but the component exists so that it never falls back to something worse.</p>
+
+<h2>Running text, emphasis and links</h2>
+
+<p>Text is set with <strong>bold at 650</strong> rather than 700, because most variable text faces get muddy at full bold in running copy, and with <em>italic from the real italic</em>, never a synthesised slant. <del>Struck text</del> drops to the muted ink so that the strike reads as a state and not as damage. Inline code such as <code>--md-measure</code> sits in the mono face at 0.875em, which is the ratio at which a mono cap-height matches a serif x-height closely enough not to jump.</p>
+
+<p>Links are underlined at 0.075em with a 0.16em offset and ink-skip enabled, so descenders stay legible. The underline is the <a href="#">spot colour at 55% opacity</a>, and it resolves to full spot on hover — colour is the hover state, the underline is the affordance. Keys render as <kbd>⌘</kbd><kbd>K</kbd>, and abbreviations like <abbr title="Type Directors Club">TDC</abbr> take a dotted underline.</p>
+
+<hr>
+
+<h2>Lists</h2>
+
+<p>Ordered markers use tabular lining figures and hang outside the text block, so the left text edge stays true and <code>9.</code> aligns with <code>10.</code> — which is the single most common failure in default markdown lists.</p>
+
+<ol start="7">
+<li>Seventh item, to demonstrate a non-default <code>start</code>.</li>
+<li>Eighth item.</li>
+<li>Ninth item — the figure below is where alignment usually breaks.</li>
+<li>Tenth item. The decimal points line up.</li>
+<li>Eleventh item, with a nested sequence that changes counter style rather than merely indenting:
+  <ol>
+    <li>Lower alpha at the second level.</li>
+    <li>Second sub-item, itself nested:
+      <ol>
+        <li>Lower roman at the third level.</li>
+        <li>Depth is legible without counting indents.</li>
+      </ol>
+    </li>
+  </ol>
+</li>
+</ol>
+
+<p>Unordered lists step from disc to en dash to middle dot, so nesting reads at a glance:</p>
+
+<ul>
+<li>Top level takes a disc.</li>
+<li>Second item, with children:
+  <ul>
+    <li>An en dash marks the second level.</li>
+    <li>Second sibling:
+      <ul>
+        <li>A middle dot marks the third.</li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li>Third top-level item.</li>
+</ul>
+
+<p>A loose list — one where the source left blank lines between items — gets fuller leading automatically, because the generator wraps each item in a paragraph and the stylesheet keys off that:</p>
+
+<ul>
+<li><p>This item is a paragraph, so it receives the loose treatment.</p></li>
+<li><p>So does this one. The spacing between items opens up to half the rhythm unit without any class being added.</p></li>
+</ul>
+
+<p>Task lists pull the control into the margin so the text edge is unaffected:</p>
+
+<ul>
+<li><input type="checkbox" checked disabled> Marker sits in the hanging indent</li>
+<li><input type="checkbox" checked disabled> Completed items drop to muted ink</li>
+<li><input type="checkbox" disabled> Open items stay at full contrast</li>
+</ul>
+
+<p>Definition lists are the most under-used block in Markdown and the cleanest way to set a glossary, an options reference or a metadata header:</p>
+
+<dl class="md-dl-columns">
+<dt>Satzspiegel</dt>
+<dd>The type area: the block of set text on the page, and its relationship to the four margins. The first thing a book jury looks at.</dd>
+<dt>Measure</dt>
+<dd>Line length, counted in characters. Under 80 for sans, a little more permitted for serif.</dd>
+<dt>Optical size</dt>
+<dd>A variable-font axis that adjusts stroke contrast and spacing for the size at which type is set. Present in Literata and in most 2025–26 award-winning families.</dd>
+</dl>
+
+<h2>Tables</h2>
+
+<p>This is the largest gap between award-standard setting and default markdown rendering. The rules are all editorial: no vertical rules ever, three horizontal hairlines at most, no zebra striping by default, tabular figures in numeric columns, and the caption above the table rather than below.</p>
+
+<div class="md-table-scroll">
+<table class="md-table--numeric">
+<caption>Book-design awards, 2025/2026 cycle. Entry counts as reported by each organiser.</caption>
+<thead>
+<tr><th>Award</th><th>Body</th><th align="right">Entries</th><th align="right">Awarded</th><th>Top prize</th></tr>
+</thead>
+<tbody>
+<tr><td>Best Book Design from all over the World 2026</td><td>Stiftung Buchkunst</td><td align="right">570</td><td align="right">14</td><td>Goldene Letter</td></tr>
+<tr><td>Die Schönsten Deutschen Bücher 2026</td><td>Stiftung Buchkunst</td><td align="right">600</td><td align="right">25</td><td>Preis der Stiftung Buchkunst</td></tr>
+<tr><td>The Best Dutch Book Designs 2025</td><td>Best Verzorgde Boeken</td><td align="right">281</td><td align="right">33</td><td>—</td></tr>
+<tr><td>The Most Beautiful Swiss Books 2025</td><td>Federal Office of Culture</td><td align="right">388</td><td align="right">17</td><td>Jan Tschichold Award</td></tr>
+<tr><td>50 Books | 50 Covers of 2025</td><td>AIGA</td><td align="right">536</td><td align="right">100</td><td>—</td></tr>
+</tbody>
+<tfoot>
+<tr><td colspan="5">Counts are entries received, not shortlisted works. Numeric columns take tabular lining figures automatically from the GFM right-alignment marker.</td></tr>
+</tfoot>
+</table>
+</div>
+
+<p>A compact variant exists for dense reference tables, where the row height is halved and the column gutter tightened:</p>
+
+<div class="md-table-scroll">
+<table class="md-table--compact">
+<caption>Theme tokens, as released.</caption>
+<thead>
+<tr><th>Token</th><th align="right">Patina</th><th align="right">Archive</th></tr>
+</thead>
+<tbody>
+<tr><td><code>--md-size</code></td><td align="right">19 px</td><td align="right">15.5 px</td></tr>
+<tr><td><code>--md-leading</code></td><td align="right">1.62</td><td align="right">1.55</td></tr>
+<tr><td><code>--md-measure</code></td><td align="right">93 ch</td><td align="right">106 ch</td></tr>
+<tr><td><code>--md-margin</code></td><td align="right">24 ch</td><td align="right">—</td></tr>
+<tr><td><code>--md-ratio</code></td><td align="right">1.20</td><td align="right">1.20</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>Quotations</h2>
+
+<p>Quotations take a two-pixel rule at the left: ink in Patina, the rule colour in Archive. The attribution line is set in the spot.</p>
+
+<blockquote>
+<p>The jury weighed type area, typeface and typography, legibility, and the book as an object with a front, a spine and a back.</p>
+<cite>Stiftung Buchkunst, on the 2026 judging criteria</cite>
+</blockquote>
+
+<p>A pull quote is available as an opt-in that deliberately breaks the measure, for the one place in a document where scale should carry the argument:</p>
+
+<blockquote class="md-pull">
+<p>Innovative design and subtle print techniques let the boundary between content and form blur.</p>
+</blockquote>
+
+<h2>Alerts</h2>
+
+<p>Boxes are the least book-like device Markdown has, so they earn their weight through a single vertical rule and a label rather than a filled card with an icon.</p>
+
+<div class="md-alert md-alert--note">
+<p class="md-alert-title">Note</p>
+<p>The alert tone is a single custom property, so a project can add its own severities without touching the component.</p>
+</div>
+
+<div class="md-alert md-alert--warning">
+<p class="md-alert-title">Warning</p>
+<p>Justified setting is available but off by default. Turn it on only where hyphenation is active — unhyphenated justification is what juries penalise, not justification itself.</p>
+</div>
+
+<div class="md-alert md-alert--caution">
+<p class="md-alert-title">Caution</p>
+<p>Six heading levels plus zebra striping plus filled alert cards plus a syntax palette of twelve colours is not a hierarchy. It is noise wearing a hierarchy's clothes.</p>
+</div>
+
+<h2>Code</h2>
+
+<p>The code module is a separate stylesheet. Toggle it off in the bar above and fenced blocks fall back to a quiet set block in the mono face bounded by hairlines — which is how a book would set them, and is often the better choice for documents where the code is illustrative rather than operational.</p>
+
+<div class="md-code">
+<div class="md-code-head"><span>markdown.css</span><span class="md-code-lang">css</span></div>
+<pre class="md-code--numbered"><code><span class="md-line"><span class="token comment">/* one measure, resolved once, at body size */</span></span><span class="md-line"><span class="token selector">.md</span> <span class="token punctuation">{</span></span><span class="md-line">  <span class="token property">padding-inline</span><span class="token punctuation">:</span> <span class="token function">max</span><span class="token punctuation">(</span><span class="token number">2ch</span><span class="token punctuation">,</span> <span class="token function">calc</span><span class="token punctuation">((</span><span class="token number">100%</span> - <span class="token function">var</span><span class="token punctuation">(</span>--md-measure<span class="token punctuation">))</span> / <span class="token number">2</span><span class="token punctuation">));</span></span><span class="md-line"><span class="token punctuation">}</span></span><span class="md-line md-line--mark"><span class="token selector">.md &gt; pre</span> <span class="token punctuation">{</span> <span class="token property">margin-inline</span><span class="token punctuation">:</span> <span class="token function">calc</span><span class="token punctuation">(</span><span class="token function">var</span><span class="token punctuation">(</span>--md-bleed<span class="token punctuation">)</span> * <span class="token number">-1</span><span class="token punctuation">);</span> <span class="token punctuation">}</span></span></code></pre>
+</div>
+
+<p>An unlabelled, unnumbered block is the default shape, and the one most documents should use:</p>
+
+<pre><code><span class="token keyword">const</span> rhythm <span class="token operator">=</span> <span class="token punctuation">(</span>leading<span class="token punctuation">,</span> size<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> leading <span class="token operator">*</span> size<span class="token punctuation">;</span>
+<span class="token comment">// every vertical space is a multiple of one unit</span>
+<span class="token function">rhythm</span><span class="token punctuation">(</span><span class="token number">1.62</span><span class="token punctuation">,</span> <span class="token number">19</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// → 30.78</span></code></pre>
+
+<h2>Figures and images</h2>
+
+<figure>
+<svg viewBox="0 0 640 200" role="img" aria-label="Diagram comparing three type scales" style="width:100%;height:auto;background:var(--md-paper-sunk)">
+  <g fill="currentColor" font-family="inherit">
+    <text x="24" y="52" font-size="34">Aa</text>
+    <text x="24" y="96" font-size="22">Aa</text>
+    <text x="24" y="132" font-size="17">Aa</text>
+    <text x="24" y="164" font-size="14">Aa</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1" opacity="0.28">
+    <line x1="24" y1="176" x2="616" y2="176"/>
+    <line x1="24" y1="24" x2="24" y2="176"/>
+  </g>
+  <g fill="currentColor" opacity="0.6" font-size="12" font-family="monospace">
+    <text x="120" y="52">h1 · 2.441em</text>
+    <text x="120" y="96">h2 · 1.563em</text>
+    <text x="120" y="132">h3 · 1.250em</text>
+    <text x="120" y="164">body · 1em</text>
+  </g>
+</svg>
+<figcaption><span class="md-fig-num">Fig. 1</span> &nbsp;The Letter scale at ratio 1.25. Below the third step the ramp stops and depth is carried by weight, slope and small caps instead.</figcaption>
+</figure>
+
+<h2>Footnotes</h2>
+
+<p>Footnote references are set in the spot colour with tabular figures and no underline, so they read as apparatus rather than as links.<sup><a href="#fn1" id="fnref1" data-footnote-ref>1</a></sup> The note block itself is separated by a hairline, dropped a step in size, and set in the muted ink.<sup><a href="#fn2" id="fnref2" data-footnote-ref>2</a></sup></p>
+
+<section class="footnotes">
+<h2>Notes</h2>
+<ol>
+<li id="fn1">The 2026 TDC72 competition introduced the Type-High awards, adding Gold, Silver and Bronze tiers above the long-standing Certificate of Merit. <a href="#fnref1" data-footnote-backref>↩</a></li>
+<li id="fn2">The Goldene Letter 2026 went to <em>Ourouboros Wings</em>, designed by Benaiah French at KABK, The Hague. <a href="#fnref2" data-footnote-backref>↩</a></li>
+</ol>
+</section>
+
+</article>
+</div>
+</div>
+
+<script>
+(function () {
+  var doc    = document.getElementById('doc');
+  var sheet  = document.getElementById('sheet');
+  var codeMod = document.getElementById('code-module');
+
+  var meta = {
+    patina:  { measure: '93ch',  size: '19px',   lead: '1.62', spot: '#2F5B4A', bg: '#DFE3E0' },
+    archive: { measure: '106ch', size: '15.5px', lead: '1.55', spot: '#2F3E63', bg: '#E2DDD4' }
+  };
+
+  function paint() {
+    var theme = document.querySelector('input[name=theme]:checked').value;
+    doc.dataset.mdTheme = theme;
+
+    var m = meta[theme];
+    document.getElementById('r-measure').textContent = m.measure;
+    document.getElementById('r-size').textContent    = m.size;
+    document.getElementById('r-lead').textContent    = m.lead;
+    document.getElementById('r-spot').textContent    = m.spot;
+    document.body.style.background = m.bg;
+
+    var cs = getComputedStyle(doc);
+    sheet.style.background = cs.getPropertyValue('--md-paper').trim();
+    document.querySelector('.ruler').style.color = cs.getPropertyValue('--md-ink-faint').trim();
+    Array.prototype.forEach.call(document.querySelectorAll('.ruler b'), function (b) {
+      b.style.color = cs.getPropertyValue('--md-ink').trim();
+    });
+
+    doc.classList.toggle('md--justified', document.getElementById('opt-just').checked);
+    doc.classList.toggle('md--nocode',   document.getElementById('opt-nocode').checked);
+    doc.classList.toggle('md--indent',   document.getElementById('opt-indent').checked);
+    doc.classList.toggle('md--tinted-alerts', document.getElementById('opt-tinted').checked);
+    codeMod.disabled = !document.getElementById('opt-code').checked;
+  }
+
+  document.querySelector('.bar').addEventListener('change', paint);
+  paint();
+})();
+</script>
+</body>
+</html>

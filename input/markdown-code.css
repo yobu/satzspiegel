@@ -1,0 +1,191 @@
+/* ============================================================================
+   markdown-code.css — OPTIONAL code module for markdown.css
+
+   Drop this file and fenced code blocks still render correctly: markdown.css
+   ships a book-style fallback (mono face, hairline rules, no colour). Nothing
+   in this file is required by any other component.
+
+   Three ways to leave code out, in increasing severity:
+     1. Don't load this file            → quiet set block, still readable
+     2. Add class md--nocode            → fenced blocks hidden, inline code
+                                          reverts to italic text face
+     3. Strip fences at build time      → nothing to style
+
+   Load order: markdown.css, then this file.
+   ============================================================================ */
+
+@layer md.code {
+
+  /* --- tokens ------------------------------------------------------------- */
+  .md {
+    --md-code-bg: var(--md-paper-sunk);
+    --md-code-size: 0.845em;
+    --md-code-leading: 1.55;
+    --md-code-pad: 1.1em;
+    --md-code-gutter: 3.5ch;
+
+    /* Syntax palette. Six roles only — more than six and the block stops
+       being text and starts being decoration. */
+    --md-syn-text:    var(--md-ink);
+    --md-syn-comment: var(--md-ink-faint);
+    --md-syn-keyword: #8A2846;
+    --md-syn-string:  #1F6A4A;
+    --md-syn-number:  #7A4B12;
+    --md-syn-name:    #2A4D8F;
+  }
+
+  .md[data-md-theme="screen"] {
+    --md-syn-keyword: #FF9CC0;
+    --md-syn-string:  #8BE0B8;
+    --md-syn-number:  #F0C674;
+    --md-syn-name:    #9DB8FF;
+  }
+
+  /* Grid theme runs code in ink only — a single forme, as on press. */
+  .md[data-md-theme="grid"] {
+    --md-syn-keyword: var(--md-ink);
+    --md-syn-string:  var(--md-ink-muted);
+    --md-syn-number:  var(--md-ink-muted);
+    --md-syn-name:    var(--md-spot);
+  }
+
+  /* --- block -------------------------------------------------------------- */
+  .md pre {
+    font-family: var(--md-face-mono);
+    font-size: var(--md-code-size);
+    line-height: var(--md-code-leading);
+    font-variant-ligatures: none;
+    font-variant-numeric: lining-nums tabular-nums;
+    tab-size: 2;
+    -moz-tab-size: 2;
+
+    background: var(--md-code-bg);
+    color: var(--md-syn-text);
+    border: 0;
+    border-radius: var(--md-radius);
+    padding: var(--md-code-pad) var(--md-code-pad);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+    white-space: pre;
+  }
+  .md[data-md-theme="grid"] pre {
+    background: none;
+    border: var(--md-hairline) solid var(--md-rule);
+  }
+  .md[data-md-theme="letter"] pre {
+    border-inline-start: 2px solid var(--md-rule);
+  }
+
+  .md pre > code {
+    font: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    display: block;
+    min-inline-size: fit-content;
+  }
+
+  /* Soft wrap variant, for prose-heavy snippets and narrow columns. */
+  .md pre.md-code--wrap { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .md pre.md-code--wrap > code { min-inline-size: 0; }
+
+  /* --- filename / language label ------------------------------------------
+     Emit as: <div class="md-code"><div class="md-code-head">…</div><pre>…
+     Not a window-chrome bar: a caption, set like figcaption. */
+  .md .md-code { display: block; }
+  .md .md-code-head {
+    display: flex;
+    gap: 1.5ch;
+    align-items: baseline;
+    font-family: var(--md-face-mono);
+    font-size: 0.78em;
+    color: var(--md-ink-muted);
+    padding-block-end: 0.45em;
+  }
+  .md .md-code-head .md-code-lang {
+    margin-inline-start: auto;
+    color: var(--md-ink-faint);
+  }
+  .md .md-code-head + pre { margin-block-start: 0; }
+
+  /* --- line numbers -------------------------------------------------------
+     Opt-in. Numbers are tabular and right-aligned so the code edge stays true;
+     they are also unselectable, so copy-paste stays clean. */
+  .md pre.md-code--numbered > code {
+    counter-reset: md-line;
+    display: grid;
+  }
+  .md pre.md-code--numbered .md-line {
+    counter-increment: md-line;
+    display: grid;
+    grid-template-columns: var(--md-code-gutter) 1fr;
+    column-gap: 1.5ch;
+  }
+  .md pre.md-code--numbered .md-line::before {
+    content: counter(md-line);
+    text-align: right;
+    color: var(--md-ink-faint);
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .md pre.md-code--numbered .md-line--mark {
+    background: color-mix(in oklab, var(--md-spot) 12%, transparent);
+    box-shadow: -0.6em 0 0 color-mix(in oklab, var(--md-spot) 12%, transparent),
+                 0.6em 0 0 color-mix(in oklab, var(--md-spot) 12%, transparent);
+  }
+
+  /* --- diff --------------------------------------------------------------- */
+  .md pre .md-line--add { background: color-mix(in oklab, #1F7A54 14%, transparent); }
+  .md pre .md-line--del { background: color-mix(in oklab, #A8261B 12%, transparent); }
+
+  /* --- syntax tokens (Prism / highlight.js / Shiki class names) ----------- */
+  .md :is(.token.comment, .token.prolog, .token.doctype, .token.cdata,
+          .hljs-comment, .hljs-quote) {
+    color: var(--md-syn-comment);
+    font-style: italic;
+  }
+  .md :is(.token.keyword, .token.rule, .token.important, .token.atrule,
+          .hljs-keyword, .hljs-selector-tag, .hljs-literal) {
+    color: var(--md-syn-keyword);
+    font-weight: 550;
+  }
+  .md :is(.token.string, .token.char, .token.regex, .token.attr-value,
+          .hljs-string, .hljs-regexp, .hljs-addition) {
+    color: var(--md-syn-string);
+  }
+  .md :is(.token.number, .token.boolean, .token.constant, .token.symbol,
+          .hljs-number, .hljs-literal) {
+    color: var(--md-syn-number);
+  }
+  .md :is(.token.function, .token.class-name, .token.tag, .token.selector,
+          .token.attr-name, .hljs-title, .hljs-name, .hljs-attr,
+          .hljs-section, .hljs-type) {
+    color: var(--md-syn-name);
+  }
+  .md :is(.token.operator, .token.punctuation, .token.entity,
+          .hljs-punctuation, .hljs-operator) {
+    color: var(--md-ink-muted);
+  }
+  .md .token.deleted { color: var(--md-syn-keyword); }
+  .md .token.inserted { color: var(--md-syn-string); }
+
+  /* --- inline code, upgraded --------------------------------------------- */
+  .md :not(pre) > code {
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .md a > code { text-decoration: inherit; }
+
+  /* --- print -------------------------------------------------------------- */
+  @media print {
+    .md pre {
+      background: none;
+      border: 0.5pt solid #999;
+      font-size: 8.5pt;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .md pre * { color: #000 !important; }
+    .md pre .token.comment { color: #555 !important; }
+  }
+}

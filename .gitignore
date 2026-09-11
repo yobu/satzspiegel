@@ -1,0 +1,9 @@
+*.annotated.html
+*.merged.html
+.DS_Store
+.claude/settings.local.json
+__pycache__/
+_site/
+build/
+docs/show-hn.md
+node_modules/

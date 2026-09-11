@@ -1,0 +1,15 @@
+# pandoc -d satzspiegel-gfm README.md -o README.html
+# GitHub-flavoured Markdown in (alerts, task lists, footnotes, tables).
+standalone: true
+template: satzspiegel
+from: gfm+alerts
+to: html
+css:
+  - https://yobu.github.io/satzspiegel/satzspiegel.css
+  - https://yobu.github.io/satzspiegel/satzspiegel-code.css
+variables:
+  fonts-css: https://yobu.github.io/satzspiegel/fonts.css
+html-math-method:
+  method: mathml        # equations rendered by the browser, no script, no network
+filters:
+  - satzspiegel.lua

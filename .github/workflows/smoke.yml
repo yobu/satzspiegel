@@ -1,0 +1,21 @@
+name: smoke
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Install pandoc 3.11, checksum pinned
+        run: |
+          curl -sSL --fail https://github.com/jgm/pandoc/releases/download/3.11/pandoc-3.11-1-amd64.deb -o pandoc.deb
+          echo "89d4c9d97818c62a97157f0072844e4602c6cee795bf84abd1aee7273abcda99  pandoc.deb" | sha256sum -c -
+          sudo dpkg -i pandoc.deb
+      - run: make check
+      - name: The committed home page is current
+        run: |
+          cp index.html /tmp/index.committed.html
+          make readme >/dev/null
+          diff -q /tmp/index.committed.html index.html || { echo "index.html is stale: run make readme and commit it"; exit 1; }

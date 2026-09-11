@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Markdown component set — plates</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,300..700;1,7..72,300..700&family=Archivo:ital,wdth,wght@0,80..125,100..900;1,80..125,100..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../input/markdown.css">
+<link rel="stylesheet" href="../input/markdown-code.css">
+<link rel="stylesheet" href="plates.css">
+</head>
+<body>
+
+<nav class="contents">
+  <h1>markdown.css plates</h1>
+  <a href="#p1"><b>1</b>Letter</a>
+  <a href="#p2"><b>2</b>Grid</a>
+  <a href="#p3"><b>3</b>Screen</a>
+  <a href="#p4"><b>4</b>Table</a>
+  <a href="#p5"><b>5</b>List</a>
+  <a href="#p6"><b>6</b>Headings</a>
+  <a href="#p7"><b>7</b>Alerts</a>
+  <a href="#p8"><b>8</b>Paragraphs</a>
+  <a href="#p9"><b>9</b>Dark palette</a>
+  <a href="#p10"><b>10</b>Section rule</a>
+  <a href="#p11"><b>11</b>Pause</a>
+  <a href="#p12"><b>12</b>Code</a>
+  <a href="#p13"><b>13</b>Syntax palette</a>
+</nav>
+
+<!-- =========================================================================
+     SHARED COPY — the award survey, cloned into plates 1–3.
+     Same content in each theme so the plates compare like for like.
+     ========================================================================= -->
+<template id="t-survey">
+<h1>Book design awards, 2025–2026</h1>
+
+<p>Everything reported here is fact from the awarding bodies or the trade press. The principles drawn from it at the end are a derivation: no jury publishes a palette, and no citation names a typeface. What the juries do publish is what they weighed, and that is enough to set type by.</p>
+
+<h2>Best Book Design from all over the World 2026</h2>
+
+<p>Announced 12 March 2026 and awarded at the Leipzig Book Fair on 20 March. Around 570 books from 33 nations were reviewed at the German National Library in Leipzig by Sunandini Banerjee, Artur Frankowski, Fraser Muggeridge, Isabel Seiffert and Raül Vicent. Only books that have already won a national competition are eligible, which makes this the single highest-signal book design award.</p>
+
+<p>Fourteen prizes are awarded in a fixed structure: one Goldene Letter, one Gold, two Silver, five Bronze and five Honorary Appreciations.</p>
+
+<h3>Goldene Letter</h3>
+
+<p><em>Ourouboros Wings</em>, designed by Benaiah French at the Royal Academy of Art, The Hague. 207 × 294 mm, 160 pages, 200 copies, self-published.<sup><a href="#fn1" id="fnref1" data-footnote-ref>1</a></sup> The jury citation is the most useful sentence in the whole survey: the design lets the boundary between content and form blur, folding the printed sheets so that colour fields migrate into the interior of the Japanese binding.</p>
+
+<h3>Gold Medal</h3>
+
+<p>Sophie Calle, <em>Picalso</em>, designed by SpMillot for Atelier EXB. 170 × 218.5 mm, 196 pages.</p>
+
+<h3>Bronze Medals</h3>
+
+<div class="md-table-scroll">
+<table>
+<caption>The five Bronze Medals, with formats as reported by Stiftung Buchkunst.</caption>
+<thead>
+<tr><th>Work</th><th>Design</th><th>Country</th><th align="right">Width</th><th align="right">Height</th><th align="right">Pages</th></tr>
+</thead>
+<tbody>
+<tr><td><em>Heatwave</em></td><td>Bänziger, Florio, Kasper</td><td>Switzerland</td><td align="right">165</td><td align="right">220</td><td align="right">264</td></tr>
+<tr><td><em>Collapsed Mythologies</em></td><td>Dayna Casey</td><td>Netherlands</td><td align="right">142</td><td align="right">225</td><td align="right">344</td></tr>
+<tr><td><em>Anthology for Listening, Vol. II</em></td><td>Linn Henrichson</td><td>Denmark</td><td align="right">270</td><td align="right">163</td><td align="right">400</td></tr>
+<tr><td><em>Mountain 239</em></td><td>Shin Sohyun</td><td>South Korea</td><td align="right">50</td><td align="right">68</td><td align="right">288</td></tr>
+<tr><td><em>Os Ovários das Papoilas</em></td><td>Macedo Cannatà</td><td>Portugal</td><td align="right">145</td><td align="right">100</td><td align="right">112</td></tr>
+</tbody>
+<tfoot>
+<tr><td colspan="6">Dimensions in millimetres, width before height.</td></tr>
+</tfoot>
+</table>
+</div>
+
+<p>Read the formats column. Nine of the fourteen prizewinners are under 230 mm on the long edge, and one is 50 × 68 mm. The dominant register in the most prestigious book design award on earth is small, which means a short measure and small type carried by generous margins, not the wide, large-type default of most Markdown renderers.</p>
+
+<h2>Die Schönsten Deutschen Bücher 2026</h2>
+
+<p>Announced 15 June 2026 in Berlin. About 600 entries, fourteen jurors over seven days, 25 winners in five categories. The €10,000 Preis der Stiftung Buchkunst went to <em>Was tun, wenn …</em>, a children's guide to catastrophes from kunstanstifter verlag, designed by Laura Momo Aufderhaar and Verena Hochleitner. The top German book-design prize went to a book whose job is to be understood under stress.</p>
+
+<h3>Förderpreis für junge Buchgestaltung</h3>
+
+<p>Three prizes of €2,000 from over 180 entries, judged on concept rather than technical perfection:</p>
+
+<ul>
+<li>Lena Ludwig, <em>Liebhabkondensat. Eine Sammlung von 100 familiären Idiolekten</em></li>
+<li>Yitong Feng, <em>HEIM-WEG-FREMD-WEG</em></li>
+<li>Celia Joy Homann, <em>Vulvodynie. Schmerz der Weiblichkeit</em></li>
+</ul>
+
+<p>Spector Books appears four times across the 25. Their house register of tight grotesk, small sizes, a strong grid, hairline rules and one spot colour is the closest thing to a consensus contemporary standard in this survey.</p>
+
+<h2>Type Directors Club, TDC72</h2>
+
+<p>Winners were announced on 20 July 2026 in Brooklyn. This year is a structural change: the first Type-High awards introduced Gold, Silver and Bronze above the long-standing Certificate of Merit.<sup><a href="#fn2" id="fnref2" data-footnote-ref>2</a></sup> Best of Type Design went to Adobe Tokyo's <em>Momochidori</em>, a variable font by Ryoko Nishizuka and Frank Grießhammer.</p>
+
+<div class="md-table-scroll">
+<table>
+<caption>TDC72 Type-High medals and Certificates across the three disciplines.</caption>
+<thead>
+<tr><th>Tier</th><th align="right">Awarded</th><th align="right">Share</th></tr>
+</thead>
+<tbody>
+<tr><td>Gold</td><td align="right">13</td><td align="right">8.2%</td></tr>
+<tr><td>Silver</td><td align="right">26</td><td align="right">16.4%</td></tr>
+<tr><td>Bronze</td><td align="right">28</td><td align="right">17.6%</td></tr>
+<tr><td>Certificate of Merit</td><td align="right">92</td><td align="right">57.9%</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Most awarded</h3>
+
+<ul>
+<li>Studio Dumbar/DEPT, Rotterdam
+  <ul>
+    <li>Two Gold, both for <em>OpenAI DevDay 2025</em></li>
+    <li>Two Silver and one Certificate</li>
+  </ul>
+</li>
+<li>SMLXL, New York, with Mallandrich, Barcelona
+  <ul>
+    <li>Gold and Best of Communication Design for <em>Spatial Festival 2025</em></li>
+    <li>Two Silver, one Bronze, one Certificate</li>
+  </ul>
+</li>
+</ul>
+
+<h2>D&amp;AD Awards 2026</h2>
+
+<p>Announced 20 May 2026, with entries from a record 89 countries and 573 Pencils across 46 categories. Magazine &amp; Newspaper Design led the whole competition with 28 Pencils and four Yellow, joint most with Film. Editorial craft was the strongest discipline of the cycle.</p>
+
+<div class="md-table-scroll">
+<table class="md-table--compact">
+<caption>Pencils awarded by level, D&amp;AD 2026.</caption>
+<thead>
+<tr><th>Level</th><th align="right">Awarded</th></tr>
+</thead>
+<tbody>
+<tr><td>White</td><td align="right">2</td></tr>
+<tr><td>Yellow</td><td align="right">52</td></tr>
+<tr><td>Graphite</td><td align="right">149</td></tr>
+<tr><td>Wood</td><td align="right">368</td></tr>
+<tr><td>Future Impact</td><td align="right">2</td></tr>
+<tr><td>Shortlisted</td><td align="right">557</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>What the juries rewarded</h2>
+
+<p>Reading across all eleven competitions, seven principles recur. They are the transferable part.</p>
+
+<ol>
+<li>Type area before typeface. The Buchkunst criteria lead with the type area and its relationship to the four margins; the typeface is downstream.</li>
+<li>Small is the professional register. Small format means short measure, small type and margins doing the work.</li>
+<li>One spot colour, used structurally: a numeral, a rule, a reference mark. Never two accents.</li>
+<li>Rules are hairlines and horizontal. No vertical rules, no boxes around content, no fills.</li>
+<li>Depth by style, not by size. Three heading sizes; below that, italic, small caps, weight and indent.</li>
+<li>Variable fonts with optical sizing are the new baseline. The TDC type categories are now organised by axis count:
+  <ol>
+    <li>single style</li>
+    <li>single axis</li>
+    <li>multiple axis</li>
+    <li>superfamily</li>
+  </ol>
+</li>
+<li>Legibility under load. Both of the year's top prizes reward type that has to work.</li>
+</ol>
+
+<blockquote>
+<p>They treat signs, typefaces and typography as cultural, social and political facts, and position graphic design as research and as the mediation of forms.</p>
+<cite>Jury citation, Jan Tschichold Award 2026, to Coline Sunier and Charles Mazé</cite>
+</blockquote>
+
+<h2>Principle one as CSS</h2>
+
+<p>The column is made by padding the container, not by capping each child. A <code>ch</code> resolves against the element's own font size, so a measure set on every block gives a page one left edge per type size.</p>
+
+<pre><code class="language-css">/* one measure, resolved once, at body size */
+.md {
+  padding-inline: max(0px, calc((100% - var(--md-measure)) / 2));
+}
+
+@media (min-width: 62rem) {
+  .md &gt; figure,
+  .md &gt; pre { margin-inline: calc(var(--md-bleed) * -1); }
+}</code></pre>
+
+<section class="footnotes">
+<h2>Notes</h2>
+<ol>
+<li id="fn1">It had already won the Dutch national competition. The Netherlands has now taken the Goldene Letter repeatedly, including 2025 for <em>Forget Me Not</em>. <a href="#fnref1" data-footnote-backref>↩</a></li>
+<li id="fn2">The Type-High awards were named and designed by Graham Clifford, TDC life member and Chairman Emeritus. Totals: 13 Gold, 26 Silver, 28 Bronze, 92 Certificates. <a href="#fnref2" data-footnote-backref>↩</a></li>
+</ol>
+</section>
+</template>
+
+<!-- =========================================================================
+     PLATE 1 · LETTER
+     ========================================================================= -->
+<section class="plate" id="p1">
+  <div class="plate-head">
+    <h2>Plate 1 <span>Letter</span></h2>
+    <p>The book register. Serif at 19 px on a 68-character measure, old-style figures in text, a cinnabar second forme reserved for reference marks and the underline.</p>
+  </div>
+  <div class="sheet">
+    <article class="md" data-md-theme="letter">
+      <div data-clone="t-survey"></div>
+      <footer class="colophon">
+        <div class="plate-no">Plate 1<small>Letter</small></div>
+        <dl>
+          <dt>Derivation</dt><dd>Stiftung Buchkunst, Goldene Letter lineage</dd>
+          <dt>Text</dt><dd>Literata, ideal Lyon Text</dd>
+          <dt>Spot</dt><dd>Cinnabar #A8261B</dd>
+          <dt>Size</dt><dd>19 px, leading 1.62</dd>
+          <dt>Measure</dt><dd>68 ch</dd>
+          <dt>Scale</dt><dd>1.25</dd>
+        </dl>
+      </footer>
+    </article>
+  </div>
+</section>
+
+<!-- =========================================================================
+     PLATE 2 · GRID
+     ========================================================================= -->
+<section class="plate" id="p2">
+  <div class="plate-head">
+    <h2>Plate 2 <span>Grid</span></h2>
+    <p>The Spector Books register. Grotesk at 16 px on a 62-character measure, ink hairlines over sections, small-caps table heads, ultramarine on the list markers only.</p>
+  </div>
+  <div class="sheet">
+    <article class="md" data-md-theme="grid">
+      <div data-clone="t-survey"></div>
+      <footer class="colophon">
+        <div class="plate-no">Plate 2<small>Grid</small></div>
+        <dl>
+          <dt>Derivation</dt><dd>Spector Books, St. Gallen register</dd>
+          <dt>Text</dt><dd>Archivo, ideal Die Grotesk</dd>
+          <dt>Spot</dt><dd>Ultramarine #1B1BE8</dd>
+          <dt>Size</dt><dd>16 px, leading 1.50</dd>
+          <dt>Measure</dt><dd>62 ch</dd>
+          <dt>Scale</dt><dd>1.20</dd>
+        </dl>
+      </footer>
+    </article>
+  </div>
+</section>
+
+<!-- =========================================================================
+     PLATE 3 · SCREEN
+     ========================================================================= -->
+<section class="plate" id="p3">
+  <div class="plate-head">
+    <h2>Plate 3 <span>Screen</span></h2>
+    <p>Dark as the native state. Variable sans at a fluid 17 to 19 px on a 66-character measure, periwinkle for the underline, the quotation rule and the footnote marks.</p>
+  </div>
+  <div class="sheet">
+    <article class="md" data-md-theme="screen">
+      <div data-clone="t-survey"></div>
+      <footer class="colophon">
+        <div class="plate-no">Plate 3<small>Screen</small></div>
+        <dl>
+          <dt>Derivation</dt><dd>Awwwards SOTY 2025, TDC72 variable fonts</dd>
+          <dt>Text</dt><dd>Instrument Sans, ideal Die Grotesk</dd>
+          <dt>Spot</dt><dd>Periwinkle #8FA0FF</dd>
+          <dt>Size</dt><dd>17 to 19 px, leading 1.58</dd>
+          <dt>Measure</dt><dd>66 ch</dd>
+          <dt>Scale</dt><dd>1.26</dd>
+        </dl>
+      </footer>
+    </article>
+  </div>
+</section>
+
+<!-- =========================================================================
+     PLATE 4 · TABLE ANATOMY
+     ========================================================================= -->
+<section class="plate plate--wide" id="p4">
+  <div class="plate-head">
+    <h2>Plate 4 <span>Table</span></h2>
+    <p>The largest gap between award-standard setting and default Markdown rendering. Set in Grid; the same table follows in Letter and Screen.</p>
+  </div>
+  <div class="anatomy">
+    <article class="md" data-md-theme="grid">
+      <div class="md-table-scroll">
+      <table>
+      <caption data-n="1">Entries and selections across the five book-design competitions of the 2025/2026 cycle.</caption>
+      <thead>
+      <tr><th data-n="2">Award</th><th>Body</th><th align="right" data-n="4">Entries</th><th align="right">Selected</th><th align="right">Share</th></tr>
+      </thead>
+      <tbody>
+      <tr><td>Best Book Design from all over the World 2026</td><td>Stiftung Buchkunst</td><td align="right">570</td><td align="right">14</td><td align="right" data-n="5">2.5%</td></tr>
+      <tr><td data-n="3">Die Schönsten Deutschen Bücher 2026</td><td>Stiftung Buchkunst</td><td align="right">600</td><td align="right">25</td><td align="right">4.2%</td></tr>
+      <tr><td>The Best Dutch Book Designs 2025</td><td>Best Verzorgde Boeken</td><td align="right">281</td><td align="right">33</td><td align="right">11.7%</td></tr>
+      <tr><td>The Most Beautiful Swiss Books 2025</td><td>Federal Office of Culture</td><td align="right">388</td><td align="right">17</td><td align="right">4.4%</td></tr>
+      <tr><td>50 Books | 50 Covers of 2025</td><td>AIGA</td><td align="right">536</td><td align="right">100</td><td align="right">18.7%</td></tr>
+      </tbody>
+      <tfoot>
+      <tr><td colspan="5" data-n="6">Entries as reported by each organiser; share is selections over entries.</td></tr>
+      </tfoot>
+      </table>
+      </div>
+
+      <div class="stack" style="margin-block-start: calc(var(--md-rhythm) * 2)">
+        <div>
+          <p class="variant-label"><b>Compact</b> <code>.md-table--compact</code>, for reference tables</p>
+          <div class="md-table-scroll">
+          <table class="md-table--compact">
+          <thead><tr><th>Token</th><th align="right">Letter</th><th align="right">Grid</th><th align="right">Screen</th></tr></thead>
+          <tbody>
+          <tr><td>Base size</td><td align="right">19 px</td><td align="right">16 px</td><td align="right">17 to 19 px</td></tr>
+          <tr><td>Leading</td><td align="right">1.62</td><td align="right">1.50</td><td align="right">1.58</td></tr>
+          <tr><td>Measure</td><td align="right">68 ch</td><td align="right">62 ch</td><td align="right">66 ch</td></tr>
+          <tr><td>Scale ratio</td><td align="right">1.25</td><td align="right">1.20</td><td align="right" data-n="7">1.26</td></tr>
+          </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+    </article>
+    <aside class="md notes" data-md-theme="grid">
+      <h3>Table</h3>
+      <ol>
+        <li data-n="1"><b>Caption above.</b> A table is read top down; its title belongs where reading starts. Set like a figure caption, muted, one step down.</li>
+        <li data-n="2"><b>Three rules at most.</b> Ink hairline over the head, under the head, under the body. Grid sets heads in small caps at 550, not all caps: quieter at the same emphasis.</li>
+        <li data-n="3"><b>No vertical rules, no fills.</b> Columns are separated by a 2-character gutter and nothing else. Interior row rules exist at 55 % of the rule colour so they read as guides, not as structure. Zebra striping is opt-in only.</li>
+        <li data-n="4"><b>Numeric columns right-aligned.</b> GFM's <code>---:</code> emits <code>align="right"</code>; the stylesheet keys off it and needs no class.</li>
+        <li data-n="5"><b>Tabular lining figures.</b> Applied automatically to right-aligned cells, so 2.5 and 18.7 share a decimal column without a decimal-align property the browser does not have.</li>
+        <li data-n="6"><b>Foot drops a step.</b> No rule above it, muted ink, 0.94 em. A source line, not a totals row.</li>
+        <li data-n="7"><b>Compact.</b> Row height 0.22 of the rhythm instead of 0.36, gutter 1.4 ch. For tables read by lookup, not in sequence.</li>
+      </ol>
+      <p class="notes-sep">Table type is 0.94 em at leading 1.4: a step smaller than text, tighter than text, because rows are scanned rather than read.</p>
+    </aside>
+  </div>
+
+  <div class="strip" style="margin-block-start:1.5rem; box-shadow: 0 1px 2px rgba(0,0,0,.12), 0 14px 40px rgba(0,0,0,.08)">
+    <article class="md" data-md-theme="letter"><div data-clone="t-tablesmall"></div></article>
+    <article class="md" data-md-theme="grid"><div data-clone="t-tablesmall"></div></article>
+    <article class="md" data-md-theme="screen"><div data-clone="t-tablesmall"></div></article>
+  </div>
+</section>
+
+<template id="t-tablesmall">
+<div class="md-table-scroll">
+<table>
+<caption>TDC72 Type-High medals.</caption>
+<thead><tr><th>Tier</th><th align="right">Awarded</th><th align="right">Share</th></tr></thead>
+<tbody>
+<tr><td>Gold</td><td align="right">13</td><td align="right">8.2%</td></tr>
+<tr><td>Silver</td><td align="right">26</td><td align="right">16.4%</td></tr>
+<tr><td>Bronze</td><td align="right">28</td><td align="right">17.6%</td></tr>
+<tr><td>Certificate</td><td align="right">92</td><td align="right">57.9%</td></tr>
+</tbody>
+</table>
+</div>
+</template>
+
+<!-- =========================================================================
+     PLATE 5 · LIST ANATOMY
+     ========================================================================= -->
+<section class="plate plate--wide" id="p5">
+  <div class="plate-head">
+    <h2>Plate 5 <span>List</span></h2>
+    <p>Set in Letter, where the difference between text figures and data figures is largest and the marker decision is therefore most visible.</p>
+  </div>
+  <div class="anatomy">
+    <article class="md" data-md-theme="letter">
+      <div class="stack">
+        <div>
+          <p class="variant-label"><b>A</b> As shipped: markers take lining tabular figures</p>
+          <ol start="7">
+            <li>Legibility under load, the seventh principle.</li>
+            <li>Small is the professional register.</li>
+            <li data-n="1">Nine. Here is where alignment usually breaks.</li>
+            <li data-n="2">Ten. The periods share a column and the figures stack.</li>
+            <li>Eleven, with a nested sequence that changes counter style rather than merely indenting:
+              <ol>
+                <li><span data-n="3">Lower alpha at the second level.</span></li>
+                <li>Second sub-item, itself nested:
+                  <ol><li>Lower roman at the third level.</li></ol>
+                </li>
+              </ol>
+            </li>
+            <li>Twelve.</li>
+          </ol>
+        </div>
+        <div>
+          <p class="variant-label"><b>B</b> The defect: markers inherit the text figures, old-style and proportional</p>
+          <ol start="7" class="x-textfigures">
+            <li>Legibility under load, the seventh principle.</li>
+            <li>Small is the professional register.</li>
+            <li data-n="4">Nine. The old-style 9 descends below the line.</li>
+            <li>Ten. The 1 and 0 sit at x-height, so the two markers no longer read as one column.</li>
+            <li>Eleven.</li>
+            <li>Twelve.</li>
+          </ol>
+        </div>
+        <div>
+          <p class="variant-label"><b>C</b> Legal numbering, <code>.md-ol-nested</code>: as shipped, then with the counter right-aligned</p>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 3ch">
+            <ol class="md-ol-nested">
+              <li><span data-n="5">Type area</span>
+                <ol><li>Margins</li><li>Measure</li></ol>
+              </li>
+              <li>Typeface</li>
+              <li>Figures</li>
+              <li>Rules</li>
+              <li>Depth</li>
+              <li>Axes</li>
+              <li>Load</li>
+              <li>Format</li>
+              <li>Colour</li>
+              <li>Leading</li>
+            </ol>
+            <ol class="md-ol-nested cand-fixed">
+              <li><span data-n="6">Type area</span>
+                <ol><li>Margins</li><li>Measure</li></ol>
+              </li>
+              <li>Typeface</li>
+              <li>Figures</li>
+              <li>Rules</li>
+              <li>Depth</li>
+              <li>Axes</li>
+              <li>Load</li>
+              <li>Format</li>
+              <li>Colour</li>
+              <li>Leading</li>
+            </ol>
+          </div>
+        </div>
+        <div>
+          <p class="variant-label"><b>D</b> Unordered, task, loose and definition lists</p>
+          <ul>
+            <li><span data-n="7">Disc at the first level.</span>
+              <ul><li>En dash at the second.
+                <ul><li>Middle dot at the third.</li></ul>
+              </li></ul>
+            </li>
+            <li>The marker hangs in the indent, so the text edge stays true.</li>
+          </ul>
+          <ul style="margin-block-start: calc(var(--md-rhythm) * 0.75)">
+            <li><input type="checkbox" checked disabled> <span data-n="8">Control pulled into the hanging indent</span></li>
+            <li><input type="checkbox" disabled> Open items stay at full contrast</li>
+          </ul>
+          <ul style="margin-block-start: calc(var(--md-rhythm) * 0.75)">
+            <li><p data-n="9">A loose item is a paragraph, so it receives half-rhythm separation.</p></li>
+            <li><p>No class is added; the stylesheet keys off the paragraph.</p></li>
+          </ul>
+          <dl class="md-dl-columns" style="margin-block-start: calc(var(--md-rhythm) * 0.75)">
+            <dt data-n="10">Satzspiegel</dt><dd>The type area and its relationship to the four margins.</dd>
+            <dt>Measure</dt><dd>Line length, counted in characters.</dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+    <aside class="md notes" data-md-theme="letter">
+      <h3>List</h3>
+      <ol>
+        <li data-n="1"><b>Outside markers.</b> The marker box ends at the text edge, so the text edge is one line for the whole list and every period lands in the same place.</li>
+        <li data-n="2"><b>Tabular lining on the marker.</b> One declaration on <code>::marker</code>. Every figure takes the same width, so 9 sits under the 0 of 10 and the two markers read as a column.</li>
+        <li data-n="3"><b>Counter style changes with depth.</b> Decimal, lower alpha, lower roman. Depth is legible without counting indents.</li>
+        <li data-n="4"><b>What the defect looks like.</b> Letter sets text in old-style proportional figures. Left to inherit, the marker's 9 descends and its 1 narrows: the column dissolves. This is the browser default for any face with old-style figures.</li>
+        <li data-n="5"><b>A defect in the shipped set.</b> The legal-numbering counter is positioned at the left edge, so from 9 to 10 the period moves right by one figure. Invisible until a list passes nine.</li>
+        <li data-n="6"><b>The fix.</b> Give the counter a box of 2.6 ch and right-align it. Two properties, shown at right, proposed for the stylesheet.</li>
+        <li data-n="7"><b>Disc, en dash, middle dot.</b> Three markers of falling weight, in the faint ink. Grid and Screen colour the marker with the spot: the one structural use of colour in a list.</li>
+        <li data-n="8"><b>Task control in the indent.</b> The checkbox takes the marker's place. Checked items drop to muted ink, so state reads as tone rather than strike.</li>
+        <li data-n="9"><b>Loose lists detected.</b> <code>li:has(&gt; p)</code> gives half the rhythm between items, matching GFM's own tight-versus-loose model.</li>
+        <li data-n="10"><b>Definition lists in two columns.</b> A container query above 34 rem; terms in a 22-character column, aligned to the first baseline.</li>
+      </ol>
+    </aside>
+  </div>
+</section>
+
+<!-- =========================================================================
+     PLATE 6 · HEADING LADDER
+     ========================================================================= -->
+<section class="plate plate--wide" id="p6">
+  <div class="plate-head">
+    <h2>Plate 6 <span>Heading ladder</span></h2>
+    <p>Six levels, three sizes. The same ladder in each theme, so the ratio and the style devices can be compared directly.</p>
+  </div>
+  <div class="anatomy" style="grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) 22ch">
+    <article class="md" data-md-theme="letter" style="padding-inline: 2.5rem"><div data-clone="t-ladder"></div></article>
+    <article class="md" data-md-theme="grid" style="padding-inline: 2.5rem"><div data-clone="t-ladder"></div></article>
+    <article class="md" data-md-theme="screen" style="padding-inline: 2.5rem"><div data-clone="t-ladder"></div></article>
+    <aside class="md notes" data-md-theme="grid">
+      <h3>Headings</h3>
+      <ol>
+        <li data-n="1"><b>h1 at ratio³.</b> Once per document; a title, not a section. Space below only. Letter drops to weight 500 so the size carries it; Grid jumps to 3.05 em, the one big step the register allows.</li>
+        <li data-n="2"><b>h2 at ratio².</b> The section. Two rhythm units above, half below, so it belongs to what follows. Letter sets it italic; Grid rules over it in ink.</li>
+        <li data-n="3"><b>h3 at ratio.</b> The subsection and the last size step. One and a half units above.</li>
+        <li data-n="4"><b>h4 at text size, weight 650.</b> A label on a paragraph, which is what most authors mean by a fourth level.</li>
+        <li data-n="5"><b>h5 at text size, italic.</b> Still reads as a heading with no size change at all; slope carries the signal.</li>
+        <li data-n="6"><b>h6 at 0.9 em, small caps, muted.</b> Exists so that the level never falls back to something worse.</li>
+        <li data-n="7"><b>Run-in.</b> <code>h4.md-runin</code> folds the heading into its paragraph with a full stop. The book device Markdown has no syntax for.</li>
+      </ol>
+      <p class="notes-sep">The lead paragraph after h1 is 1.15 em: italic in Letter, weight 450 in Grid, plain in Screen.</p>
+    </aside>
+  </div>
+</section>
+
+<template id="t-ladder">
+<h1 data-n="1">Leipzig 2026</h1>
+<p>Fourteen prizes are awarded in a fixed structure, and only national winners are eligible.</p>
+<h2 data-n="2">Best Book Design 2026</h2>
+<p>Around 570 books from 33 nations, reviewed over three days in Leipzig.</p>
+<h3 data-n="3">Bronze Medals</h3>
+<p>Five, from Switzerland, the Netherlands, Denmark, South Korea and Portugal.</p>
+<h4 data-n="4">Formats</h4>
+<p>Nine of the fourteen are under 230 mm on the long edge.</p>
+<h5 data-n="5">Read the formats column</h5>
+<p>Small format means short measure and small type carried by margins.</p>
+<h6 data-n="6">Jury</h6>
+<p>Banerjee, Frankowski, Muggeridge, Seiffert, Vicent.</p>
+<h4 class="md-runin" data-n="7">Run-in</h4>
+<p>The heading folds into its paragraph, closed with a full stop, and the paragraph continues at text size as if nothing had happened.</p>
+</template>
+
+<!-- =========================================================================
+     PLATE 7 · ALERTS
+     ========================================================================= -->
+<section class="plate plate--wide" id="p7">
+  <div class="plate-head">
+    <h2>Plate 7 <span>Alerts</span></h2>
+    <p>The least book-like device in Markdown, and the one place the set carries more than one accent. Shown as shipped, and under a stricter reading of the one-colour rule.</p>
+  </div>
+  <div class="anatomy" style="grid-template-columns: minmax(0,1fr) minmax(0,1fr) 22ch">
+    <article class="md" data-md-theme="grid" style="padding-inline: 3rem">
+      <p class="variant-label"><b>A</b> As shipped: one tone per severity</p>
+      <div class="stack">
+        <div class="md-alert md-alert--note"><p class="md-alert-title" data-n="1">Note</p><p data-n="2">The alert tone is one custom property per severity, so a project can add its own without touching the component.</p></div>
+        <div class="md-alert md-alert--tip"><p class="md-alert-title">Tip</p><p>Spector Books appears four times across the 25 German winners.</p></div>
+        <div class="md-alert md-alert--important"><p class="md-alert-title" data-n="3">Important</p><p>Only national-competition winners are eligible for Leipzig.</p></div>
+        <div class="md-alert md-alert--warning"><p class="md-alert-title">Warning</p><p>Justified setting is off by default; enable it only where hyphenation is active.</p></div>
+        <div class="md-alert md-alert--caution"><p class="md-alert-title" data-n="4">Caution</p><p>Six heading levels plus zebra striping plus filled cards is not a hierarchy.</p></div>
+      </div>
+    </article>
+    <article class="md" data-md-theme="grid" style="padding-inline: 3rem">
+      <p class="variant-label"><b>B</b> Single forme: tone from the label, spot for note only</p>
+      <div class="stack">
+        <div class="md-alert md-alert--note cand-mono"><p class="md-alert-title" data-n="5">Note</p><p>The alert tone is one custom property per severity, so a project can add its own without touching the component.</p></div>
+        <div class="md-alert md-alert--tip cand-mono"><p class="md-alert-title">Tip</p><p>Spector Books appears four times across the 25 German winners.</p></div>
+        <div class="md-alert md-alert--important cand-mono"><p class="md-alert-title">Important</p><p>Only national-competition winners are eligible for Leipzig.</p></div>
+        <div class="md-alert md-alert--warning cand-mono"><p class="md-alert-title" data-n="6">Warning</p><p>Justified setting is off by default; enable it only where hyphenation is active.</p></div>
+        <div class="md-alert md-alert--caution cand-mono"><p class="md-alert-title">Caution</p><p>Six heading levels plus zebra striping plus filled cards is not a hierarchy.</p></div>
+      </div>
+    </article>
+    <aside class="md notes" data-md-theme="grid">
+      <h3>Alerts</h3>
+      <ol>
+        <li data-n="1"><b>A label, not an icon.</b> Weight 650 at 0.92 em in the tone. The word does the work an icon would, and it survives print and copy.</li>
+        <li data-n="2"><b>No fill, no card.</b> Body text stays in ink at text size; only the rule and the label carry the severity. The block is 1.4 ch in from the rule.</li>
+        <li data-n="3"><b>One vertical rule.</b> The exception to the horizontal rule. It is a screen convention, like the quotation bar, and it is 3 px so it reads as a mark rather than a border.</li>
+        <li data-n="4"><b>Five tones.</b> Note takes the spot; tip, important, warning and caution take fixed hues with dark counterparts in Screen. This is the one place the set has more than one accent.</li>
+        <li data-n="5"><b>Single forme.</b> Tones collapse to muted ink; note alone keeps the spot, because a note is structural and the rest are editorial. Severity is the word.</li>
+        <li data-n="6"><b>The cost.</b> Warning and caution no longer differ at a glance. Whether that matters depends on whether the document is read or scanned.</li>
+      </ol>
+      <p class="notes-sep">Recommendation: ship B as the default and keep A behind a class. A document with five colours of alert has five accents, and the rule says one.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- =========================================================================
+     PLATE 8 · DECISION 1 · LETTER PARAGRAPHS
+     ========================================================================= -->
+<section class="plate plate--wide" id="p8">
+  <div class="plate-head">
+    <h2>Plate 8 <span>Decision 1, paragraphs in Letter</span></h2>
+    <p>Spaced with no indent, or indented with no space. The same four paragraphs, a list and a heading, so the seam where the models meet is visible.</p>
+  </div>
+  <div class="compare">
+    <div class="option">
+      <p class="option-label"><b>A</b><i>Spaced, no indent. As shipped. One rhythm unit between paragraphs.</i></p>
+      <div class="sheet"><article class="md" data-md-theme="letter"><div data-clone="t-paras"></div></article></div>
+    </div>
+    <div class="option">
+      <p class="option-label"><b>B</b><i>Indented, no space. <code>.md--indent</code>: indent of one line of leading on <code>p + p</code> only.</i></p>
+      <div class="sheet"><article class="md md--indent" data-md-theme="letter"><div data-clone="t-paras"></div></article></div>
+    </div>
+  </div>
+  <div class="verdict">
+    <p><b>Recommendation: B, as the Letter default.</b> The theme exists to be the book register, and the space-between model is the single thing that makes a page read as a web page before a word is set. The indent is derived, not declared: one line of leading, 1.62 em, so it moves with the rhythm.</p>
+    <p>The objection is that Markdown interleaves paragraphs with lists, tables and code, where a book would not. B answers it by indenting only a paragraph that follows a paragraph. After a heading, a list or a table the paragraph stays flush with full rhythm space, which is book practice too, and a document of short blocks degrades into A without any seam.</p>
+    <p>Grid and Screen keep A. They are screen registers, and the web default is correct there.</p>
+  </div>
+</section>
+
+<template id="t-paras">
+<h2>Read the formats column</h2>
+<p>Nine of the fourteen prizewinners are under 230 mm on the long edge, and one is 50 × 68 mm. The dominant register in the most prestigious book design award on earth is small, which means a short measure and small type carried by generous margins.</p>
+<p>Almost every Markdown renderer defaults to type that is too large for its measure. The failure is not the typeface; it is a carefully chosen face poured into an unconsidered column, which is the reverse of the order in which a book jury looks.</p>
+<p>The Buchkunst criteria lead with the type area and its relationship to the four margins, then legibility, then the book as a physical object. Typeface choice is downstream of all three.</p>
+<p>Small format, then, is not a constraint the winners work around. It is the register they work in, and the margins are doing as much of the setting as the type.</p>
+<ul>
+<li>Nine of fourteen under 230 mm</li>
+<li>One at 50 × 68 mm</li>
+</ul>
+<p>The list interrupts the paragraph sequence, so this paragraph starts flush in both models and the two options look the same here.</p>
+<p>Only from the next paragraph on does the difference return, which is the point: the indent model degrades gracefully into the spaced model wherever the source is not consecutive prose.</p>
+</template>
+
+<!-- =========================================================================
+     PLATE 9 · DECISION 2 · SCREEN PALETTE
+     ========================================================================= -->
+<section class="plate plate--wide" id="p9">
+  <div class="plate-head">
+    <h2>Plate 9 <span>Decision 2, the Screen dark palette</span></h2>
+    <p>The shipped palette against three host pages, beside a neutral candidate. The same block in each, with the underline, footnote marks, quotation rule and checkbox doing the spot's structural work at small size.</p>
+  </div>
+  <div class="compare">
+    <div class="option">
+      <p class="option-label"><b>A</b><i>As shipped. Paper #101317, spot #8FA0FF, underline at 55 %.</i></p>
+      <div class="sheet hosts hosts--rows">
+        <div class="host host--black"><p class="host-label">Host: #000000</p><article class="md" data-md-theme="screen"><div data-clone="t-dark"></div></article></div>
+        <div class="host host--editor"><p class="host-label">Host: #1E1E1E</p><article class="md" data-md-theme="screen"><div data-clone="t-dark"></div></article></div>
+        <div class="host host--light"><p class="host-label">Host: #FFFFFF, data-md-mode="light"</p><article class="md" data-md-theme="screen" data-md-mode="light"><div data-clone="t-dark"></div></article></div>
+      </div>
+    </div>
+    <div class="option">
+      <p class="option-label"><b>B</b><i>Neutral paper #121212, same spot, underline at 85 %.</i></p>
+      <div class="sheet hosts hosts--rows">
+        <div class="host host--black"><p class="host-label">Host: #000000</p><article class="md cand-neutral cand-underline" data-md-theme="screen"><div data-clone="t-dark"></div></article></div>
+        <div class="host host--editor"><p class="host-label">Host: #1E1E1E</p><article class="md cand-neutral cand-underline" data-md-theme="screen"><div data-clone="t-dark"></div></article></div>
+        <div class="host host--light"><p class="host-label">Host: #FFFFFF, data-md-mode="light"</p><article class="md cand-underline" data-md-theme="screen" data-md-mode="light"><div data-clone="t-dark"></div></article></div>
+      </div>
+    </div>
+  </div>
+  <div class="verdict">
+    <p><b>Recommendation: keep the palette, change the underline.</b> The spot carries weight; the underline does not. Contrast against the paper, computed:</p>
+    <table>
+      <tr><th>Element</th><th>A, as shipped</th><th>B, neutral</th></tr>
+      <tr><td>Ink</td><td class="num">15.5 : 1</td><td class="num">15.6 : 1</td></tr>
+      <tr><td>Muted ink</td><td class="num">7.8 : 1</td><td class="num">7.7 : 1</td></tr>
+      <tr><td>Faint ink, list markers</td><td class="num">4.1 : 1</td><td class="num">4.1 : 1</td></tr>
+      <tr><td>Spot, footnote marks and rule</td><td class="num">7.7 : 1</td><td class="num">7.7 : 1</td></tr>
+      <tr><td>Underline at 55 %</td><td class="num">3.2 : 1</td><td class="num">3.1 : 1</td></tr>
+      <tr><td>Underline at 85 %</td><td class="num">5.8 : 1</td><td class="num">5.9 : 1</td></tr>
+    </table>
+    <p>Temperature is not the problem: A and B are within a tenth of each other on every value, and the cool paper is what separates the block from a #000 or #1E1E1E host. On a neutral host, B disappears into it. Keep #101317.</p>
+    <p>Weight is a real problem, but it is the mixing, not the spot. Mixing a light spot into dark paper at 55 % halves its contrast; the same rule on a light theme mixes a dark spot into light paper and stays dark. The fix is one declaration scoped to the dark state: underline at 85 %. The footnote marks and the quotation rule use the spot at full strength and read at 7.7 : 1, comfortably above the 4.5 : 1 that text requires.</p>
+    <p>One value stays marginal in both: faint ink at 4.1 : 1 is used for list markers at 0.85 em. It passes for graphics, not for text. Raising it to #7D8493 would give 4.8 : 1 at no visible cost.</p>
+  </div>
+</section>
+
+<template id="t-dark">
+<h2>Type Directors Club, TDC72</h2>
+<p>This year is a structural change: the first <a href="#">Type-High awards</a> introduced Gold, Silver and Bronze above the Certificate of Merit.<sup><a href="#fn2" data-footnote-ref>2</a></sup> Best of Type Design went to <a href="#">Adobe Tokyo's Momochidori</a>, a variable font.<sup><a href="#fn1" data-footnote-ref>3</a></sup></p>
+<ul>
+<li>13 Gold, 26 Silver, 28 Bronze</li>
+<li><input type="checkbox" checked disabled> 92 Certificates of Merit</li>
+</ul>
+<blockquote><p>Typography as a cultural, social and political fact.</p><cite>Jan Tschichold Award 2026</cite></blockquote>
+<section class="footnotes"><ol><li>Named and designed by Graham Clifford. <a href="#" data-footnote-backref>↩</a></li></ol></section>
+</template>
+
+<!-- =========================================================================
+     PLATE 10 · DECISION 3 · GRID H2 HAIRLINE
+     ========================================================================= -->
+<section class="plate plate--wide" id="p10">
+  <div class="plate-head">
+    <h2>Plate 10 <span>Decision 3, the section rule in Grid</span></h2>
+    <p>Six short sections, the worst case for a ruled heading. With the ink hairline, without it, and with the hairline dropped to the rule colour.</p>
+  </div>
+  <div class="compare" style="--n: 3">
+    <div class="option">
+      <p class="option-label"><b>A</b><i>Ink hairline over every h2. As shipped.</i></p>
+      <div class="sheet"><article class="md" data-md-theme="grid"><div data-clone="t-sections"></div></article></div>
+    </div>
+    <div class="option">
+      <p class="option-label"><b>B</b><i>No rule. Space and size alone.</i></p>
+      <div class="sheet"><article class="md cand-noline" data-md-theme="grid"><div data-clone="t-sections"></div></article></div>
+    </div>
+    <div class="option">
+      <p class="option-label"><b>C</b><i>Hairline in the rule colour, #C9C9C9.</i></p>
+      <div class="sheet"><article class="md cand-ruleline" data-md-theme="grid"><div data-clone="t-sections"></div></article></div>
+    </div>
+  </div>
+  <div class="verdict">
+    <p><b>Recommendation: keep A.</b> The rule is not decoration; it is what the theme is. The Spector register signals a section with a hairline the full measure wide, and without it Grid becomes a smaller Screen.</p>
+    <p>With many short sections the rules do read as stripes, but the stripes are the structure: six rules for six sections is an honest count, and each one marks a place the eye can return to. B loses the grid and gains nothing but quiet. C keeps the position and loses the meaning; a grey rule under a black heading looks like a border that failed to load.</p>
+    <p>One mitigation is already in the stylesheet: a rule immediately after <code>hr</code> is suppressed so nothing draws twice. If the same page had twenty sections the answer would be to nest them, not to unrule them.</p>
+  </div>
+</section>
+
+<template id="t-sections">
+<h1>The awards worth tracking</h1>
+<p>Ranked by how much signal they carry for setting long-form text.</p>
+<h2>Best Book Design from all over the World</h2>
+<p>Stiftung Buchkunst, Leipzig. A meta-competition: only national winners are eligible. Explicit tiers.</p>
+<h2>Die Schönsten Deutschen Bücher</h2>
+<p>Stiftung Buchkunst, Frankfurt. Judges type area, typeface, typography, legibility and the book as object.</p>
+<h2>The Best Dutch Book Designs</h2>
+<p>Amsterdam, since 1926. The criteria name typography and lithography explicitly.</p>
+<h2>The Most Beautiful Swiss Books</h2>
+<p>Federal Office of Culture, Bern. Carries the Jan Tschichold Award.</p>
+<h2>50 Books | 50 Covers</h2>
+<p>AIGA, New York, in its 102nd year. Splits interiors from covers.</p>
+<h2>TDC Competition</h2>
+<p>Type Directors Club. From 2026 it has medal tiers.</p>
+</template>
+
+<!-- =========================================================================
+     PLATE 11 · DECISION 4 · LETTER HR
+     ========================================================================= -->
+<section class="plate plate--wide" id="p11">
+  <div class="plate-head">
+    <h2>Plate 11 <span>Decision 4, the pause in Letter</span></h2>
+    <p>Two section breaks in running text. The shipped fleuron, a short centred rule, blank space, and an asterism the face actually carries.</p>
+  </div>
+  <div class="compare" style="--n: 4">
+    <div class="option">
+      <p class="option-label"><b>A</b><i>Fleuron ❊, as shipped.</i></p>
+      <div class="sheet"><article class="md" data-md-theme="letter"><div data-clone="t-pause"></div></article></div>
+    </div>
+    <div class="option">
+      <p class="option-label"><b>B</b><i>Short centred hairline, 5 ch, faint ink.</i></p>
+      <div class="sheet"><article class="md cand-shortrule" data-md-theme="letter"><div data-clone="t-pause"></div></article></div>
+    </div>
+    <div class="option">
+      <p class="option-label"><b>C</b><i>Blank: two rhythm units and nothing else.</i></p>
+      <div class="sheet"><article class="md cand-blank" data-md-theme="letter"><div data-clone="t-pause"></div></article></div>
+    </div>
+    <div class="option">
+      <p class="option-label"><b>D</b><i>Asterism ⁂, set from Literata itself.</i></p>
+      <div class="sheet"><article class="md cand-asterism" data-md-theme="letter"><div data-clone="t-pause"></div></article></div>
+    </div>
+  </div>
+  <div class="verdict">
+    <p><b>Recommendation: D, the asterism.</b> A is disqualified by a finding rather than a preference: Literata does not carry U+274A, so the fleuron is set from whatever dingbat font the system supplies, at whatever weight and baseline it has. It is a foreign glyph on every page, and it differs by platform. Literata does carry the asterism, so D is the same ornament idea set from the same face, and it weighs the same as the text around it.</p>
+    <p>C is the classical book answer and fails on screen for the reason it works in print: blank space is a break only if you can see both sides of it, and at the edge of a viewport it is invisible. B is the honest screen answer and reads correctly, but it is a rule, and Letter is the theme that has none; a rule here makes it the odd device out. D marks the pause with type.</p>
+    <p>If the face changes, check the glyph first. The rule for ornaments is the rule for everything else in this set: it must come from the text face or not at all.</p>
+  </div>
+</section>
+
+<template id="t-pause">
+<p>Nine of the fourteen prizewinners are under 230 mm on the long edge, and one is 50 × 68 mm. Small format means a short measure and small type carried by generous margins.</p>
+<p>Almost every Markdown renderer defaults to type that is too large for its measure.</p>
+<hr>
+<p>The €10,000 Preis der Stiftung Buchkunst 2026 went to a children's guide to catastrophes. The top German book-design prize went to a book whose job is to be understood under stress.</p>
+<p>The Jan Tschichold Award went to a duo whose stated position is that typography is a cultural and political fact.</p>
+<hr>
+<p>Both prizes reward type that has to work, which is exactly the brief for a Markdown renderer.</p>
+</template>
+
+<!-- =========================================================================
+     PLATE 12 · CODE ANATOMY
+     ========================================================================= -->
+<section class="plate plate--wide" id="p12">
+  <div class="plate-head">
+    <h2>Plate 12 <span>Code</span></h2>
+    <p>The optional module, set in Grid. A block with its full apparatus, then the plain shape most documents should use, then the diff and wrap variants. The plain blocks are tokenised by Prism at load, so the classes are real pipeline output.</p>
+  </div>
+  <div class="anatomy">
+    <article class="md" data-md-theme="grid">
+      <div class="stack">
+        <div>
+          <p class="variant-label"><b>A</b> Filename head, line numbers, a marked line. Numbering shown with the proposed fix, <code>.cand-numbered</code></p>
+          <div class="md-code">
+            <div class="md-code-head"><span data-n="1">markdown.css</span><span class="md-code-lang" data-n="2">css</span></div>
+            <pre class="md-code--numbered cand-numbered"><code><span class="md-line"><span class="token comment" data-n="5">/* one measure, resolved once, at body size */</span></span><span class="md-line"><span class="token selector" data-n="9">.md</span> <span class="token punctuation">{</span></span><span class="md-line">  <span class="token property">padding-inline</span><span class="token punctuation">:</span> <span class="token function">max</span><span class="token punctuation">(</span><span class="token number" data-n="8">0px</span><span class="token punctuation">,</span> <span class="token function">calc</span><span class="token punctuation">((</span><span class="token number">100%</span> - <span class="token function">var</span><span class="token punctuation">(</span>--md-measure<span class="token punctuation">))</span> / <span class="token number">2</span><span class="token punctuation">));</span></span><span class="md-line"><span class="token punctuation">}</span></span><span class="md-line"></span><span class="md-line"><span class="token atrule"><span class="token rule" data-n="6">@media</span> (min-width: <span class="token number">62rem</span>)</span> <span class="token punctuation">{</span></span><span class="md-line">  <span class="token selector">.md &gt; figure,</span></span><span class="md-line md-line--mark">  <span class="token selector">.md &gt; pre</span> <span class="token punctuation">{</span> <span class="token property">margin-inline</span><span class="token punctuation">:</span> <span class="token function">calc</span><span class="token punctuation">(</span><span class="token function">var</span><span class="token punctuation">(</span>--md-bleed<span class="token punctuation">)</span> * <span class="token number">-1</span><span class="token punctuation">);</span> <span class="token punctuation">}</span><span data-n="4"></span></span><span class="md-line"><span class="token punctuation" data-n="3">}</span></span></code></pre>
+          </div>
+        </div>
+        <div>
+          <p class="variant-label"><b>A′</b> The same numbering as shipped: each token becomes a grid item</p>
+          <pre class="md-code--numbered"><code><span class="md-line"><span class="token selector">.md</span> <span class="token punctuation">{</span></span><span class="md-line">  <span class="token property">padding-inline</span><span class="token punctuation">:</span> <span class="token function">max</span><span class="token punctuation">(</span><span class="token number">0px</span><span class="token punctuation">,</span> <span class="token function">var</span><span class="token punctuation">(</span>--md-gutter<span class="token punctuation">));</span><span data-n="13"></span></span><span class="md-line"><span class="token punctuation">}</span></span></code></pre>
+        </div>
+        <div>
+          <p class="variant-label"><b>B</b> The default shape: no head, no numbers. Grid box replaced by two rules, <code>.cand-rules</code></p>
+          <p data-n="7">Rhythm as a function. Every vertical space in the set is a multiple of its return value, and inline code such as <code data-n="12">--md-rhythm</code> stays in the text layer.</p>
+          <pre class="cand-rules" data-n-block="14"><code class="language-javascript">const unit = "rhythm";
+const rhythm = (leading, size) => leading * size;
+// every vertical space is a multiple of one unit
+export const space = {
+  item: rhythm(1.5, 16) * 0.25,
+  block: rhythm(1.5, 16),
+  section: rhythm(1.5, 16) * 2,
+};</code></pre>
+        </div>
+        <div>
+          <p class="variant-label"><b>C</b> Diff lines, as shipped and as full rows</p>
+          <pre><code><span class="md-line md-line--del">.md &gt; * { max-width: 68ch; }</span>
+<span class="md-line md-line--add" data-n="10">.md { padding-inline: max(0px, calc((100% - 68ch) / 2)); }</span></code></pre>
+          <pre class="cand-rows" style="margin-block-start: calc(var(--md-rhythm) * 0.5)"><code><span class="md-line md-line--del">.md &gt; * { max-width: 68ch; }</span>
+<span class="md-line md-line--add" data-n="11">.md { padding-inline: max(0px, calc((100% - 68ch) / 2)); }</span></code></pre>
+        </div>
+        <div>
+          <p class="variant-label"><b>D</b> Soft wrap, <code>.md-code--wrap</code>, for prose-heavy snippets</p>
+          <pre class="md-code--wrap"><code class="language-css">--md-face-text: "Archivo", "Helvetica Now Text", "Neue Haas Grotesk", Helvetica, Arial, sans-serif; /* the stack is the fallback plan, and it is long on purpose */</code></pre>
+        </div>
+      </div>
+    </article>
+    <aside class="md notes" data-md-theme="grid">
+      <h3>Code</h3>
+      <ol>
+        <li data-n="1"><b>The filename is a caption.</b> Mono at 0.78 em, muted, above the block like a figure caption. Not a window-chrome bar, and no traffic lights.</li>
+        <li data-n="2"><b>Language label right, faint.</b> Metadata, so it takes the lowest ink.</li>
+        <li data-n="3"><b>Line numbers opt-in.</b> Tabular, right-aligned in a 3.5-character gutter, and unselectable so a copied block carries no numbers.</li>
+        <li data-n="4"><b>The marked line.</b> The spot at 12 %, the one tint in the whole set. It is the spot's own colour, so it is structure, not a second accent.</li>
+        <li data-n="5"><b>Comment.</b> Faint ink, italic. Finding: 3.3 : 1 on white and 3.0 : 1 on Letter's sunk paper, below the 4.5 : 1 that text needs. A comment is text. Proposed: muted ink, still italic, at 7.2 : 1.</li>
+        <li data-n="6"><b>Keyword.</b> Weight 550 in Grid, where the keyword is ink and the weight is the only difference from text.</li>
+        <li data-n="7"><b>Six roles, no more.</b> Text, comment, keyword, string, number, name. Prism's <code>property</code> and <code>punctuation</code> fall to text and muted ink, so a CSS block is mostly ink with names in the spot.</li>
+        <li data-n="8"><b>Number.</b> Tabular lining figures on the whole block, so aligned columns of values stay aligned.</li>
+        <li data-n="9"><b>Name.</b> Selectors, functions, tags and class names take the spot: the same job the spot does for a list marker.</li>
+        <li data-n="10"><b>Diff, as shipped.</b> Green and red tints at 12 to 14 %, and the span is inline, so the tint stops at the last character. Two fixed hues that are not the spot.</li>
+        <li data-n="11"><b>Diff, proposed.</b> Rows made block so the tint runs the row, and Grid keeps its single forme: added lines take the spot tint, deleted lines the sunk paper with a strike. Letter and Screen may keep the hues.</li>
+        <li data-n="12"><b>Inline code in the text layer.</b> Grid draws a hairline around it, the only box in the set. It marks a change of alphabet rather than a container, and it survives when the module is dropped.</li>
+        <li data-n="13"><b>A defect in the shipped numbering.</b> Each numbered line is a grid with two columns, so every token span and text run becomes its own grid item and the line shatters into a column. It works only when a line is one span. The specimen has the same fault. Proposed: the line stays a block and the counter is an inline block of gutter width. Three declarations.</li>
+        <li data-n="14"><b>The box.</b> Grid rules a hairline on all four sides of a block, the only four-sided box in the set. Rule three says none. The fallback already sets code between two horizontal rules; proposed: Grid does the same with the module loaded, as in block B.</li>
+      </ol>
+      <p class="notes-sep">Without this module a fenced block is a quiet set block in the mono face between two hairlines. That fallback is deliberate and often the better choice.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- =========================================================================
+     PLATE 13 · SYNTAX PALETTE
+     ========================================================================= -->
+<section class="plate plate--wide" id="p13">
+  <div class="plate-head">
+    <h2>Plate 13 <span>Syntax palette</span></h2>
+    <p>The same block in each theme. Letter and Screen ship a four-hue palette; Grid ships a single forme. Each is shown as shipped and with the Grid mapping applied, with comments raised to muted ink in both.</p>
+  </div>
+  <div class="compare" style="--n: 3">
+    <div class="option">
+      <p class="option-label"><b>A</b><i>Letter, as shipped: wine, green, brown, blue on sunk paper.</i></p>
+      <div class="sheet"><article class="md" data-md-theme="letter"><div data-clone="t-syn"></div></article></div>
+      <p class="option-label" style="margin-block-start:1.5rem"><b>B</b><i>Letter, two-forme: ink and cinnabar, comments muted.</i></p>
+      <div class="sheet"><article class="md cand-twoforme cand-comment" data-md-theme="letter"><div data-clone="t-syn"></div></article></div>
+    </div>
+    <div class="option">
+      <p class="option-label"><b>A</b><i>Grid, as shipped: ink, muted ink, ultramarine for names.</i></p>
+      <div class="sheet"><article class="md" data-md-theme="grid"><div data-clone="t-syn"></div></article></div>
+      <p class="option-label" style="margin-block-start:1.5rem"><b>B</b><i>Grid, comments muted. Otherwise unchanged.</i></p>
+      <div class="sheet"><article class="md cand-comment" data-md-theme="grid"><div data-clone="t-syn"></div></article></div>
+    </div>
+    <div class="option">
+      <p class="option-label"><b>A</b><i>Screen, as shipped: pink, mint, amber, periwinkle.</i></p>
+      <div class="sheet"><article class="md" data-md-theme="screen"><div data-clone="t-syn"></div></article></div>
+      <p class="option-label" style="margin-block-start:1.5rem"><b>B</b><i>Screen, two-forme: ink and periwinkle, comments muted.</i></p>
+      <div class="sheet"><article class="md cand-twoforme cand-comment" data-md-theme="screen"><div data-clone="t-syn"></div></article></div>
+    </div>
+  </div>
+  <div class="verdict">
+    <p><b>Recommendation: Letter to two-forme, Screen stays chromatic, comments to muted ink everywhere.</b> Contrast against each theme's code background, computed:</p>
+    <table>
+      <tr><th>Role</th><th>Letter A</th><th>Grid</th><th>Screen A</th></tr>
+      <tr><td>Keyword</td><td class="num">7.4 : 1</td><td class="num">21.0 : 1</td><td class="num">8.9 : 1</td></tr>
+      <tr><td>String</td><td class="num">5.7 : 1</td><td class="num">7.2 : 1</td><td class="num">11.1 : 1</td></tr>
+      <tr><td>Number</td><td class="num">6.4 : 1</td><td class="num">7.2 : 1</td><td class="num">10.7 : 1</td></tr>
+      <tr><td>Name</td><td class="num">7.1 : 1</td><td class="num">8.9 : 1</td><td class="num">8.8 : 1</td></tr>
+      <tr><td>Comment, as shipped</td><td class="num">3.0 : 1</td><td class="num">3.3 : 1</td><td class="num">3.8 : 1</td></tr>
+      <tr><td>Comment, muted ink</td><td class="num">5.9 : 1</td><td class="num">7.2 : 1</td><td class="num">7.2 : 1</td></tr>
+      <tr><td>Spot, for the two-forme name</td><td class="num">6.2 : 1</td><td class="num">8.9 : 1</td><td class="num">7.1 : 1</td></tr>
+    </table>
+    <p>Letter is the book register, and a book sets code as a second forme: ink plus the one colour the text already uses. Four hues on cream pass contrast and fail the rule. The two-forme mapping is the Grid mapping with cinnabar in place of ultramarine, so nothing new is invented; the keyword goes to weight and the name to the spot, and the block reads as the same document as the prose around it.</p>
+    <p>Screen is the editor register, and a chromatic palette is what its readers parse code by. Four hues on dark at 8.8 to 11.1 : 1 is the strongest legibility in the set, and the pink and periwinkle are analogous to each other, so the block still has one temperature. Keep it, and treat the code block as the one place Screen is allowed a second forme, because on screen that is the convention the readers arrive with.</p>
+    <p>Comments are the real defect. Faint ink italic at 0.845 em is decoration-grade contrast on text that explains the code. Muted ink keeps the italic and the recession and passes in all three.</p>
+    <p><b>Gaps in the class map, found by running a real highlighter.</b> The module claims Prism, highlight.js and Shiki. Shiki emits inline styles by default and CSS variables under its css-variables theme; the module defines none of those variables, so Shiki output is unstyled. highlight.js emits <code>hljs-attribute</code>, <code>hljs-selector-class</code>, <code>hljs-built_in</code> and <code>hljs-variable</code>, none of which are mapped. Candidate rules for both sit at the end of the plates stylesheet.</p>
+  </div>
+</section>
+
+<template id="t-syn">
+<pre><code class="language-javascript">const unit = "rhythm";
+const rhythm = (l, s) => l * s;
+// one unit, every space
+export const space = {
+  item: rhythm(1.5, 16) / 4,
+  block: rhythm(1.5, 16),
+  section: rhythm(1.5, 16) * 2,
+};</code></pre>
+</template>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" data-manual></script>
+<script>
+(function () {
+  // Clone shared copy into each plate. Content only; every visual decision is CSS.
+  document.querySelectorAll('[data-clone]').forEach(function (slot) {
+    var t = document.getElementById(slot.dataset.clone);
+    if (!t) return;
+    slot.replaceWith(t.content.cloneNode(true));
+  });
+  if (window.Prism) Prism.highlightAll();
+})();
+</script>
+</body>
+</html>

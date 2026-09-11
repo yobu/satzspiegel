@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 200" role="img" aria-label="Diagram comparing three type scales">
+  <rect width="640" height="200" fill="#E4EBE7"/>
+  <g fill="#1D2A24" font-family="Georgia, serif"><text x="24" y="52" font-size="34">Aa</text><text x="24" y="96" font-size="22">Aa</text><text x="24" y="132" font-size="17">Aa</text><text x="24" y="164" font-size="14">Aa</text></g>
+  <g stroke="#1D2A24" stroke-width="1" opacity="0.28"><line x1="24" y1="176" x2="616" y2="176"/><line x1="24" y1="24" x2="24" y2="176"/></g>
+  <g fill="#56705F" font-size="12" font-family="monospace"><text x="120" y="52">h1 · ratio²</text><text x="120" y="96">h2 · ratio</text><text x="120" y="132">h3</text><text x="120" y="164">text</text></g>
+</svg>

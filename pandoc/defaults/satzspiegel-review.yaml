@@ -1,0 +1,22 @@
+# pandoc -d satzspiegel-review doc.md -o doc.html
+# The review edition: one self-contained file a colleague can open from disk,
+# comment on by selecting text, and send back with the comments inside it.
+# Comments are stored as W3C Web Annotations in the file. Always embedded,
+# because the reviewer will not have the stylesheet or the fonts.
+standalone: true
+template: satzspiegel
+from: markdown+footnotes+definition_lists+task_lists+pipe_tables+fenced_divs+implicit_figures+smart+alerts+mark
+to: html
+embed-resources: true
+css:
+  - https://yobu.github.io/satzspiegel/satzspiegel.css
+  - https://yobu.github.io/satzspiegel/satzspiegel-code.css
+variables:
+  fonts-css: https://yobu.github.io/satzspiegel/fonts.css
+  review: true
+  review-css: https://yobu.github.io/satzspiegel/pandoc/review/satzspiegel-review.css
+  review-js: https://yobu.github.io/satzspiegel/pandoc/review/satzspiegel-review.js
+html-math-method:
+  method: mathml
+filters:
+  - satzspiegel.lua

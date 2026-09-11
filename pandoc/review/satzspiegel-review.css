@@ -1,0 +1,121 @@
+/* satzspiegel-review.css — the review edition's comment layer.
+   Colours come from the theme tokens, copied onto .sz-review by the script,
+   so the layer follows Patina or Archive. One spot colour, hairlines only. */
+
+::highlight(sz-note)        { background-color: color-mix(in oklab, var(--md-spot, #2F5B4A) 18%, transparent); }
+::highlight(sz-note-active) { background-color: color-mix(in oklab, var(--md-spot, #2F5B4A) 34%, transparent); }
+
+.sz-review {
+  font-family: var(--md-face-display, system-ui, sans-serif);
+  font-size: 0.8125rem; line-height: 1.45;
+  color: var(--md-ink, #1D2A24);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.sz-review *, .sz-review *::before, .sz-review *::after { box-sizing: border-box; }
+.sz-review button, .sz-review input, .sz-review textarea { font: inherit; color: inherit; }
+
+/* ---- bar ---- */
+.sz-bar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; align-items: center;
+  padding: 0.5rem 1.25rem;
+  background: var(--md-paper-sunk, #E4EBE7);
+  border-block-end: 1px solid var(--md-rule, #C7D5CC);
+}
+.sz-name { display: inline-flex; gap: 0.5ch; align-items: center; color: var(--md-ink-muted, #56705F); }
+.sz-name input {
+  inline-size: 16ch; padding: 0.15em 0.4em;
+  border: 1px solid var(--md-rule, #C7D5CC); border-radius: 0; background: var(--md-paper, #F3F6F4);
+}
+.sz-count { color: var(--md-ink-muted, #56705F); margin-inline-end: auto; }
+.sz-btn {
+  padding: 0.25em 0.8em; cursor: pointer;
+  background: none; border: 1px solid var(--md-rule, #C7D5CC); border-radius: 0;
+}
+.sz-btn:hover { border-color: var(--md-ink, #1D2A24); }
+.sz-btn.sz-primary { background: var(--md-spot, #2F5B4A); border-color: var(--md-spot, #2F5B4A); color: var(--md-paper, #F3F6F4); }
+.sz-btn:focus-visible, .sz-name input:focus-visible, .sz-editor textarea:focus-visible { outline: 2px solid var(--md-spot, #2F5B4A); outline-offset: 2px; }
+.sz-more { position: relative; }
+.sz-more summary { cursor: pointer; list-style: none; padding: 0.25em 0.8em; border: 1px solid var(--md-rule, #C7D5CC); }
+.sz-more summary::-webkit-details-marker { display: none; }
+.sz-more[open] summary { border-color: var(--md-ink, #1D2A24); }
+.sz-menu {
+  position: absolute; inset-block-start: calc(100% + 2px); inset-inline-end: 0; z-index: 21;
+  display: flex; flex-direction: column; min-inline-size: max-content;
+  background: var(--md-paper, #F3F6F4); border: 1px solid var(--md-rule, #C7D5CC);
+}
+.sz-menu .sz-btn { border: 0; text-align: start; }
+.sz-menu .sz-btn:hover { background: var(--md-paper-sunk, #E4EBE7); }
+
+/* ---- the comment button that follows a selection ---- */
+.sz-fab {
+  position: absolute; z-index: 15;
+  padding: 0.25em 0.8em; cursor: pointer;
+  background: var(--md-spot, #2F5B4A); color: var(--md-paper, #F3F6F4);
+  border: 0; border-radius: 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,.18);
+}
+
+/* ---- notes column ---- */
+.sz-notes { padding: 1rem 1rem 4rem; }
+.sz-notes.sz-empty { display: none; }
+.sz-card {
+  position: relative;
+  padding: 0.6rem 0 0.6rem 0.9rem;
+  border-inline-start: 2px solid var(--md-rule, #C7D5CC);
+  background: var(--md-paper, #F3F6F4);
+  cursor: pointer;
+  transition: border-color 120ms;
+}
+.sz-card + .sz-card { margin-block-start: 0.75rem; }
+.sz-card.sz-active { border-inline-start-color: var(--md-spot, #2F5B4A); }
+.sz-card.sz-orphan { border-inline-start-style: dashed; }
+.sz-card p { margin: 0; }
+.sz-quote {
+  font-family: var(--md-face-text, Georgia, serif); font-style: italic;
+  color: var(--md-ink-muted, #56705F);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.sz-card.sz-active .sz-quote { -webkit-line-clamp: unset; }
+.sz-orphan-note { font-style: normal; color: var(--md-spot, #2F5B4A); }
+.sz-meta { margin-block-start: 0.45rem; color: var(--md-ink-muted, #56705F); font-size: 0.92em; }
+.sz-meta b { color: var(--md-ink, #1D2A24); font-weight: 600; }
+.sz-text { margin-block-start: 0.15rem; white-space: pre-wrap; }
+.sz-reply { margin-block-start: 0.6rem; padding-inline-start: 0.9rem; border-inline-start: 1px solid var(--md-rule, #C7D5CC); }
+.sz-actions { margin-block-start: 0.5rem; display: flex; gap: 0.4rem; opacity: 0; transition: opacity 120ms; }
+.sz-card:hover .sz-actions, .sz-card.sz-active .sz-actions, .sz-card:focus-within .sz-actions { opacity: 1; }
+.sz-actions .sz-btn { padding: 0.1em 0.6em; font-size: 0.92em; }
+.sz-editor { margin-block-start: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.sz-editor textarea {
+  inline-size: 100%; padding: 0.4em 0.5em; resize: vertical;
+  border: 1px solid var(--md-rule, #C7D5CC); border-radius: 0; background: var(--md-paper, #F3F6F4);
+}
+.sz-editor .sz-actions { display: none; }
+
+/* Wide: the notes sit in a column beside the page, aligned to their passages. */
+@media (min-width: 80rem) {
+  body { padding-inline-end: 22rem; }
+  .sz-notes {
+    position: absolute; inset-block-start: 0; inset-inline-end: 0;
+    inline-size: 22rem; padding-block-start: 5rem;
+  }
+  .sz-card { position: absolute; inset-inline-start: 1rem; inline-size: 20rem; margin: 0 !important; }
+  .sz-bar { position: fixed; inset-inline: 0; }
+  body { padding-block-start: 3rem; }
+}
+
+.sz-toast {
+  position: fixed; inset-block-end: 1rem; inset-inline-start: 50%; transform: translate(-50%, 1rem);
+  padding: 0.5rem 1rem; z-index: 30;
+  background: var(--md-ink, #1D2A24); color: var(--md-paper, #F3F6F4);
+  opacity: 0; transition: opacity 160ms, transform 160ms; pointer-events: none;
+}
+.sz-toast.sz-show { opacity: 1; transform: translate(-50%, 0); }
+
+@media print {
+  .sz-bar, .sz-fab, .sz-toast { display: none; }
+  body { padding: 0 !important; }
+  .sz-notes { position: static; inline-size: auto; padding: 0; border-block-start: 1px solid #999; margin-block-start: 2em; }
+  .sz-card { position: static !important; inline-size: auto; break-inside: avoid; }
+  .sz-actions { display: none; }
+}

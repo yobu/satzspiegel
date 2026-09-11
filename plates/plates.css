@@ -1,0 +1,305 @@
+/* ============================================================================
+   plates.css — chrome for plates.html
+   Everything here sits OUTSIDE the md.* cascade layers, so it wins over
+   markdown.css. Two kinds of rule live here:
+
+     1. Plate chrome: sheets, colophons, margin notes, reference marks.
+        Never intended for markdown.css.
+     2. CANDIDATE rules for the open decisions, at the end of the file.
+        Each is written exactly as it would be added to markdown.css.
+   ============================================================================ */
+
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #DAD9D4;
+  color: #16151A;
+  font-family: "Archivo", "Helvetica Now Text", Helvetica, Arial, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* ---- contents bar --------------------------------------------------------- */
+.contents {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; align-items: baseline;
+  padding: 0.7rem clamp(1rem, 4vw, 3rem);
+  background: #16151A; color: #F2F2F0;
+  font-size: 0.8125rem;
+}
+.contents h1 { font-size: inherit; font-weight: 600; margin: 0 1rem 0 0; }
+.contents a { color: #C9C7C0; text-decoration: none; }
+.contents a:hover, .contents a:focus-visible { color: #fff; text-decoration: underline; text-underline-offset: 0.18em; }
+.contents a b { color: #8B8892; font-weight: 500; margin-inline-end: 0.5ch; }
+
+/* ---- plate ---------------------------------------------------------------- */
+.plate {
+  max-width: 76rem;
+  margin: 3.5rem auto;
+  padding-inline: clamp(1rem, 3vw, 2rem);
+}
+.plate--wide { max-width: 90rem; }
+
+.plate-head {
+  display: grid; grid-template-columns: 1fr auto; gap: 0.5rem 2rem; align-items: baseline;
+  margin-block-end: 0.8rem;
+  color: #5C5A63;
+}
+.plate-head h2 { font-size: 0.875rem; font-weight: 600; color: #16151A; margin: 0; }
+.plate-head h2 span { font-weight: 400; color: #5C5A63; margin-inline-start: 1.5ch; }
+.plate-head p { margin: 0; max-width: 60ch; }
+
+/* The sheet is the .md element itself: it already paints the theme's paper
+   and pads inline to the measure. Chrome only adds block padding and shadow. */
+.sheet {
+  container-type: inline-size;
+  box-shadow: 0 1px 2px rgba(0,0,0,.12), 0 14px 40px rgba(0,0,0,.08);
+}
+.sheet > .md { padding-block: 4.5rem 3rem; }
+
+/* Colophon: inside .md, so it is set in the theme's own voice. */
+.md > .colophon {
+  margin-block-start: calc(var(--md-rhythm) * 2.5);
+  padding-block-start: calc(var(--md-rhythm) * 0.5);
+  border-block-start: var(--md-hairline) solid var(--md-rule);
+  font-size: 0.72em; line-height: 1.5;
+  color: var(--md-ink-muted);
+  font-variant-numeric: lining-nums tabular-nums;
+  display: grid; grid-template-columns: max-content 1fr; gap: 0 4ch; align-items: start;
+}
+.colophon .plate-no { color: var(--md-ink); font-weight: 600; }
+.colophon .plate-no small { display: block; font-weight: 400; color: var(--md-ink-muted); font-size: 1em; }
+.md > .colophon dl {
+  display: grid; grid-template-columns: repeat(3, max-content 1fr);
+  gap: 0.3em 1.5ch; margin: 0; align-items: baseline;
+}
+.md > .colophon dd + dt { margin-block-start: 0; }
+.md > .colophon dt { font-weight: 400; color: var(--md-ink-faint); }
+.md > .colophon dd { margin: 0; padding: 0; }
+
+/* ---- anatomy: specimen + margin notes -------------------------------------- */
+.anatomy {
+  display: grid; grid-template-columns: minmax(0, 1fr) 24ch;
+  container-type: inline-size;
+  box-shadow: 0 1px 2px rgba(0,0,0,.12), 0 14px 40px rgba(0,0,0,.08);
+}
+.anatomy > .md { padding-block: 4rem 3.5rem; }
+.anatomy > .md.notes {
+  padding-inline: 0 3rem; padding-block: 4.4rem 3.5rem;
+  font-size: 0.78em; line-height: 1.45;
+  color: var(--md-ink-muted);
+}
+.anatomy > .md.notes h3 {
+  font-size: 1em; font-weight: 600; color: var(--md-ink);
+  margin-block: 0 1em; letter-spacing: 0; font-style: normal; border: 0; padding: 0;
+}
+.md.notes ol { list-style: none; padding: 0; margin: 0; counter-reset: none; }
+.md.notes li { position: relative; padding-inline-start: 2.6ch; margin-block-start: 0.9em; }
+.md.notes li::before {
+  content: attr(data-n);
+  position: absolute; inset-inline-start: 0;
+  color: var(--md-spot); font-weight: 600;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.md.notes li b { color: var(--md-ink); font-weight: 600; }
+.md.notes .notes-sep { margin-block-start: 1.6em; padding-block-start: 1em; border-block-start: var(--md-hairline) solid var(--md-rule); }
+
+@media (max-width: 60rem) {
+  .anatomy { grid-template-columns: 1fr; }
+  .anatomy > .md.notes { padding-inline: 2rem; padding-block-start: 0; }
+}
+
+/* Reference marks. Set by attribute so nothing depends on hand placement:
+   <td data-n="5">, <h2 data-n="2">, <li data-n="1"> … */
+.md [data-n]::after {
+  content: attr(data-n);
+  font-family: var(--md-face-text);
+  font-size: 0.6em; font-weight: 600; font-style: normal;
+  font-variant-caps: normal; font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: 0;
+  line-height: 0; vertical-align: 0.55em;
+  margin-inline-start: 0.4ch;
+  color: var(--md-spot);
+}
+.md h4.md-runin[data-n]::after { content: attr(data-n); }
+.md.notes [data-n]::after { content: none; }
+
+/* Stacked variants inside one anatomy column */
+.stack > * + * { margin-block-start: calc(var(--md-rhythm) * 1.5); }
+.variant-label {
+  font-size: 0.72em; line-height: 1.4; color: var(--md-ink-faint);
+  margin-block-end: calc(var(--md-rhythm) * 0.4);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.variant-label b { color: var(--md-ink); font-weight: 600; margin-inline-end: 1ch; }
+
+/* Three-theme strip: the same element in each theme, side by side */
+.strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
+.strip > .md { padding: 3rem 2.5rem 3rem; }
+.strip > .md .md-table-scroll, .strip > .md figure, .strip > .md pre, .strip > .md .md-code { margin-inline: 0; }
+@media (max-width: 60rem) { .strip { grid-template-columns: 1fr; } }
+
+/* ---- decision plates: options side by side ---------------------------------- */
+.compare { display: grid; gap: 1.5rem; grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr)); }
+.option { display: flex; flex-direction: column; }
+.option-label {
+  display: grid; grid-template-columns: 2.2ch 1fr; gap: 0.5ch;
+  margin-block-end: 0.6rem; color: #5C5A63; align-items: baseline;
+}
+.option-label b { color: #16151A; font-weight: 600; }
+.option-label i { font-style: normal; }
+.option .sheet { flex: 1; }
+.option .md { min-block-size: 100%; }
+.compare .md { padding-block: 3.2rem 2.4rem; }
+/* Narrow sheets: when the column is under the measure, keep a real margin. */
+.compare .md, .strip > .md {
+  padding-inline: max(2.5rem, calc((100% - var(--md-measure)) / 2));
+}
+.compare .md .md-table-scroll, .compare .md figure, .compare .md pre { margin-inline: 0; }
+@media (max-width: 60rem) { .compare { grid-template-columns: 1fr; } }
+
+.verdict {
+  max-width: 62ch; margin: 1.2rem 0 0; padding-block-start: 0.8rem;
+  border-block-start: 1px solid #B9B7B0;
+}
+.verdict p { margin: 0 0 0.6em; }
+.verdict b { font-weight: 600; }
+.verdict code { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.92em; }
+.verdict table { border-collapse: collapse; margin-block: 0.5em 0.8em; }
+.verdict th, .verdict td { text-align: left; padding: 0.15em 2ch 0.15em 0; font-weight: 400; border-block-end: 1px solid #C9C7C0; }
+.verdict th { color: #5C5A63; }
+.verdict td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* Host-page harness for decision 2 */
+.hosts { display: grid; gap: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.host { padding: 2.5rem; }
+.host--black  { background: #000; }
+.host--editor { background: #1E1E1E; }
+.host--light  { background: #FFFFFF; }
+.host .host-label { font-size: 0.75rem; color: #8B8892; margin: 0 0 0.8rem; }
+.host--light .host-label { color: #5C5A63; }
+.host .md { padding: 2rem clamp(1.25rem, 6%, 2.5rem); }
+.host .md[data-md-theme="screen"] { --md-size: 1rem; }
+.hosts--rows { grid-template-columns: 1fr; }
+
+/* ============================================================================
+   CANDIDATE RULES — written as they would be added to markdown.css
+   ============================================================================ */
+
+/* Decision 1 · letter · paragraph model.
+   Book: first-line indent, no space between paragraphs. Indent = one line of
+   leading (Bringhurst), so it is derived from the rhythm, not declared.
+   Only p + p indents; the first paragraph after a heading, list, table or
+   figure stays flush with full rhythm space, so mixed Markdown degrades
+   gracefully into the spaced model wherever paragraphs are not consecutive. */
+.md--indent p + p {
+  margin-block-start: 0;
+  text-indent: calc(var(--md-leading) * 1em);
+}
+
+/* Decision 2 · screen · candidate B: neutral paper, same spot.
+   Grounded in nothing but the question asked: the same five values with the
+   blue bias removed, so the comparison isolates temperature. */
+.md[data-md-theme="screen"].cand-neutral {
+  --md-paper: #121212; --md-paper-sunk: #1A1A1A;
+  --md-ink: #EAEAEA; --md-ink-muted: #A6A6A6; --md-ink-faint: #767676;
+  --md-rule: #2C2C2C;
+}
+/* Decision 2 · screen · the weight fix, independent of palette.
+   Mixing a light spot into dark paper at 55% loses half its contrast
+   (3.2:1); at 85% it holds (5.8:1). Light themes do not have this problem
+   because mixing a dark spot into light paper keeps it dark. */
+.md[data-md-theme="screen"].cand-underline a {
+  text-decoration-color: color-mix(in oklab, var(--md-spot) 85%, transparent);
+}
+
+/* Decision 3 · grid · h2 without the hairline. */
+.md[data-md-theme="grid"].cand-noline > h2 { border-block-start: 0; padding-block-start: 0; }
+/* Decision 3 · grid · option C: hairline kept, dropped from ink to rule. */
+.md[data-md-theme="grid"].cand-ruleline > h2 { border-block-start-color: var(--md-rule); }
+
+/* Decision 4 · letter · hr alternatives. */
+.md[data-md-theme="letter"].cand-shortrule hr::before {
+  content: "";
+  display: inline-block; inline-size: 5ch; vertical-align: middle;
+  border-block-start: var(--md-hairline) solid var(--md-ink-faint);
+}
+.md[data-md-theme="letter"].cand-blank hr::before { content: none; }
+.md[data-md-theme="letter"].cand-asterism hr::before {
+  content: "⁂"; font-size: 1.15em; color: var(--md-ink-muted);
+}
+
+/* List plate · the legal-numbering defect and its fix.
+   As shipped, the counter is left-aligned at inset 0, so "9." and "10." do
+   not share a period. Give the counter a box and right-align it. */
+.md ol.md-ol-nested.cand-fixed > li::before { inline-size: 2.6ch; text-align: end; }
+.md ol.md-ol-nested.cand-fixed ol > li::before { inline-size: 3.8ch; text-align: end; }
+
+/* List plate · what the defect looks like: markers taking the text figures. */
+.md ol.x-textfigures > li::marker { font-variant-numeric: var(--md-figures-text); }
+
+/* Alert plate · option B: single forme. Tone carried by the label alone;
+   spot reserved for the one severity that is structural (note). */
+.md .md-alert.cand-mono { --md-alert-tone: var(--md-ink-muted); }
+.md .md-alert.cand-mono.md-alert--note { --md-alert-tone: var(--md-spot); }
+.md .md-alert.cand-mono .md-alert-title { color: var(--md-ink); }
+
+/* Code plate · numbered lines that survive syntax tokens.
+   As shipped, .md-line is a two-column grid, so each token span becomes a
+   grid item. The line stays a block; the counter is an inline block. */
+.md pre.md-code--numbered.cand-numbered > code { display: block; }
+.md pre.md-code--numbered.cand-numbered .md-line { display: block; }
+.md pre.md-code--numbered.cand-numbered .md-line::before {
+  display: inline-block; inline-size: var(--md-code-gutter); margin-inline-end: 1.5ch;
+}
+
+/* Code plate · Grid: two horizontal rules instead of a four-sided box. */
+.md[data-md-theme="grid"] pre.cand-rules {
+  border-inline: 0; border-radius: 0;
+  padding-inline: 0;
+}
+
+/* Code plate · comments are text: muted ink, still italic. */
+.md.cand-comment { --md-syn-comment: var(--md-ink-muted); }
+
+/* Syntax palette · the Grid mapping applied to Letter and Screen. */
+.md[data-md-theme="letter"].cand-twoforme,
+.md[data-md-theme="screen"].cand-twoforme {
+  --md-syn-keyword: var(--md-ink);
+  --md-syn-string:  var(--md-ink-muted);
+  --md-syn-number:  var(--md-ink-muted);
+  --md-syn-name:    var(--md-spot);
+}
+
+/* Code plate · diff rows run the full row; Grid keeps its single forme. */
+.md pre.cand-rows .md-line { display: block; }
+.md[data-md-theme="grid"] pre.cand-rows .md-line--add {
+  background: color-mix(in oklab, var(--md-spot) 12%, transparent);
+}
+.md[data-md-theme="grid"] pre.cand-rows .md-line--del {
+  background: var(--md-paper-sunk);
+  color: var(--md-ink-faint);
+  text-decoration: line-through;
+}
+
+/* Class-map gaps · Shiki css-variables theme and highlight.js roles.
+   Proposed for markdown-code.css; not exercised on the plates. */
+.md pre {
+  --shiki-color-text: var(--md-syn-text);
+  --shiki-token-constant: var(--md-syn-number);
+  --shiki-token-string: var(--md-syn-string);
+  --shiki-token-string-expression: var(--md-syn-string);
+  --shiki-token-comment: var(--md-syn-comment);
+  --shiki-token-keyword: var(--md-syn-keyword);
+  --shiki-token-parameter: var(--md-syn-text);
+  --shiki-token-function: var(--md-syn-name);
+  --shiki-token-punctuation: var(--md-ink-muted);
+  --shiki-token-link: var(--md-syn-name);
+}
+.md :is(.hljs-selector-class, .hljs-selector-id, .hljs-selector-attr,
+        .hljs-selector-pseudo, .hljs-built_in) { color: var(--md-syn-name); }
+.md :is(.hljs-attribute, .hljs-variable, .hljs-template-variable,
+        .hljs-params, .token.property) { color: var(--md-syn-text); }

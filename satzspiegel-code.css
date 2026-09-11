@@ -1,0 +1,163 @@
+/* ============================================================================
+   satzspiegel-code.css — OPTIONAL code module for satzspiegel.css
+
+   Without this file a fenced block still renders: satzspiegel.css sets it as
+   a quiet block in the mono face between two rules. Load order: satzspiegel.css,
+   then this file.
+
+   Six syntax roles, one forme: keyword in ink by weight, string and number in
+   muted ink, name in the spot, comment in muted italic. Class maps for Pandoc
+   (skylighting), Prism, highlight.js and Shiki's css-variables theme.
+   ============================================================================ */
+
+@layer md.code {
+
+  /* --- tokens ------------------------------------------------------------- */
+  .md {
+    --md-code-bg: none;
+    --md-code-size: 0.845em;
+    --md-code-leading: 1.55;
+    --md-code-pad: 0.9em;
+    --md-code-gutter: 3.5ch;
+
+    --md-syn-text:    var(--md-ink);
+    --md-syn-comment: var(--md-ink-muted);
+    --md-syn-keyword: var(--md-ink);
+    --md-syn-string:  var(--md-ink-muted);
+    --md-syn-number:  var(--md-ink-muted);
+    --md-syn-name:    var(--md-spot);
+  }
+
+  /* --- block -------------------------------------------------------------- */
+  .md pre {
+    font-family: var(--md-face-mono);
+    font-size: var(--md-code-size);
+    line-height: var(--md-code-leading);
+    font-variant-ligatures: none;
+    font-variant-numeric: lining-nums tabular-nums;
+    tab-size: 2; -moz-tab-size: 2;
+    background: var(--md-code-bg);
+    color: var(--md-syn-text);
+    border: 0;
+    border-block: var(--md-hairline) solid var(--md-rule);
+    border-radius: 0;
+    padding: var(--md-code-pad) 0;
+    overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin;
+    white-space: pre;
+  }
+  .md pre > code { font: inherit; background: none; border: 0; padding: 0; display: block; min-inline-size: fit-content; }
+
+  .md pre.md-code--wrap { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .md pre.md-code--wrap > code { min-inline-size: 0; }
+
+  /* --- filename / language label, set as a caption ------------------------ */
+  .md .md-code { display: block; }
+  .md .md-code-head {
+    display: flex; gap: 1.5ch; align-items: baseline;
+    font-family: var(--md-face-mono); font-size: 0.78em; color: var(--md-ink-muted);
+    padding-block-end: 0.45em;
+  }
+  .md .md-code-head .md-code-lang { margin-inline-start: auto; color: var(--md-ink-faint); }
+  .md .md-code-head + pre { margin-block-start: 0; }
+
+  /* --- line numbers ---------------------------------------------------------
+     Opt-in. The line stays a block and the counter is an inline block of
+     gutter width, so a line may hold any number of token spans. Unselectable. */
+  .md pre.md-code--numbered > code { counter-reset: md-line; }
+  .md pre.md-code--numbered .md-line { counter-increment: md-line; display: block; }
+  .md pre.md-code--numbered .md-line::before {
+    content: counter(md-line);
+    display: inline-block; inline-size: var(--md-code-gutter); margin-inline-end: 1.5ch;
+    text-align: right; color: var(--md-ink-faint);
+    user-select: none; -webkit-user-select: none;
+  }
+  .md pre .md-line--mark { background: color-mix(in oklab, var(--md-spot) 12%, transparent); }
+
+  /* Pandoc: <pre class="numberSource"><code><span id="cb1-1"><a …></a>…</span>
+     Lines are separated by newlines in the source, so the spans stay inline.
+     The counter keeps Pandoc's own name: a startFrom attribute arrives as an
+     inline counter-reset on <code>, which then overrides the reset here. */
+  .md pre.numberSource > code { counter-reset: source-line; }
+  .md pre.numberSource > code > span { counter-increment: source-line; }
+  .md pre.numberSource > code > span > a:first-child {
+    display: inline-block; inline-size: var(--md-code-gutter); margin-inline-end: 1.5ch;
+    text-align: right; color: var(--md-ink-faint); text-decoration: none;
+    user-select: none; -webkit-user-select: none;
+  }
+  .md pre.numberSource > code > span > a:first-child::before { content: counter(source-line); }
+  .md pre.sourceCode:not(.numberSource) > code > span > a:first-child { display: none; }
+
+  /* --- diff: full rows; added lines take the spot tint ---------------------
+     Outside a numbered block the lines are separated by newlines, so each
+     span is an inline block the full width of the row. */
+  .md pre:not(.md-code--numbered) .md-line { display: inline-block; inline-size: 100%; }
+  .md pre .md-line--add { background: color-mix(in oklab, var(--md-spot) 12%, transparent); }
+  .md pre .md-line--del { background: var(--md-paper-sunk); color: var(--md-ink-faint); text-decoration: line-through; }
+
+  /* --- syntax roles ---------------------------------------------------------
+     Pandoc skylighting · Prism · highlight.js */
+  .md :is(.co, .do, .an, .cv, .in, .wa,
+          .token.comment, .token.prolog, .token.doctype, .token.cdata,
+          .hljs-comment, .hljs-quote) {
+    color: var(--md-syn-comment); font-style: italic;
+  }
+  .md :is(.kw, .cf, .im, .al, .er,
+          .token.keyword, .token.rule, .token.important, .token.atrule,
+          .hljs-keyword, .hljs-selector-tag) {
+    color: var(--md-syn-keyword); font-weight: 550;
+  }
+  .md :is(.st, .ch, .vs, .ss,
+          .token.string, .token.char, .token.regex, .token.attr-value,
+          .hljs-string, .hljs-regexp, .hljs-addition) {
+    color: var(--md-syn-string);
+  }
+  .md :is(.dv, .bn, .fl, .cn,
+          .token.number, .token.boolean, .token.constant, .token.symbol,
+          .hljs-number, .hljs-literal) {
+    color: var(--md-syn-number);
+  }
+  .md :is(.fu, .dt, .at, .bu, .ex, .pp,
+          .token.function, .token.class-name, .token.tag, .token.selector,
+          .token.attr-name,
+          .hljs-title, .hljs-name, .hljs-attr, .hljs-section, .hljs-type,
+          .hljs-selector-class, .hljs-selector-id, .hljs-selector-attr,
+          .hljs-selector-pseudo, .hljs-built_in) {
+    color: var(--md-syn-name);
+  }
+  .md :is(.op, .sc,
+          .token.operator, .token.punctuation, .token.entity,
+          .hljs-punctuation, .hljs-operator) {
+    color: var(--md-ink-muted);
+  }
+  .md :is(.va, .ot, .re,
+          .token.property, .hljs-attribute, .hljs-variable, .hljs-template-variable, .hljs-params) {
+    color: var(--md-syn-text);
+  }
+  .md .token.deleted { color: var(--md-syn-keyword); }
+  .md .token.inserted { color: var(--md-syn-string); }
+
+  /* Shiki css-variables theme */
+  .md pre {
+    --shiki-color-text: var(--md-syn-text);
+    --shiki-token-constant: var(--md-syn-number);
+    --shiki-token-string: var(--md-syn-string);
+    --shiki-token-string-expression: var(--md-syn-string);
+    --shiki-token-comment: var(--md-syn-comment);
+    --shiki-token-keyword: var(--md-syn-keyword);
+    --shiki-token-parameter: var(--md-syn-text);
+    --shiki-token-function: var(--md-syn-name);
+    --shiki-token-punctuation: var(--md-ink-muted);
+    --shiki-token-link: var(--md-syn-name);
+  }
+
+  /* --- inline code, upgraded --------------------------------------------- */
+  .md :not(pre) > code { font-variant-numeric: lining-nums tabular-nums; }
+  .md a > code { text-decoration: inherit; }
+
+  /* --- print -------------------------------------------------------------- */
+  @media print {
+    .md pre { background: none; border-block: 0.5pt solid #999; font-size: 8.5pt; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .md pre * { color: #000 !important; }
+    .md pre :is(.co, .token.comment, .hljs-comment) { color: #555 !important; }
+  }
+}

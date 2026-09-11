@@ -1,0 +1,709 @@
+/* ============================================================================
+   satzspiegel.css — a Markdown stylesheet set to a book standard
+   https://github.com/yobu/satzspiegel
+
+   Two themes over one component layer:
+     .md                          Patina  (default). Spectral text, Schibsted
+                                  Grotesk heads, notes in an outer margin.
+     .md[data-md-theme="archive"] Archive. Source Serif 4 text, IBM Plex Mono
+                                  apparatus, numbered sections.
+
+   Code blocks live in satzspiegel-code.css and are OPTIONAL. Without it a
+   fenced block is a quiet set block in the mono face between two rules.
+
+   Markup:  <link rel="stylesheet" href="fonts.css">          (optional: the typefaces)
+            <link rel="stylesheet" href="satzspiegel.css">
+            <div class="md-host"><main class="md" data-md-theme="patina"> … </main></div>
+   fonts.css is separate so a page can leave the typefaces out and fall back
+   to the system stacks below; the Pandoc template links it unless the
+   nofonts variable is set. The host wrapper gives the container queries
+   something to measure.
+   Works with Pandoc HTML (title block, footnotes, task lists, alerts, code)
+   and with GFM pipelines (remark, markdown-it, Kramdown).
+   ============================================================================ */
+
+@layer md.tokens, md.root, md.headings, md.text, md.lists, md.table,
+       md.quote, md.figure, md.notes, md.alerts, md.code-fallback, md.layout, md.print;
+
+/* ---------------------------------------------------------------------------
+   1. TOKENS
+   Palettes are derivations from the Patina Frame and Quiet Archive registers.
+   Five values plus one spot colour per theme; every text colour ≥ 4.5 : 1.
+   --------------------------------------------------------------------------- */
+@layer md.tokens {
+
+  .md {
+    /* rhythm primitives — every vertical space is a multiple of one unit */
+    --md-rhythm: calc(var(--md-leading) * var(--md-size));
+    --md-space-block: var(--md-rhythm);
+    --md-space-section: calc(var(--md-rhythm) * 2);
+    --md-hairline: 1px;
+    --md-bleed: 5rem;
+
+    /* interaction */
+    --md-focus: var(--md-spot);
+    --md-selection: color-mix(in oklab, var(--md-spot) 22%, transparent);
+  }
+
+  /* ---- PATINA (default) ---------------------------------------------------
+     Serif text at 19px on a 93ch measure, grotesk headings, patina green.
+     Spectral has a small x-height (0.45 em), so it is set a size larger than
+     a serif with a big eye would be; 93ch of it is about 884px.
+     Notes and attributions sit in a 24ch outer column when there is room.
+     ------------------------------------------------------------------------ */
+  .md {
+    --md-paper:      #F3F6F4;
+    --md-paper-sunk: #E4EBE7;
+    --md-ink:        #1D2A24;
+    --md-ink-muted:  #56705F;   /* 5.0 : 1 */
+    --md-ink-faint:  #587463;   /* 4.7 : 1 — list markers, labels */
+    --md-rule:       #C7D5CC;
+    --md-spot:       #2F5B4A;   /* patina green, 7.1 : 1 */
+
+    --md-face-text:    "Spectral", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --md-face-display: "Schibsted Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --md-face-mono:    "Satzspiegel Mono", "IBM Plex Mono", "SFMono-Regular", ui-monospace, monospace;
+
+    --md-size: 1.1875rem;      /* 19px */
+    --md-leading: 1.62;
+    --md-measure: 93ch;
+    --md-margin: 24ch;         /* the outer notes column */
+    --md-ratio: 1.2;
+
+    --md-h1: 2.2em;   --md-h2: 1.44em;  --md-h3: 1.2em;
+    --md-h4: 1em;     --md-h5: 1em;     --md-h6: 0.9em;
+
+    --md-h-weight: 600;
+    --md-h-tracking: -0.01em;
+    --md-h-leading: 1.12;
+
+    --md-figures-text: lining-nums proportional-nums;
+    --md-figures-data: lining-nums tabular-nums;
+
+    --md-list-indent: 1.8em;
+    --md-quote-indent: 1.5em;
+    --md-radius: 0;
+  }
+
+  /* ---- ARCHIVE ------------------------------------------------------------
+     Small serif at 15.5px on a 106ch measure, the apparatus in the mono face
+     like the labels on an index card, sections numbered in archival ink.
+     ------------------------------------------------------------------------ */
+  .md[data-md-theme="archive"] {
+    --md-paper:      #F5F1EA;
+    --md-paper-sunk: #E9E3D8;
+    --md-ink:        #2B2B2A;
+    --md-ink-muted:  #6B655D;   /* 5.1 : 1 */
+    --md-ink-faint:  #746C61;   /* 4.6 : 1 */
+    --md-rule:       #D7D0C6;
+    --md-spot:       #2F3E63;   /* archival ink, 9.4 : 1 */
+
+    --md-face-text:    "Source Serif 4", "Iowan Old Style", Georgia, serif;
+    --md-face-display: var(--md-face-text);
+    --md-face-mono:    "Satzspiegel Mono", "IBM Plex Mono", "SFMono-Regular", ui-monospace, monospace;
+
+    --md-size: 0.96875rem;     /* 15.5px */
+    --md-leading: 1.55;
+    --md-measure: 106ch;
+    --md-ratio: 1.2;
+
+    --md-h1: 2.07em;  --md-h2: 1.44em;  --md-h3: 1.2em;
+    --md-h4: 1em;     --md-h5: 1em;     --md-h6: 0.9em;
+
+    --md-h-weight: 600;
+    --md-h-tracking: -0.01em;
+    --md-h-leading: 1.12;
+
+    --md-figures-text: lining-nums proportional-nums;
+    --md-figures-data: lining-nums tabular-nums;
+
+    --md-list-indent: 1.8em;
+    --md-quote-indent: 1.5em;
+    --md-radius: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   2. ROOT / MEASURE
+   --------------------------------------------------------------------------- */
+@layer md.root {
+
+  .md-host { container-type: inline-size; container-name: md-host; }
+
+  .md {
+    color: var(--md-ink);
+    background: var(--md-paper);
+    font-family: var(--md-face-text);
+    font-size: var(--md-size);
+    line-height: var(--md-leading);
+    font-variant-numeric: var(--md-figures-text);
+    font-kerning: normal;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* THE MEASURE.
+     The column is made by padding the container, not by capping each child:
+     `ch` resolves against each element's own font size, so a max-width on
+     every block would give a page one left edge per type size. Resolving the
+     measure once, on .md, at body size, gives every block one true edge. */
+  .md {
+    padding-inline: max(2ch, calc((100% - var(--md-measure)) / 2));
+  }
+
+  /* Blocks that may break out of the column, when there is a margin to take. */
+  @container md-host (min-width: 62rem) {
+    .md > :is(.md-bleed, figure, .md-table-scroll, .md-code, pre, .sourceCode) {
+      margin-inline: calc(var(--md-bleed) * -1);
+    }
+  }
+
+  .md > * + * { margin-block-start: var(--md-space-block); }
+  .md > :first-child { margin-block-start: 0; }
+  .md > :last-child  { margin-block-end: 0; }
+
+  .md ::selection { background: var(--md-selection); }
+
+  .md :focus-visible {
+    outline: 2px solid var(--md-focus);
+    outline-offset: 2px;
+    border-radius: 1px;
+  }
+
+  /* Opt-in: justified setting. Only where hyphenation is available. */
+  .md--justified p {
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphenate-limit-chars: 6 3 3;
+  }
+
+  /* Opt-in: hanging punctuation (Safari). */
+  .md--hanging { hanging-punctuation: first last; }
+
+  /* Running head, emitted by the Pandoc template from title and date. */
+  .md > .runhead {
+    display: flex; justify-content: space-between; gap: 2ch;
+    font-family: var(--md-face-display);
+    font-size: 0.72em; line-height: 1.4; font-weight: 600;
+    color: var(--md-ink-muted);
+    padding-block-end: 0.5em;
+    border-block-end: var(--md-hairline) solid var(--md-spot);
+    margin-block-end: calc(var(--md-rhythm) * 2);
+  }
+  .md[data-md-theme="archive"] > .runhead {
+    font-family: var(--md-face-mono); font-weight: 400;
+    border-block-end-color: var(--md-rule);
+  }
+
+  /* Colophon: one faint line at the foot naming the stylesheet, emitted by
+     the Pandoc template unless the nocolophon variable is set. */
+  .md > .md-colophon {
+    margin-block-start: calc(var(--md-rhythm) * 3);
+    font-family: var(--md-face-display);
+    font-size: 0.68em; line-height: 1.4;
+    color: var(--md-ink-faint); opacity: 0.55;
+    text-align: end;
+  }
+  .md > .md-colophon a { color: inherit; text-decoration-color: color-mix(in oklab, currentColor 45%, transparent); }
+  .md > .md-colophon a:hover { color: var(--md-ink); opacity: 1; }
+  .md[data-md-theme="archive"] > .md-colophon { font-family: var(--md-face-mono); font-size: 0.64em; }
+}
+
+/* ---------------------------------------------------------------------------
+   3. HEADINGS
+   Three sizes, then style: h4 weight, h5 italic, h6 small caps.
+   Space above a heading exceeds space below, so it belongs forward.
+   --------------------------------------------------------------------------- */
+@layer md.headings {
+
+  .md :is(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--md-face-display);
+    font-weight: var(--md-h-weight);
+    line-height: var(--md-h-leading);
+    letter-spacing: var(--md-h-tracking);
+    text-wrap: balance;
+    scroll-margin-block-start: var(--md-space-section);
+  }
+
+  .md > :is(h1, h2, h3, h4, h5, h6) + * { margin-block-start: calc(var(--md-rhythm) * 0.5); }
+
+  .md h1 { font-size: var(--md-h1); margin-block-end: 0; }
+  .md > h1 + * { margin-block-start: var(--md-rhythm); }
+
+  .md > h2 { margin-block-start: var(--md-space-section); font-size: var(--md-h2); }
+  .md > h3 { margin-block-start: calc(var(--md-rhythm) * 1.5); font-size: var(--md-h3); }
+
+  .md h4 { font-size: var(--md-h4); font-weight: 650; letter-spacing: 0; }
+  .md h5 { font-size: var(--md-h5); font-weight: 400; font-style: italic; letter-spacing: 0; }
+  .md h6 {
+    font-size: var(--md-h6); font-weight: 500;
+    font-variant-caps: all-small-caps; letter-spacing: 0.06em;
+    color: var(--md-ink-muted);
+  }
+  .md > :is(h4, h5, h6) { margin-block-start: var(--md-rhythm); }
+
+  /* Pandoc title block: <header id="title-block-header"> */
+  .md > header { margin-block-end: 0; }
+  .md > header + * { margin-block-start: var(--md-rhythm); }
+  .md > header .title { margin: 0; }
+  .md > header .subtitle {
+    margin-block: calc(var(--md-rhythm) * 0.5) 0;
+    font-size: 1.15em; line-height: calc(var(--md-leading) * 0.94);
+  }
+  .md > header :is(.author, .date) {
+    margin-block: calc(var(--md-rhythm) * 0.4) 0;
+    font-size: 0.88em; color: var(--md-ink-muted);
+  }
+  .md > header .author + .date { margin-block-start: 0; }
+
+  /* Archive: sections numbered in the spot, hung in the margin. */
+  .md[data-md-theme="archive"] { counter-reset: md-sec; }
+  .md[data-md-theme="archive"] > h2 { position: relative; counter-increment: md-sec; }
+  .md[data-md-theme="archive"] > h2::before {
+    content: counter(md-sec, decimal-leading-zero);
+    position: absolute; inset-inline-end: 100%; top: 0.35em;
+    margin-inline-end: 2ch;
+    font-family: var(--md-face-mono); font-size: 0.7em; font-weight: 500;
+    font-variant-numeric: var(--md-figures-data);
+    color: var(--md-spot);
+  }
+
+  /* Run-in heading: add class md-runin to an h4 to fold it into the next paragraph. */
+  .md h4.md-runin { display: inline; float: left; margin-block: 0; margin-inline-end: 0.6ch; }
+  .md h4.md-runin + p { display: block; }
+  .md h4.md-runin::after { content: "."; }
+
+  /* Anchor links, revealed on hover or focus only */
+  .md :is(h2, h3, h4) > .md-anchor {
+    margin-inline-start: 0.4ch; color: var(--md-ink-faint);
+    text-decoration: none; opacity: 0; transition: opacity 120ms;
+  }
+  .md :is(h2, h3, h4):hover > .md-anchor, .md .md-anchor:focus-visible { opacity: 1; }
+}
+
+/* ---------------------------------------------------------------------------
+   4. RUNNING TEXT
+   --------------------------------------------------------------------------- */
+@layer md.text {
+
+  .md p { text-wrap: pretty; orphans: 2; widows: 2; }
+
+  /* Lead paragraph: first after h1, or class md-lead */
+  .md > h1 + p, .md p.md-lead {
+    font-size: 1.15em; line-height: calc(var(--md-leading) * 0.94);
+  }
+
+  /* Opt-in paragraph model: first-line indent, no space. Only p + p indents,
+     so a paragraph after a heading, list or table stays flush. */
+  .md--indent p + p { margin-block-start: 0; text-indent: calc(var(--md-leading) * 1em); }
+
+  .md strong, .md b { font-weight: 650; letter-spacing: -0.002em; }
+  .md em, .md i    { font-style: italic; }
+  .md em em        { font-style: normal; }
+
+  .md a {
+    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-color: color-mix(in oklab, var(--md-spot) 55%, transparent);
+    text-decoration-thickness: 0.075em;
+    text-underline-offset: 0.16em;
+    text-decoration-skip-ink: auto;
+    transition: text-decoration-color 120ms, color 120ms;
+  }
+  .md a:hover { color: var(--md-spot); text-decoration-color: var(--md-spot); }
+
+  .md del  { text-decoration-thickness: 0.08em; color: var(--md-ink-muted); }
+  .md ins  { text-decoration: none; background: var(--md-selection); }
+  .md mark { background: var(--md-selection); color: inherit; padding: 0 0.15em; }
+
+  .md small { font-size: 0.86em; color: var(--md-ink-muted); }
+  .md sub, .md sup { font-size: 0.72em; line-height: 0; }
+
+  .md abbr[title] { text-decoration: underline dotted; text-underline-offset: 0.18em; cursor: help; }
+
+  .md kbd {
+    font-family: var(--md-face-mono); font-size: 0.82em;
+    padding: 0.15em 0.42em;
+    border: var(--md-hairline) solid var(--md-rule); border-block-end-width: 2px;
+    border-radius: 3px; background: var(--md-paper-sunk); white-space: nowrap;
+  }
+
+  /* Disclosure widgets, common in GitHub READMEs. The marker hangs in the
+     margin like a list marker, in the spot colour. */
+  .md details > summary {
+    display: list-item; list-style-position: outside;
+    cursor: pointer; font-weight: 650;
+  }
+  .md details > summary::marker { color: var(--md-spot); }
+  .md details > :not(summary) { margin-block-start: calc(var(--md-rhythm) * 0.5); }
+  .md details > :last-child { margin-block-end: 0; }
+
+  /* Pandoc line blocks (| lines) keep their breaks; set like verse. */
+  .md .line-block { padding-inline-start: var(--md-quote-indent); }
+
+  /* Inline code stays in the text layer so it survives without the module. */
+  .md :not(pre) > code {
+    font-family: var(--md-face-mono); font-size: 0.875em;
+    font-variant-ligatures: none;
+    padding: 0.12em 0.34em; border-radius: 3px;
+    background: var(--md-paper-sunk);
+    box-decoration-break: clone; -webkit-box-decoration-break: clone;
+    overflow-wrap: anywhere;   /* a long URL or flag never widens the page */
+  }
+
+  /* Rule: a typographic pause, not a border across the measure. Patina sets a
+     short centred hairline (Spectral carries no ornament); Archive a full one. */
+  .md hr { border: 0; margin-block: var(--md-space-section); height: auto; text-align: center; }
+  .md hr::before {
+    content: ""; display: inline-block; inline-size: 5ch; vertical-align: middle;
+    border-block-start: var(--md-hairline) solid var(--md-ink-faint);
+  }
+  .md[data-md-theme="archive"] hr::before { content: none; }
+  .md[data-md-theme="archive"] hr { border-block-start: var(--md-hairline) solid var(--md-rule); }
+}
+
+/* ---------------------------------------------------------------------------
+   5. LISTS
+   --------------------------------------------------------------------------- */
+@layer md.lists {
+
+  .md :is(ul, ol) { padding-inline-start: var(--md-list-indent); list-style-position: outside; }
+  .md li + li { margin-block-start: calc(var(--md-rhythm) * 0.25); }
+
+  .md li > p { margin-block: 0; }
+  .md li > p + p { margin-block-start: calc(var(--md-rhythm) * 0.5); }
+  .md li:has(> p) + li:has(> p) { margin-block-start: calc(var(--md-rhythm) * 0.5); }
+
+  .md ul { list-style-type: disc; }
+  .md ul ul { list-style-type: "\2013\00a0"; }
+  .md ul ul ul { list-style-type: "\00b7\00a0"; }
+
+  .md ol { list-style-type: decimal; }
+  .md ol ol { list-style-type: lower-alpha; }
+  .md ol ol ol { list-style-type: lower-roman; }
+
+  /* Markers take data figures, so 9. and 10. stack as a column. */
+  .md li::marker { color: var(--md-ink-faint); font-variant-numeric: var(--md-figures-data); }
+  .md ol > li::marker { color: var(--md-spot); }
+
+  .md :is(ul, ol) :is(ul, ol) { margin-block-start: calc(var(--md-rhythm) * 0.25); }
+
+  /* Legal numbering 1 → 1.1 → 1.1.1, opt in with .md-ol-nested. Counters are
+     right-aligned in a box so the periods share a column past nine. */
+  .md ol.md-ol-nested { counter-reset: md-l1; list-style: none; padding-inline-start: 0; }
+  .md ol.md-ol-nested > li { counter-increment: md-l1; position: relative; padding-inline-start: 3.4ch; }
+  .md ol.md-ol-nested > li::before {
+    content: counter(md-l1) ".";
+    position: absolute; inset-inline-start: 0; inline-size: 2.6ch; text-align: end;
+    font-variant-numeric: var(--md-figures-data); color: var(--md-ink-muted);
+  }
+  .md ol.md-ol-nested ol { counter-reset: md-l2; list-style: none; padding-inline-start: 0; }
+  .md ol.md-ol-nested ol > li { counter-increment: md-l2; position: relative; padding-inline-start: 4.6ch; }
+  .md ol.md-ol-nested ol > li::before {
+    content: counter(md-l1) "." counter(md-l2);
+    position: absolute; inset-inline-start: 0; inline-size: 3.8ch; text-align: end;
+    font-variant-numeric: var(--md-figures-data); color: var(--md-ink-muted);
+  }
+
+  /* Task lists: GFM (li > input), Pandoc (li > label > input), loose (li > p > input). */
+  .md li:is(:has(> input[type="checkbox"]), :has(> label > input[type="checkbox"]),
+            :has(> p > input[type="checkbox"]), :has(> p > label > input[type="checkbox"])) {
+    list-style: none;
+    margin-inline-start: calc(var(--md-list-indent) * -1);
+    padding-inline-start: var(--md-list-indent);
+    position: relative;
+  }
+  .md li input[type="checkbox"] {
+    position: absolute; inset-inline-start: 0.1em; inset-block-start: 0.34em;
+    margin: 0; accent-color: var(--md-spot); inline-size: 0.85em; block-size: 0.85em;
+  }
+  .md li:is(:has(> input:checked), :has(> label > input:checked),
+            :has(> p > input:checked), :has(> p > label > input:checked)) { color: var(--md-ink-muted); }
+
+  /* Definition lists */
+  .md dl { display: grid; row-gap: calc(var(--md-rhythm) * 0.35); }
+  .md dt { font-weight: 650; color: var(--md-ink); }
+  .md dd { margin-inline-start: 0; padding-inline-start: var(--md-list-indent); }
+  .md dd + dt { margin-block-start: calc(var(--md-rhythm) * 0.5); }
+
+  @container md-host (min-width: 34rem) {
+    .md dl.md-dl-columns { grid-template-columns: minmax(8ch, 22ch) 1fr; column-gap: 2ch; align-items: baseline; }
+    .md dl.md-dl-columns dt { grid-column: 1; }
+    .md dl.md-dl-columns dd { grid-column: 2; padding-inline-start: 0; }
+    .md dl.md-dl-columns dd + dt { margin-block-start: 0; }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   6. TABLES
+   No vertical rules. Three hairlines at most. Caption above. Tabular lining
+   figures in right-aligned cells, which GFM and Pandoc both mark up.
+   --------------------------------------------------------------------------- */
+@layer md.table {
+
+  .md .md-table-scroll {
+    overflow-x: auto; overscroll-behavior-x: contain;
+    scrollbar-width: thin; -webkit-overflow-scrolling: touch;
+  }
+
+  .md table {
+    inline-size: 100%; border-collapse: collapse;
+    font-size: 0.94em; line-height: 1.4;
+    font-variant-numeric: var(--md-figures-text);
+    text-align: start;
+  }
+
+  .md caption {
+    caption-side: top; text-align: start;
+    color: var(--md-ink-muted); font-size: 0.88em; line-height: 1.4;
+    padding-block-end: calc(var(--md-rhythm) * 0.4);
+  }
+  .md[data-md-theme="archive"] :is(caption, thead th) {
+    font-family: var(--md-face-mono); font-size: 0.78em; letter-spacing: 0.02em;
+  }
+
+  .md thead th {
+    font-weight: 600; text-align: start; color: var(--md-ink); vertical-align: bottom;
+    border-block-start: var(--md-hairline) solid var(--md-ink);
+    border-block-end: var(--md-hairline) solid var(--md-ink);
+  }
+
+  .md :is(th, td) { padding-block: calc(var(--md-rhythm) * 0.36); padding-inline: 0 2ch; vertical-align: baseline; }
+  .md :is(th, td):last-child { padding-inline-end: 0; }
+
+  .md tbody tr + tr :is(th, td) {
+    border-block-start: var(--md-hairline) solid color-mix(in oklab, var(--md-rule) 55%, transparent);
+  }
+  .md tbody tr:last-child :is(th, td) { border-block-end: var(--md-hairline) solid var(--md-ink); }
+  .md tbody th { font-weight: 600; }
+
+  .md tfoot :is(th, td) {
+    border-block-start: none; padding-block-start: calc(var(--md-rhythm) * 0.4);
+    color: var(--md-ink-muted); font-size: 0.94em;
+  }
+
+  /* Numeric alignment: GFM emits align="right", Pandoc style="text-align: right". */
+  .md :is(th, td):is([align="right"], [style*="right"]) {
+    text-align: right;
+    font-variant-numeric: var(--md-figures-data);
+    font-feature-settings: "tnum" 1;
+  }
+  .md :is(th, td):is([align="center"], [style*="center"]) { text-align: center; }
+  .md table.md-table--numeric tbody td { font-variant-numeric: var(--md-figures-data); }
+
+  /* Compact tables are read by lookup: they fit their content instead of
+     stretching short columns across the page, with a wider gutter. */
+  .md table.md-table--compact { font-size: 0.86em; inline-size: auto; }
+  .md table.md-table--compact :is(th, td) { padding-block: calc(var(--md-rhythm) * 0.22); padding-inline-end: 3ch; }
+  .md table.md-table--compact :is(th, td):last-child { padding-inline-end: 0; }
+
+  .md table.md-table--zebra tbody tr:nth-child(even) { background: var(--md-paper-sunk); }
+  .md table.md-table--zebra tbody tr + tr :is(th, td) { border-block-start: none; }
+
+  /* Small screens: fold rows into labelled stacks. Needs data-label on each td
+     (the Pandoc filter adds it). */
+  @container md-host (max-width: 30rem) {
+    .md table.md-table--stack thead { display: none; }
+    .md table.md-table--stack :is(tr, td) { display: block; }
+    .md table.md-table--stack tr { border-block-end: var(--md-hairline) solid var(--md-rule); padding-block: calc(var(--md-rhythm) * 0.5); }
+    .md table.md-table--stack td { border: 0; padding-block: 0.1em; }
+    .md table.md-table--stack td::before { content: attr(data-label) " "; color: var(--md-ink-faint); font-size: 0.85em; }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   7. QUOTATIONS
+   --------------------------------------------------------------------------- */
+@layer md.quote {
+
+  .md blockquote {
+    margin-inline: 0; padding-inline-start: var(--md-quote-indent); color: var(--md-ink);
+    border-inline-start: 2px solid var(--md-ink);
+  }
+  .md[data-md-theme="archive"] blockquote { border-inline-start-color: var(--md-rule); }
+  .md blockquote > :first-child { margin-block-start: 0; }
+  .md blockquote > * + * { margin-block-start: calc(var(--md-rhythm) * 0.6); }
+
+  .md blockquote :is(cite, .md-attrib) {
+    display: block; font-style: normal; font-size: 0.88em;
+    color: var(--md-spot); margin-block-start: calc(var(--md-rhythm) * 0.4);
+  }
+  .md blockquote :is(cite, .md-attrib)::before { content: "— "; }
+
+  .md blockquote.md-pull {
+    font-size: 1.3em; line-height: 1.28; text-wrap: balance;
+    border: 0; padding-inline: 0; max-width: none; color: var(--md-ink);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   8. FIGURES
+   --------------------------------------------------------------------------- */
+@layer md.figure {
+
+  .md :is(img, svg, video) { max-inline-size: 100%; block-size: auto; display: block; border-radius: var(--md-radius); }
+  .md p > img { margin-inline: auto; }
+
+  .md figure { margin-block: 0; margin-inline: 0; }
+
+  /* Display equations (MathML) scroll inside their own paragraph when wider
+     than the column, like code, instead of widening the page. */
+  .md p:has(> math[display="block"]) { overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
+  .md figcaption {
+    margin-block-start: calc(var(--md-rhythm) * 0.4);
+    font-size: 0.86em; line-height: 1.42; color: var(--md-ink-muted); text-wrap: pretty;
+  }
+  .md[data-md-theme="archive"] figcaption { font-family: var(--md-face-mono); font-size: 0.78em; }
+  .md figcaption > .md-fig-num { color: var(--md-ink); font-weight: 600; font-variant-numeric: var(--md-figures-data); }
+}
+
+/* ---------------------------------------------------------------------------
+   9. FOOTNOTES — Pandoc (a.footnote-ref > sup, section.footnotes with hr)
+      and GFM (sup > a[data-footnote-ref], section.footnotes)
+   --------------------------------------------------------------------------- */
+@layer md.notes {
+
+  .md a.footnote-ref,
+  .md sup a[data-footnote-ref],
+  .md sup a[href^="#fn"] {
+    text-decoration: none; color: var(--md-spot);
+    font-variant-numeric: var(--md-figures-data);
+  }
+  .md a.footnote-ref sup { padding-inline: 0.1em; }
+
+  .md .footnotes {
+    margin-block-start: var(--md-space-section);
+    padding-block-start: calc(var(--md-rhythm) * 0.6);
+    border-block-start: var(--md-hairline) solid var(--md-rule);
+    font-size: 0.88em; line-height: 1.5; color: var(--md-ink-muted);
+  }
+  .md .footnotes > hr { display: none; }
+  .md .footnotes h2 {
+    font-size: 0.95em; font-variant-caps: all-small-caps; letter-spacing: 0.06em;
+    margin-block: 0 calc(var(--md-rhythm) * 0.4); border: 0; padding: 0; counter-increment: none;
+  }
+  .md .footnotes h2::before { content: none; }
+  .md .footnotes ol { padding-inline-start: 2.4ch; }
+  .md .footnotes li > p { margin: 0; }
+  .md .footnotes li:target { background: var(--md-selection); outline: 4px solid var(--md-selection); }
+  .md .footnotes :is(a[data-footnote-backref], a.footnote-back) { text-decoration: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   10. ALERTS — GFM `> [!NOTE]` via Pandoc (div.note > div.title) or via
+       remark (div.md-alert.md-alert--note > p.md-alert-title).
+       Single forme by default: tone is the label; the note takes the spot.
+       Add class md--tinted-alerts on .md for one hue per severity.
+   --------------------------------------------------------------------------- */
+@layer md.alerts {
+
+  .md :is(.md-alert, div.note, div.tip, div.important, div.warning, div.caution) {
+    --md-alert-tone: var(--md-ink-muted);
+    padding-inline-start: 1.4ch;
+    border-inline-start: 3px solid var(--md-alert-tone);
+    color: var(--md-ink);
+  }
+  .md :is(.md-alert, div.note, div.tip, div.important, div.warning, div.caution) > * + * {
+    margin-block-start: calc(var(--md-rhythm) * 0.4);
+  }
+  .md :is(.md-alert-title, div.note > .title, div.tip > .title, div.important > .title, div.warning > .title, div.caution > .title) {
+    font-weight: 650; font-size: 0.92em; color: var(--md-ink); letter-spacing: 0.005em;
+  }
+  .md[data-md-theme="archive"] :is(.md-alert-title, div.note > .title, div.tip > .title, div.important > .title, div.warning > .title, div.caution > .title) {
+    font-family: var(--md-face-mono); font-size: 0.78em; letter-spacing: 0.02em;
+  }
+  .md :is(div.note, div.tip, div.important, div.warning, div.caution) > .title > p { margin: 0; }
+
+  .md :is(.md-alert--note, div.note) { --md-alert-tone: var(--md-spot); }
+
+  .md--tinted-alerts :is(.md-alert--tip, div.tip)             { --md-alert-tone: #1F7A54; }
+  .md--tinted-alerts :is(.md-alert--important, div.important) { --md-alert-tone: #6B3FA0; }
+  .md--tinted-alerts :is(.md-alert--warning, div.warning)     { --md-alert-tone: #9A6300; }
+  .md--tinted-alerts :is(.md-alert--caution, div.caution)     { --md-alert-tone: #A8261B; }
+}
+
+/* ---------------------------------------------------------------------------
+   11. CODE FALLBACK — what renders when satzspiegel-code.css is not loaded:
+       a set block in the mono face between two rules, no colour.
+   --------------------------------------------------------------------------- */
+@layer md.code-fallback {
+
+  .md pre {
+    font-family: var(--md-face-mono); font-size: 0.85em; line-height: 1.5;
+    tab-size: 2; overflow-x: auto; white-space: pre;
+    color: var(--md-ink);
+    padding-block: calc(var(--md-rhythm) * 0.6);
+    border-block: var(--md-hairline) solid var(--md-rule);
+    background: none; margin: 0;
+  }
+  .md pre > code { font: inherit; background: none; padding: 0; border: 0; font-variant-ligatures: none; }
+  .md .sourceCode { margin-block: 0; }
+
+  .md--nocode pre, .md--nocode .sourceCode { display: none; }
+  .md--nocode :not(pre) > code {
+    background: none; border: 0; padding: 0;
+    font-style: italic; font-family: var(--md-face-text);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   12. LAYOUT — the theme devices. Patina: notes in an outer column when the
+       host is wide enough. Archive: a margin for the section numerals.
+   --------------------------------------------------------------------------- */
+@layer md.layout {
+
+  /* Archive always keeps room for the numeral. */
+  .md[data-md-theme="archive"] { padding-inline: max(6ch, calc((100% - var(--md-measure)) / 2)); }
+  @container md-host (min-width: 62rem) {
+    .md[data-md-theme="archive"] > :is(figure, .md-table-scroll, .md-code, pre, .sourceCode) { margin-inline: -6ch calc(var(--md-bleed) * -1); }
+  }
+
+  /* Patina marginalia. Below 86rem the notes stay at the foot. A document
+     without footnotes keeps the single centred column. */
+  @container md-host (min-width: 86rem) {
+    .md:not([data-md-theme="archive"]):has(> .footnotes) {
+      display: grid;
+      grid-template-columns: minmax(0, var(--md-measure)) minmax(0, var(--md-margin));
+      column-gap: 3ch;
+      justify-content: center;
+      padding-inline: max(2ch, 4%);
+    }
+    .md:not([data-md-theme="archive"]):has(> .footnotes) > * { grid-column: 1; min-inline-size: 0; }
+    .md:not([data-md-theme="archive"]):has(> .footnotes) > .runhead { grid-column: 1 / -1; }
+    .md:not([data-md-theme="archive"]):has(> .footnotes) > :is(figure, .md-table-scroll, .md-code, pre, .sourceCode) { margin-inline: 0; }
+    .md:not([data-md-theme="archive"]):has(> .footnotes) > .footnotes {
+      grid-column: 2; grid-row: 2 / span 800; align-self: start;
+      margin: 0; padding: 0; border: 0;
+      font-size: 0.78em; line-height: 1.45;
+    }
+    .md:not([data-md-theme="archive"]):has(> .footnotes) > .footnotes ol { padding-inline-start: 1.6ch; }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   13. PRINT
+   --------------------------------------------------------------------------- */
+@layer md.layout {
+  /* A compact table fits its content, so it stays on the text edge rather
+     than breaking into the margin. Declared last in the layout layer so it
+     also wins over Archive's bleed. */
+  .md .md-table-scroll:has(> table.md-table--compact) { margin-inline: 0; }
+}
+
+@layer md.print {
+  @media print {
+    .md { --md-paper: #fff; --md-ink: #000; --md-size: 10.5pt; --md-measure: none; background: none; display: block; padding-inline: 0; }
+    .md > .footnotes { margin-block-start: 2em; }
+    .md :is(h1, h2, h3, h4, h5, h6) { break-after: avoid; }
+    .md :is(figure, table, pre, blockquote) { break-inside: avoid; }
+    .md a { text-decoration: none; }
+    .md a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #555; word-break: break-all; }
+    .md .md-anchor { display: none; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .md *, .md *::before, .md *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}

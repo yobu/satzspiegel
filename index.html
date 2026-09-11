@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="pandoc, satzspiegel">
+<title>Satzspiegel</title>
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="satzspiegel.css">
+<link rel="stylesheet" href="satzspiegel-code.css">
+</head>
+<body>
+<div class="md-host">
+<main class="md" data-md-theme="patina">
+<h1 id="satzspiegel">Satzspiegel</h1>
+<p>Markdown is where the thinking happens now. AI assistants write their
+plans and research in it, notes apps store it, every repository is full
+of it. Sharing it is where it breaks. The raw file is unreadable to
+anyone without an editor. Rendered on GitHub it needs an account. Pasted
+into Word it loses its structure, exported to PDF it looks like a
+default, and the review comes back as an email thread that never finds
+its way into the source.</p>
+<p>Satzspiegel turns a Markdown file into a page set like a book, with
+one command. And the same page can carry your readers' comments back to
+you.</p>
+<p><img src="docs/img/themes.png"
+alt="The same document in the two themes: Patina on the left, Archive on the right" /></p>
+<h2 id="one-command">One command</h2>
+<p>Install <a href="https://pandoc.org/installing.html">Pandoc</a> once,
+on Mac, Windows or Linux. Then:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/yobu/satzspiegel.git <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> satzspiegel <span class="kw">&amp;&amp;</span> <span class="fu">make</span> install</span></code></pre></div>
+<p>From then on, anywhere on your machine:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> plan.md <span class="at">-d</span> satzspiegel <span class="at">-o</span> plan.html</span></code></pre></div>
+<p>Open <code>plan.html</code>. That is the whole workflow.</p>
+<h2 id="send-it-and-get-it-back-with-comments">Send it, and get it back
+with comments</h2>
+<p>Render the review edition instead:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> plan.md <span class="at">-d</span> satzspiegel-review <span class="at">-o</span> plan.html</span></code></pre></div>
+<p>That is one file, and it needs nothing installed on the other
+side.</p>
+<pre><code>  you                                              your reviewer
+  ───                                              ─────────────
+  pandoc plan.md -d satzspiegel-review
+        │
+        │  plan.html, one file
+        ├──── mail, chat or a shared drive ──────▶  opens it, even offline
+        │                                           selects a passage, writes a comment
+        │                                           replies, edits, deletes
+        │                                           Save a copy  →  plan.annotated.html
+        ◀──────────── sends it back ────────────────────┘
+        │
+  opens plan.annotated.html
+  the comments sit beside the passages they belong to
+  Merge files…  adds the copies from other reviewers
+  Export        gives the comments as a Markdown list to work from</code></pre>
+<p>The comments are stored inside the file, in the <a
+href="https://www.w3.org/TR/annotation-html/">W3C Web Annotation</a>
+format, so they travel with it and any tool that reads that format can
+read them. There is no server and no account. Nothing leaves anyone's
+machine. It works in current Chrome, Edge, Safari and Firefox.</p>
+<p>Try it on this page: <a
+href="readme-review.html">readme-review.html</a> is this README as a
+review edition. Comment on it, save a copy, send it back.</p>
+<h2 id="the-switches">The switches</h2>
+<p>Each one is a word on the command line, and each does one thing.</p>
+<ul>
+<li><code>-d satzspiegel</code> makes the plain page. It links the
+stylesheet and fonts from this repository, so it needs a network
+connection to look right.</li>
+<li><code>-d satzspiegel-review</code> makes the page people can comment
+on. It is self-contained: about 1.1 MB, because the four typefaces are
+inside it.</li>
+<li><code>-V nofonts</code> leaves the typefaces out. The page uses the
+fonts already on the reader's computer instead, and the file shrinks to
+about 90 KB. Use it when size matters more than the exact look.</li>
+<li><code>-V theme=archive</code> switches from Patina, a serif with a
+grotesk for headings, to Archive, a smaller serif with numbered sections
+and typewriter-style labels.</li>
+<li><code>-V nocolophon</code> removes the faint "Set with Satzspiegel"
+line at the foot of every page.</li>
+<li><code>-V measure=72ch</code> makes the text column narrower, or
+wider with a bigger number, for one document.</li>
+<li><code>--embed-resources</code> makes the plain page self-contained
+too, so it can be sent like the review edition.</li>
+</ul>
+<p>They combine:
+<code>pandoc plan.md -d satzspiegel-review -V nofonts -V theme=archive -o plan.html</code>.</p>
+<h2 id="why-it-looks-the-way-it-does">Why it looks the way it does</h2>
+<p><em>Satzspiegel</em> is the German word for the type area: the block
+of set text and its relationship to the four margins. Book design juries
+judge that first and the typeface second. The decisions in this
+stylesheet come from what the 2025 and 2026 juries rewarded, at Stiftung
+Buchkunst in Leipzig and Frankfurt, the Dutch and Swiss book
+competitions, AIGA, the Type Directors Club and D&amp;AD: the column
+before the face, one spot colour used for structure, rules that are
+hairlines and horizontal, three heading sizes and then depth by style.
+The survey is in <a href="docs/rationale.html">docs/rationale.md</a>, and
+the <a href="plates/plates.html">plates</a> show every component
+decision with its reason. The typefaces are Spectral, Schibsted Grotesk,
+Source Serif 4 and IBM Plex Mono, all under the SIL Open Font License
+and served from here.</p>
+<h2 id="before-you-send">Before you send</h2>
+<ul>
+<li><strong>Mail filters.</strong> Many mail systems quarantine HTML
+attachments that contain a script, and the review edition contains one.
+Zip the file first, or share it through a drive or a chat, and test the
+route once with your own address.</li>
+<li><strong>Windows and Linux.</strong> Pandoc runs on both, and
+everything here is plain files. <code>make install</code> is the only
+Unix-shaped step; the same four copies work in PowerShell.</li>
+<li><strong>Privacy.</strong> The fonts are served from this repository,
+not from a third party, and the review edition never contacts a
+server.</li>
+</ul>
+<h2 id="everything-else">Everything else</h2>
+<p>The <a href="docs/usage.html">usage guide</a> covers using the
+stylesheet without Pandoc, the code module, the opt-in classes, the
+typefaces and their licences, the command-line tool for returned review
+files, and the repository layout. The stylesheet, template and scripts
+are MIT; the typefaces keep their own licence.</p>
+<p class="md-colophon">Set with <a href="https://github.com/yobu/satzspiegel">Satzspiegel</a></p>
+</main>
+</div>
+</body>
+</html>
