@@ -40,7 +40,7 @@ Variables, on the command line as `-V name` or `-V name=value`, or in the docume
 | `measure` | the text column width for this document, for example `72ch` |
 | `review` | include the comment layer; set by the review defaults files |
 | `md-class` | extra classes on the `.md` element, for example `md--indent md--justified` |
-| `repo` | a GitHub repository, `owner/name`, linked in the running head with its star count; the count is fetched from GitHub's public API in the reader's browser, so use it on web pages, not on documents you send |
+| `repo` | a GitHub repository, `owner/name`, linked in the running head next to a GitHub star button; the button loads GitHub's `buttons.github.io` script, so use it on web pages, not on documents you send |
 
 Pandoc is available for Windows (`winget install JohnMacFarlane.Pandoc`, Chocolatey, or the MSI installer), Linux (a deb and tarball on the release page, and most distribution repositories, which may lag) and macOS (`brew install pandoc`). Docker images and GitHub Actions examples exist on the Pandoc site. On Windows, `install.ps1` does what `make install` does, into `%APPDATA%\pandoc` and `%LOCALAPPDATA%\satzspiegel`.
 

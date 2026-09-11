@@ -18,7 +18,7 @@ $endif$</head>
 $for(include-before)$$include-before$
 $endfor$<div class="md-host">
 <main class="md$if(md-class)$ $md-class$$endif$" data-md-theme="$if(theme)$$theme$$else$patina$endif$"$if(measure)$ style="--md-measure: $measure$"$endif$>
-$if(repo)$<p class="runhead runhead--repo"><a class="md-repo" href="https://github.com/$repo$" data-repo="$repo$"><span>$repo$</span><span class="md-repo-stars"><svg aria-hidden="true" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"><path d="M8 1.6l1.9 4 4.4.6-3.2 3 .8 4.4L8 11.5l-3.9 2.1.8-4.4-3.2-3 4.4-.6z"/></svg><b hidden></b></span></a></p>
+$if(repo)$<p class="runhead runhead--repo"><a class="md-repo" href="https://github.com/$repo$">$repo$</a><a class="github-button" href="https://github.com/$repo$" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star $repo$ on GitHub">Star</a></p>
 $else$$if(title)$<p class="runhead"><span>$title$</span>$if(date)$<span>$date$</span>$endif$</p>
 $endif$$endif$$if(title)$<header id="title-block-header">
 <h1 class="title">$title$</h1>
@@ -30,15 +30,7 @@ $endif$$if(toc)$<nav id="$idprefix$TOC" role="doc-toc">
 $table-of-contents$
 </nav>
 $endif$$body$
-$if(repo)$<script>
-(function () {
-  var a = document.querySelector('.md-repo'); if (!a || !window.fetch) return;
-  fetch('https://api.github.com/repos/' + a.dataset.repo, { headers: { Accept: 'application/vnd.github+json' } })
-    .then(function (r) { return r.ok ? r.json() : null; })
-    .then(function (d) { if (!d || typeof d.stargazers_count !== 'number') return; var b = a.querySelector('.md-repo-stars b'); b.textContent = new Intl.NumberFormat().format(d.stargazers_count); b.hidden = false; })
-    .catch(function () {});
-})();
-</script>
+$if(repo)$<script async defer src="https://buttons.github.io/buttons.js"></script>
 $endif$$if(nocolophon)$$else$<p class="md-colophon">Set with <a href="https://github.com/yobu/satzspiegel">Satzspiegel</a></p>
 $endif$</main>
 </div>

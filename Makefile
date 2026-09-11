@@ -20,6 +20,9 @@ RENDER      := pandoc --data-dir=pandoc -s --template=satzspiegel -L satzspiegel
 # `make install` or on GitHub Pages being live.
 REVIEW      := $(RENDER) --embed-resources -V review -V review-css=pandoc/review/satzspiegel-review.css -V review-js=pandoc/review/satzspiegel-review.js -V fonts-css=fonts.css -c satzspiegel.css -c satzspiegel-code.css
 # \# because a bare # would start a make comment.
+# A version tag on linked stylesheets, so a freshly deployed page never pairs
+# with a stylesheet still held in a browser or CDN cache.
+CSSV        := ?v=$(shell cat satzspiegel.css satzspiegel-code.css fonts.css | shasum -a 256 | cut -c1-8)
 LINKS       := perl -pi -e 's/href="(?![a-z]+:)([^"\#]+)\.md(\#[^"]*)?"/href="$$1.html$$2"/g'
 
 # Fails if an embedded file still references hosted resources or carries no script.
@@ -34,8 +37,8 @@ mkdir -p $(1)
 for f in examples/*.md; do \
   n=$$(basename "$$f" .md); from="$(READER_MD)"; meta=""; \
   case $$n in *gfm*) from="$(READER_GFM)"; meta="-M pagetitle=$$n";; esac; \
-  $(RENDER) -f "$$from" $$meta --resource-path=examples -V fonts-css=$(2)fonts.css -c $(2)satzspiegel.css -c $(2)satzspiegel-code.css "$$f" -o "$(1)/$$n.html"; \
-  $(RENDER) -f "$$from" $$meta --resource-path=examples -V theme=archive -V fonts-css=$(2)fonts.css -c $(2)satzspiegel.css -c $(2)satzspiegel-code.css "$$f" -o "$(1)/$$n-archive.html"; \
+  $(RENDER) -f "$$from" $$meta --resource-path=examples -V fonts-css=$(2)fonts.css$(CSSV) -c $(2)satzspiegel.css$(CSSV) -c $(2)satzspiegel-code.css$(CSSV) "$$f" -o "$(1)/$$n.html"; \
+  $(RENDER) -f "$$from" $$meta --resource-path=examples -V theme=archive -V fonts-css=$(2)fonts.css$(CSSV) -c $(2)satzspiegel.css$(CSSV) -c $(2)satzspiegel-code.css$(CSSV) "$$f" -o "$(1)/$$n-archive.html"; \
 done
 endef
 
@@ -113,7 +116,7 @@ examples: ## examples/*.md in both themes into build/examples
 	@ls build/examples
 
 readme: ## README.md as index.html (the home page) and readme-review.html (its review edition)
-	$(RENDER) -f $(READER_GFM) -M pagetitle=Satzspiegel -V repo=yobu/satzspiegel -V fonts-css=fonts.css -c satzspiegel.css -c satzspiegel-code.css README.md -o index.html
+	$(RENDER) -f $(READER_GFM) -M pagetitle=Satzspiegel -V repo=yobu/satzspiegel -V fonts-css=fonts.css$(CSSV) -c satzspiegel.css$(CSSV) -c satzspiegel-code.css$(CSSV) README.md -o index.html
 	$(REVIEW) -f $(READER_GFM) -M pagetitle="Satzspiegel, review edition" -V nofonts README.md -o readme-review.html
 	$(LINKS) index.html readme-review.html
 	$(call assert-embedded,readme-review.html)
@@ -137,8 +140,8 @@ site: readme ## the GitHub Pages site into _site/
 	cp docs/scale.svg _site/docs/ && cp -R docs/img _site/docs/img
 	cp plates/plates.html plates/plates.css _site/plates/
 	cp input/markdown.css input/markdown-code.css _site/input/
-	$(RENDER) -f $(READER_MD) -M pagetitle="Awards and component set" -V theme=archive -V fonts-css=../fonts.css -c ../satzspiegel.css -c ../satzspiegel-code.css docs/rationale.md -o _site/docs/rationale.html
-	$(RENDER) -f $(READER_MD) -V fonts-css=../fonts.css -c ../satzspiegel.css -c ../satzspiegel-code.css docs/usage.md -o _site/docs/usage.html
+	$(RENDER) -f $(READER_MD) -M pagetitle="Awards and component set" -V theme=archive -V fonts-css=../fonts.css$(CSSV) -c ../satzspiegel.css$(CSSV) -c ../satzspiegel-code.css$(CSSV) docs/rationale.md -o _site/docs/rationale.html
+	$(RENDER) -f $(READER_MD) -V fonts-css=../fonts.css$(CSSV) -c ../satzspiegel.css$(CSSV) -c ../satzspiegel-code.css$(CSSV) docs/usage.md -o _site/docs/usage.html
 	$(REVIEW) -f $(READER_MD) sample.md -o _site/examples/sample-review.html
 	$(call assert-embedded,_site/examples/sample-review.html)
 	$(call render-examples,_site/examples,../)
