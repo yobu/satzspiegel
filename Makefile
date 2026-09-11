@@ -113,7 +113,7 @@ examples: ## examples/*.md in both themes into build/examples
 	@ls build/examples
 
 readme: ## README.md as index.html (the home page) and readme-review.html (its review edition)
-	$(RENDER) -f $(READER_GFM) -M pagetitle=Satzspiegel -V fonts-css=fonts.css -c satzspiegel.css -c satzspiegel-code.css README.md -o index.html
+	$(RENDER) -f $(READER_GFM) -M pagetitle=Satzspiegel -V repo=yobu/satzspiegel -V fonts-css=fonts.css -c satzspiegel.css -c satzspiegel-code.css README.md -o index.html
 	$(REVIEW) -f $(READER_GFM) -M pagetitle="Satzspiegel, review edition" -V nofonts README.md -o readme-review.html
 	$(LINKS) index.html readme-review.html
 	$(call assert-embedded,readme-review.html)
