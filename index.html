@@ -27,18 +27,23 @@ you.</p>
 alt="The same document in the two themes: Patina on the left, Archive on the right" /></p>
 <h2 id="one-command">One command</h2>
 <p>Install <a href="https://pandoc.org/installing.html">Pandoc</a> once,
-on Mac, Windows or Linux. Then:</p>
+on Mac, Windows or Linux. Then, on Mac or Linux:</p>
 <div class="sourceCode" id="cb1"><pre
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/yobu/satzspiegel.git <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> satzspiegel <span class="kw">&amp;&amp;</span> <span class="fu">make</span> install</span></code></pre></div>
-<p>From then on, anywhere on your machine:</p>
+<p>On Windows, in PowerShell, the install script does the same copies
+(it needs <a href="https://git-scm.com/download/win">Git for
+Windows</a>, or download the repository as a zip and unpack it):</p>
 <div class="sourceCode" id="cb2"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> plan.md <span class="at">-d</span> satzspiegel <span class="at">-o</span> plan.html</span></code></pre></div>
+class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>git clone https<span class="op">://</span>github<span class="op">.</span><span class="fu">com</span><span class="op">/</span>yobu<span class="op">/</span>satzspiegel<span class="op">.</span><span class="fu">git</span><span class="op">;</span> <span class="fu">cd</span> satzspiegel<span class="op">;</span> powershell <span class="op">-</span>ExecutionPolicy Bypass <span class="op">-</span>File install<span class="op">.</span><span class="fu">ps1</span></span></code></pre></div>
+<p>From then on, anywhere on your machine:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> plan.md <span class="at">-d</span> satzspiegel <span class="at">-o</span> plan.html</span></code></pre></div>
 <p>Open <code>plan.html</code>. That is the whole workflow.</p>
 <h2 id="send-it-and-get-it-back-with-comments">Send it, and get it back
 with comments</h2>
 <p>Render the review edition instead:</p>
-<div class="sourceCode" id="cb3"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> plan.md <span class="at">-d</span> satzspiegel-review <span class="at">-o</span> plan.html</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> plan.md <span class="at">-d</span> satzspiegel-review <span class="at">-o</span> plan.html</span></code></pre></div>
 <p>That is one file, and it needs nothing installed on the other
 side.</p>
 <pre><code>  you                                              your reviewer
@@ -109,8 +114,9 @@ attachments that contain a script, and the review edition contains one.
 Zip the file first, or share it through a drive or a chat, and test the
 route once with your own address.</li>
 <li><strong>Windows and Linux.</strong> Pandoc runs on both, and
-everything here is plain files. <code>make install</code> is the only
-Unix-shaped step; the same four copies work in PowerShell.</li>
+everything here is plain files. <code>make install</code> on Mac and
+Linux and <code>install.ps1</code> on Windows make the same four
+copies.</li>
 <li><strong>Privacy.</strong> The fonts are served from this repository,
 not from a third party, and the review edition never contacts a
 server.</li>

@@ -8,10 +8,16 @@ Satzspiegel turns a Markdown file into a page set like a book, with one command.
 
 ## One command
 
-Install [Pandoc](https://pandoc.org/installing.html) once, on Mac, Windows or Linux. Then:
+Install [Pandoc](https://pandoc.org/installing.html) once, on Mac, Windows or Linux. Then, on Mac or Linux:
 
 ```bash
 git clone https://github.com/yobu/satzspiegel.git && cd satzspiegel && make install
+```
+
+On Windows, in PowerShell, the install script does the same copies (it needs [Git for Windows](https://git-scm.com/download/win), or download the repository as a zip and unpack it):
+
+```powershell
+git clone https://github.com/yobu/satzspiegel.git; cd satzspiegel; powershell -ExecutionPolicy Bypass -File install.ps1
 ```
 
 From then on, anywhere on your machine:
@@ -75,7 +81,7 @@ They combine: `pandoc plan.md -d satzspiegel-review -V nofonts -V theme=archive 
 ## Before you send
 
 - **Mail filters.** Many mail systems quarantine HTML attachments that contain a script, and the review edition contains one. Zip the file first, or share it through a drive or a chat, and test the route once with your own address.
-- **Windows and Linux.** Pandoc runs on both, and everything here is plain files. `make install` is the only Unix-shaped step; the same four copies work in PowerShell.
+- **Windows and Linux.** Pandoc runs on both, and everything here is plain files. `make install` on Mac and Linux and `install.ps1` on Windows make the same four copies.
 - **Privacy.** The fonts are served from this repository, not from a third party, and the review edition never contacts a server.
 
 ## Everything else
