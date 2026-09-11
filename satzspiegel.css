@@ -688,14 +688,15 @@
 @layer md.layout {
   /* Repository link in the running head (template variable `repo`): the
      star is the one mark in the spot, the count takes tabular figures. */
+  .md > .runhead--repo { justify-content: flex-end; }
   .md > .runhead .md-repo {
-    display: inline-flex; align-items: center; gap: 0.6ch;
+    display: inline-flex; align-items: center; gap: 1.2ch; white-space: nowrap;
     color: inherit; text-decoration: none;
   }
   .md > .runhead .md-repo:hover { color: var(--md-ink); }
-  .md > .runhead .md-repo svg { color: var(--md-spot); }
-  .md > .runhead .md-repo-stars { font-weight: inherit; font-variant-numeric: lining-nums tabular-nums; }
-  .md > .runhead .md-repo-stars::before { content: "·"; margin-inline-end: 0.6ch; color: var(--md-ink-faint); }
+  .md > .runhead .md-repo-stars { display: inline-flex; align-items: center; gap: 0.5ch; }
+  .md > .runhead .md-repo-stars svg { color: var(--md-spot); }
+  .md > .runhead .md-repo-stars b { font-weight: inherit; font-variant-numeric: lining-nums tabular-nums; }
 
   /* A compact table fits its content, so it stays on the text edge rather
      than breaking into the margin. Declared last in the layout layer so it

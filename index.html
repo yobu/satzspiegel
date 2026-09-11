@@ -12,7 +12,7 @@
 <body>
 <div class="md-host">
 <main class="md" data-md-theme="patina">
-<p class="runhead"><span>Satzspiegel</span><a class="md-repo" href="https://github.com/yobu/satzspiegel" data-repo="yobu/satzspiegel"><svg aria-hidden="true" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"><path d="M8 1.6l1.9 4 4.4.6-3.2 3 .8 4.4L8 11.5l-3.9 2.1.8-4.4-3.2-3 4.4-.6z"/></svg>yobu/satzspiegel<b class="md-repo-stars" hidden></b></a></p>
+<p class="runhead runhead--repo"><a class="md-repo" href="https://github.com/yobu/satzspiegel" data-repo="yobu/satzspiegel"><span>yobu/satzspiegel</span><span class="md-repo-stars"><svg aria-hidden="true" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"><path d="M8 1.6l1.9 4 4.4.6-3.2 3 .8 4.4L8 11.5l-3.9 2.1.8-4.4-3.2-3 4.4-.6z"/></svg><b hidden></b></span></a></p>
 <h1 id="satzspiegel">Satzspiegel</h1>
 <p>Markdown is where the thinking happens now. AI assistants write their
 plans and research in it, notes apps store it, every repository is full
@@ -135,7 +135,7 @@ are MIT; the typefaces keep their own licence.</p>
   var a = document.querySelector('.md-repo'); if (!a || !window.fetch) return;
   fetch('https://api.github.com/repos/' + a.dataset.repo, { headers: { Accept: 'application/vnd.github+json' } })
     .then(function (r) { return r.ok ? r.json() : null; })
-    .then(function (d) { if (!d || typeof d.stargazers_count !== 'number') return; var b = a.querySelector('.md-repo-stars'); b.textContent = new Intl.NumberFormat().format(d.stargazers_count); b.hidden = false; })
+    .then(function (d) { if (!d || typeof d.stargazers_count !== 'number') return; var b = a.querySelector('.md-repo-stars b'); b.textContent = new Intl.NumberFormat().format(d.stargazers_count); b.hidden = false; })
     .catch(function () {});
 })();
 </script>
