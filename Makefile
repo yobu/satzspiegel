@@ -53,7 +53,7 @@ install: ## Pandoc template, defaults and filter into Pandoc's data dir; CSS and
 	mkdir -p "$(PANDOC_DATA)/templates" "$(PANDOC_DATA)/defaults" "$(PANDOC_DATA)/filters" "$(LOCAL)/pandoc/review"
 	cp pandoc/templates/satzspiegel.html "$(PANDOC_DATA)/templates/"
 	cp pandoc/defaults/satzspiegel.yaml pandoc/defaults/satzspiegel-gfm.yaml pandoc/defaults/satzspiegel-review.yaml pandoc/defaults/satzspiegel-review-light.yaml "$(PANDOC_DATA)/defaults/"
-	cp pandoc/filters/satzspiegel.lua "$(PANDOC_DATA)/filters/"
+	cp pandoc/filters/satzspiegel.lua pandoc/filters/satzspiegel-diagram.lua pandoc/filters/satzspiegel-diagram.LICENSE "$(PANDOC_DATA)/filters/"
 	cp satzspiegel.css satzspiegel-code.css fonts.css "$(LOCAL)/"
 	cp pandoc/review/satzspiegel-review.js pandoc/review/satzspiegel-review.css "$(LOCAL)/pandoc/review/"
 	rm -rf "$(LOCAL)/fonts" && cp -R fonts "$(LOCAL)/fonts"
@@ -65,12 +65,13 @@ install: ## Pandoc template, defaults and filter into Pandoc's data dir; CSS and
 uninstall: ## remove what install put in place
 	@test -n "$(PANDOC_DATA)" || { echo "pandoc not found; nothing to remove from its data directory"; exit 1; }
 	@test -n "$(LOCAL)" || { echo "HOME is not set"; exit 1; }
-	rm -f "$(PANDOC_DATA)/templates/satzspiegel.html" "$(PANDOC_DATA)/filters/satzspiegel.lua"
+	rm -f "$(PANDOC_DATA)/templates/satzspiegel.html" "$(PANDOC_DATA)"/filters/satzspiegel*
 	rm -f "$(PANDOC_DATA)"/defaults/satzspiegel*.yaml
 	rm -rf "$(LOCAL)"
 
 check: verify-fonts ## contrast, a render of every kind, the review round trip on the command line
 	python3 scripts/contrast.py satzspiegel.css
+	@cd pandoc/filters && shasum -a 256 -c satzspiegel-diagram.lua.sha256 --quiet && echo "satzspiegel-diagram.lua: pandoc-ext/diagram 1.2.0, unmodified"
 	mkdir -p build/check
 	$(RENDER) -f $(READER_MD) -V fonts-css=../../fonts.css -c ../../satzspiegel.css -c ../../satzspiegel-code.css sample.md -o build/check/patina.html
 	$(RENDER) -f $(READER_MD) -V theme=archive -V fonts-css=../../fonts.css -c ../../satzspiegel.css -c ../../satzspiegel-code.css sample.md -o build/check/archive.html
@@ -80,6 +81,15 @@ check: verify-fonts ## contrast, a render of every kind, the review round trip o
 	$(call assert-embedded,build/check/review.html)
 	$(call assert-embedded,build/check/review-light.html)
 	@grep -q 'class="md-table-scroll"' build/check/patina.html
+	@if command -v mmdc >/dev/null 2>&1 || [ -n "$$MERMAID_BIN" ]; then \
+	  for f in patina archive gfm review; do \
+	    grep -q '<figure class="md-diagram">' build/check/$$f.html || { echo "ERROR: build/check/$$f.html: mmdc is installed, but the diagram was not drawn"; exit 1; }; \
+	    grep -q 'src="data:image/svg+xml;base64,' build/check/$$f.html || { echo "ERROR: build/check/$$f.html: the diagram is not inside the file"; exit 1; }; \
+	  done; echo "diagrams: drawn by mmdc, inside the file"; \
+	else \
+	  grep -q 'class="md-diagram-source mermaid"' build/check/patina.html || { echo "ERROR: without mmdc the mermaid block must stay a code block"; exit 1; }; \
+	  echo "diagrams: mmdc not installed, the block stays code (the fallback)"; \
+	fi
 	@grep -q 'data-md-theme="archive"' build/check/archive.html
 	@grep -q 'id="satzspiegel-annotations"' build/check/review.html
 	@! grep -q 'font/woff2' build/check/review-light.html

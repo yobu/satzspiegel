@@ -131,6 +131,22 @@ export const space = {
 
 ![Three size steps; below the third, depth is carried by weight, slope and small caps.](docs/scale.svg)
 
+## From citation to stylesheet
+
+A diagram is drawn when the page is rendered and arrives as an image, so the file stays one file and opens offline.
+
+```mermaid
+%%| caption: How a jury citation becomes a rule in the stylesheet.
+%%| alt: Flowchart. Eleven competitions lead to seven principles, the principles to tokens, the tokens to components, the components to the page. The plates test the components and send corrections back to the tokens.
+graph LR
+  A[Eleven competitions] --> B[Seven principles]
+  B --> C[Tokens]
+  C --> D[Components]
+  D --> E([The page])
+  D -. tested on .-> F[Plates]
+  F -. corrects .-> C
+```
+
 [^jury]: The jury reviewed the entries at the German National Library, 19 to 21 February 2026. Catalogue designed by Lamm & Kirch.
 [^dutch]: It had already won the Dutch national competition. The Netherlands has now taken the Goldene Letter repeatedly, including 2025 for *Forget Me Not*.
 [^typehigh]: Named and designed by Graham Clifford, TDC life member and Chairman Emeritus. Totals: 13 Gold, 26 Silver, 28 Bronze, 92 Certificates.

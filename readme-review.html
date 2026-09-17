@@ -408,6 +408,11 @@ border: 0; padding-inline: 0; max-width: none; color: var(--md-ink);
 .md p > img { margin-inline: auto; }
 .md figure { margin-block: 0; margin-inline: 0; }
 
+.md * + figure { margin-block-start: var(--md-space-block); }
+
+.md figure.md-diagram { overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
+.md figure.md-diagram > img:not([style*="width"]) { max-inline-size: none; }
+
 .md p:has(> math[display="block"]) { overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
 .md figcaption {
 margin-block-start: calc(var(--md-rhythm) * 0.4);
@@ -529,6 +534,7 @@ font-size: 0.78em; line-height: 1.45;
 .md > .footnotes { margin-block-start: 2em; }
 .md :is(h1, h2, h3, h4, h5, h6) { break-after: avoid; }
 .md :is(figure, table, pre, blockquote) { break-inside: avoid; }
+.md figure.md-diagram > img { max-inline-size: 100% !important; }
 .md a { text-decoration: none; }
 .md a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #555; word-break: break-all; }
 .md .md-anchor { display: none; }
@@ -847,6 +853,10 @@ line at the foot.</li>
 document.</li>
 <li><code>--embed-resources</code> makes the plain page self-contained
 too.</li>
+<li>A fenced <code>mermaid</code> block becomes a diagram in the theme&#39;s
+colours, drawn at render time and written into the file as an image.
+Needs <code>npm install -g @mermaid-js/mermaid-cli</code>; without it
+the block stays code.</li>
 </ul>
 <p>They combine:
 <code>pandoc plan.md -d satzspiegel-review -V nofonts -V theme=archive -o plan.html</code>.</p>
@@ -864,10 +874,11 @@ review edition has one. Zip it, or share a link, and test the route once
 with your own address. Merging is last writer wins: right for one author
 and a handful of reviewers, wrong for live co-editing.</p>
 <h2 id="everything-else">Everything else</h2>
-<p>The <a href="docs/usage.html">usage guide</a>: the stylesheet without
-Pandoc, the code module, the opt-in classes, the typefaces and their
-licences, the command-line tool for returned files, the repository
-layout. MIT for the code; the typefaces keep their own licence.</p>
+<p>The <a href="docs/usage.html">usage guide</a>: images and diagrams, the
+stylesheet without Pandoc, the code module, the opt-in classes, the
+typefaces and their licences, the command-line tool for returned files,
+the repository layout. MIT for the code; the typefaces keep their own
+licence.</p>
 <p class="md-colophon">Set with <a href="https://github.com/yobu/satzspiegel">Satzspiegel</a></p>
 </main>
 </div>

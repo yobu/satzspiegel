@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Diagrams at render time. A fenced `mermaid` block is drawn by mermaid-cli through the Pandoc project's diagram filter (pandoc-ext/diagram 1.2.0, shipped unmodified as `pandoc/filters/satzspiegel-diagram.lua`, MIT, checksum verified in `make check`) and written into the page as an SVG data URI inside `figure.md-diagram`. No script is added to the page, a linked page needs no extra file, and a review edition keeps the diagram's labels out of its text index. The diagram takes the theme's paper, ink, rule and spot, with system faces. Without `mmdc` the block stays a code block and Pandoc says once how to install it. Results are cached in `~/.cache/pandoc-diagram-filter`. A diagram keeps its drawn size and scrolls inside its figure when wider than the column, so labels are never shrunk below reading size.
+- Figures take the block spacing every other block has; `.md figure { margin-block: 0 }` sat in a later cascade layer and had been cancelling it.
+
 ## 1.0.0
 
 First public release. Two themes, Patina (default) and Archive, over one component layer, with self-hosted OFL typefaces and Pandoc integration (template, defaults files, Lua filter).

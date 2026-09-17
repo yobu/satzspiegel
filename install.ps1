@@ -16,7 +16,7 @@ foreach ($d in 'templates', 'defaults', 'filters') { New-Item -ItemType Director
 New-Item -ItemType Directory -Force -Path (Join-Path $local 'pandoc\review') | Out-Null
 
 Copy-Item (Join-Path $here 'pandoc\templates\satzspiegel.html') (Join-Path $dataDir 'templates')
-Copy-Item (Join-Path $here 'pandoc\filters\satzspiegel.lua') (Join-Path $dataDir 'filters')
+Copy-Item (Join-Path $here 'pandoc\filters\satzspiegel.lua'), (Join-Path $here 'pandoc\filters\satzspiegel-diagram.lua'), (Join-Path $here 'pandoc\filters\satzspiegel-diagram.LICENSE') (Join-Path $dataDir 'filters')
 Copy-Item (Join-Path $here 'satzspiegel.css'), (Join-Path $here 'satzspiegel-code.css'), (Join-Path $here 'fonts.css') $local
 if (Test-Path (Join-Path $local 'fonts')) { Remove-Item -Recurse -Force (Join-Path $local 'fonts') }
 Copy-Item -Recurse (Join-Path $here 'fonts') (Join-Path $local 'fonts')

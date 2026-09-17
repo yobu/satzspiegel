@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="pandoc, satzspiegel">
 <title>Satzspiegel</title>
-<link rel="stylesheet" href="fonts.css?v=95dc7e6a">
-<link rel="stylesheet" href="satzspiegel.css?v=95dc7e6a">
-<link rel="stylesheet" href="satzspiegel-code.css?v=95dc7e6a">
+<link rel="stylesheet" href="fonts.css?v=c5ac461a">
+<link rel="stylesheet" href="satzspiegel.css?v=c5ac461a">
+<link rel="stylesheet" href="satzspiegel-code.css?v=c5ac461a">
 </head>
 <body>
 <div class="md-host">
@@ -83,6 +83,10 @@ line at the foot.</li>
 document.</li>
 <li><code>--embed-resources</code> makes the plain page self-contained
 too.</li>
+<li>A fenced <code>mermaid</code> block becomes a diagram in the theme's
+colours, drawn at render time and written into the file as an image.
+Needs <code>npm install -g @mermaid-js/mermaid-cli</code>; without it
+the block stays code.</li>
 </ul>
 <p>They combine:
 <code>pandoc plan.md -d satzspiegel-review -V nofonts -V theme=archive -o plan.html</code>.</p>
@@ -102,10 +106,11 @@ review edition has one. Zip it, or share a link, and test the route once
 with your own address. Merging is last writer wins: right for one author
 and a handful of reviewers, wrong for live co-editing.</p>
 <h2 id="everything-else">Everything else</h2>
-<p>The <a href="docs/usage.html">usage guide</a>: the stylesheet without
-Pandoc, the code module, the opt-in classes, the typefaces and their
-licences, the command-line tool for returned files, the repository
-layout. MIT for the code; the typefaces keep their own licence.</p>
+<p>The <a href="docs/usage.html">usage guide</a>: images and diagrams, the
+stylesheet without Pandoc, the code module, the opt-in classes, the
+typefaces and their licences, the command-line tool for returned files,
+the repository layout. MIT for the code; the typefaces keep their own
+licence.</p>
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <p class="md-colophon">Set with <a href="https://github.com/yobu/satzspiegel">Satzspiegel</a></p>
 </main>

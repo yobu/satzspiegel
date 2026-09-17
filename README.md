@@ -71,6 +71,7 @@ Try it on this page: [readme-review.html](readme-review.html) is this README as 
 - `-V nocolophon` removes the faint "Set with Satzspiegel" line at the foot.
 - `-V measure=72ch` sets the column width for one document.
 - `--embed-resources` makes the plain page self-contained too.
+- A fenced `mermaid` block becomes a diagram in the theme's colours, drawn at render time and written into the file as an image. Needs `npm install -g @mermaid-js/mermaid-cli`; without it the block stays code.
 
 They combine: `pandoc plan.md -d satzspiegel-review -V nofonts -V theme=archive -o plan.html`.
 
@@ -84,4 +85,4 @@ Mail systems often quarantine HTML with a script in it, and the review edition h
 
 ## Everything else
 
-The [usage guide](docs/usage.md): the stylesheet without Pandoc, the code module, the opt-in classes, the typefaces and their licences, the command-line tool for returned files, the repository layout. MIT for the code; the typefaces keep their own licence.
+The [usage guide](docs/usage.md): images and diagrams, the stylesheet without Pandoc, the code module, the opt-in classes, the typefaces and their licences, the command-line tool for returned files, the repository layout. MIT for the code; the typefaces keep their own licence.

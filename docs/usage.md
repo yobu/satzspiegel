@@ -18,7 +18,7 @@ The [README](../README.md) tells the story and gives the two commands. This guid
 | `satzspiegel-review-light` | Pandoc Markdown | the review edition without the typefaces |
 | `*-local` | as above | the same four, with the stylesheet and fonts taken from the local install; use with `--embed-resources` for offline rendering |
 
-Pandoc Markdown reads footnotes, definition lists, task lists, pipe tables, fenced divs, implicit figures, smart punctuation, GitHub alerts and `==marks==`; the defaults files turn all of these on. Mathematics renders as MathML, so equations need no script. A small Lua filter wraps every table in a scrolling container and labels its cells for the stacked-table variant.
+Pandoc Markdown reads footnotes, definition lists, task lists, pipe tables, fenced divs, implicit figures, smart punctuation, GitHub alerts and `==marks==`; the defaults files turn all of these on. Mathematics renders as MathML, so equations need no script. A small Lua filter wraps every table in a scrolling container, labels its cells for the stacked-table variant, and draws the diagrams (see [Images and diagrams](#images-and-diagrams)).
 
 Without `make install`, Pandoc can take the template by URL and the stylesheets by URL; only the filter must be local. The template links the typefaces only when it is told where they are, so pass `fonts.css` as the first stylesheet:
 
@@ -41,6 +41,37 @@ Variables, on the command line as `-V name` or `-V name=value`, or in the docume
 | `review` | include the comment layer; set by the review defaults files |
 | `md-class` | extra classes on the `.md` element, for example `md--indent md--justified` |
 | `repo` | a GitHub repository, `owner/name`, linked in the running head next to a GitHub star button; the button loads GitHub's `buttons.github.io` script, so use it on web pages, not on documents you send |
+
+## Images and diagrams
+
+Images need nothing. In a self-contained file (every review edition, or any page rendered with `--embed-resources`) Pandoc writes each image into the file, whether the Markdown names a local path or an `https` address, so what you send is complete. In a linked page the path stays as you wrote it and has to resolve from where the HTML ends up; `--resource-path` tells Pandoc where else to look, and `--embed-resources` removes the question. A paragraph holding only an image becomes a figure with its caption, `{width=60%}` sizes it, and a figure may break out of the column where the page has a margin to give.
+
+Diagrams are drawn when the page is rendered, not when it is opened. A fenced `mermaid` block goes through [mermaid-cli](https://github.com/mermaid-js/mermaid-cli) and arrives in the page as an SVG image, written into the HTML itself. The file stays one file, opens offline, gains a few kilobytes per diagram instead of a three-megabyte script, and the review edition still carries exactly one script.
+
+```bash
+npm install -g @mermaid-js/mermaid-cli
+```
+
+Then, in the Markdown:
+
+````markdown
+```mermaid
+%%| caption: The review loop.
+%%| alt: Sequence diagram. The author sends plan.html, the reviewer sends plan.annotated.html back.
+sequenceDiagram
+  Author->>Reviewer: plan.html
+  Reviewer-->>Author: plan.annotated.html
+```
+````
+
+- The diagram takes the theme: paper, ink, hairlines and the spot of Patina or Archive, a sans face in Patina and a monospace in Archive. Both are system faces, because an SVG shown as an image cannot reach the page's typefaces, and labels measured on your machine have to fit on the reader's.
+- A diagram keeps the size it was drawn at, so its labels stay at reading size. One that is wider than the column scrolls sideways inside its figure, as a wide table does; a long chain reads better as `flowchart TD` than `LR`. `width=60%` on the block scales it instead, and print always fits it to the page.
+- `%%| caption:` makes it a captioned figure and `%%| alt:` gives the image its description; both also work as attributes in Pandoc Markdown, ```` ```{.mermaid caption="…" alt="…" width=60%} ````. The comment form survives the GFM reader, which has no attributes.
+- A block that starts with its own `%%{init: …}%%` directive or a `---` front matter keeps its own configuration. Set `htmlLabels: false` there, or some browsers will draw the boxes without their words.
+- Without `mmdc` on the `PATH` the block stays a code block, and Pandoc says once how to install it. `MERMAID_BIN` names the program if it lives elsewhere.
+- Drawing starts a headless browser and takes a few seconds per diagram, so results are kept in `~/.cache/pandoc-diagram-filter` and an unchanged diagram costs nothing on the next render. `diagram: {cache: false}` in the front matter turns that off.
+- The work is done by the Pandoc project's [diagram filter](https://github.com/pandoc-ext/diagram), release 1.2.0, shipped unmodified as `satzspiegel-diagram.lua` under its MIT licence and verified by checksum in `make check`. It also draws `dot` (Graphviz), `plantuml`, `tikz`, `asymptote` and `cetz` blocks when their programs are installed; only mermaid is themed. To show such source as code instead, put another class first: ```` ```{.text .mermaid} ````.
+- In a review edition the labels of a diagram cannot be commented on, by design: as an image they stay out of the text the comments anchor to. Comment on the caption or the sentence beside it.
 
 Pandoc is available for Windows (`winget install JohnMacFarlane.Pandoc`, Chocolatey, or the MSI installer), Linux (a deb and tarball on the release page, and most distribution repositories, which may lag) and macOS (`brew install pandoc`). Docker images and GitHub Actions examples exist on the Pandoc site. On Windows, `install.ps1` does what `make install` does, into `%APPDATA%\pandoc` and `%LOCALAPPDATA%\satzspiegel`.
 
@@ -146,7 +177,7 @@ The same page both ways, on a Mac. Left with the typefaces, right in the system 
 satzspiegel.css         tokens for both themes, the component layer, the layouts
 satzspiegel-code.css    optional code module
 fonts.css  fonts/       typefaces and licences                    (make fonts)
-pandoc/                 template, defaults files, Lua filter, review layer   (make install)
+pandoc/                 template, defaults files, Lua filters, review layer  (make install)
 sample.md               every object a Markdown pipeline emits  (make sample, make review)
 examples/               six documents that exercise the set     (make examples)
 scripts/                font fetcher; annotation extractor for returned review files
@@ -163,7 +194,7 @@ What the review layer trusts: nothing. Comment text, names and quotes are writte
 
 ## Licence
 
-MIT for the stylesheet, template, filter, review layer and scripts: use, copy, change and redistribute, with the notice kept.
+MIT for the stylesheet, template, filter, review layer and scripts: use, copy, change and redistribute, with the notice kept. The diagram filter in `pandoc/filters/satzspiegel-diagram.lua` is the work of Albert Krewinkel and contributors, also MIT; its notice is beside it.
 
 The typefaces are under the SIL Open Font License 1.1, and that licence is what allows them to be hosted here, served from GitHub Pages and a CDN, and embedded in the files you produce. Three points from the licence and its FAQ shape how they are shipped:
 

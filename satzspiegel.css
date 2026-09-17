@@ -547,6 +547,12 @@
   .md p > img { margin-inline: auto; }
 
   .md figure { margin-block: 0; margin-inline: 0; }
+  /* This layer outranks the block spacing of the base layer, so say it again. */
+  .md * + figure { margin-block-start: var(--md-space-block); }
+  /* A diagram keeps its drawn size, so its labels stay at reading size; one
+     wider than the column scrolls inside its figure, as a wide table does. */
+  .md figure.md-diagram { overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
+  .md figure.md-diagram > img:not([style*="width"]) { max-inline-size: none; }
 
   /* Display equations (MathML) scroll inside their own paragraph when wider
      than the column, like code, instead of widening the page. */
@@ -708,6 +714,7 @@
     .md > .footnotes { margin-block-start: 2em; }
     .md :is(h1, h2, h3, h4, h5, h6) { break-after: avoid; }
     .md :is(figure, table, pre, blockquote) { break-inside: avoid; }
+    .md figure.md-diagram > img { max-inline-size: 100% !important; }
     .md a { text-decoration: none; }
     .md a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #555; word-break: break-all; }
     .md .md-anchor { display: none; }

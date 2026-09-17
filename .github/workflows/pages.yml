@@ -3,10 +3,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+# Per job, so the build, which installs npm packages, cannot deploy.
+permissions: {}
 concurrency:
   group: pages
   cancel-in-progress: true
@@ -14,6 +12,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: read
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Install pandoc 3.11, checksum pinned
@@ -21,7 +22,16 @@ jobs:
           curl -sSL --fail https://github.com/jgm/pandoc/releases/download/3.11/pandoc-3.11-1-amd64.deb -o pandoc.deb
           echo "89d4c9d97818c62a97157f0072844e4602c6cee795bf84abd1aee7273abcda99  pandoc.deb" | sha256sum -c -
           sudo dpkg -i pandoc.deb
+      - name: Install mermaid-cli 11.17.0 for the diagrams, on the runner's own Chrome
+        run: |
+          PUPPETEER_SKIP_DOWNLOAD=1 npm install -g --no-fund --no-audit @mermaid-js/mermaid-cli@11.17.0
+          echo '{"executablePath":"/usr/bin/google-chrome","args":["--no-sandbox"]}' > "$RUNNER_TEMP/puppeteer.json"
+          printf '#!/bin/sh\nexec mmdc -p "%s/puppeteer.json" "$@"\n' "$RUNNER_TEMP" > "$RUNNER_TEMP/mmdc-ci"
+          chmod +x "$RUNNER_TEMP/mmdc-ci"
+          echo "MERMAID_BIN=$RUNNER_TEMP/mmdc-ci" >> "$GITHUB_ENV"
       - run: make site
+      - name: The sample's diagram was drawn
+        run: grep -q '<figure class="md-diagram">' _site/examples/sample-review.html || echo "::warning::mmdc did not draw the sample's diagram; the hosted sample shows the mermaid source as code"
       - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
@@ -30,6 +40,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
