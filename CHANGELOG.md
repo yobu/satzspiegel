@@ -1,9 +1,15 @@
 # Changelog
 
-## Unreleased
+## 1.1.0
+
+17 September 2026.
 
 - Diagrams at render time. A fenced `mermaid` block is drawn by mermaid-cli through the Pandoc project's diagram filter (pandoc-ext/diagram 1.2.0, shipped unmodified as `pandoc/filters/satzspiegel-diagram.lua`, MIT, checksum verified in `make check`) and written into the page as an SVG data URI inside `figure.md-diagram`. No script is added to the page, a linked page needs no extra file, and a review edition keeps the diagram's labels out of its text index. The diagram takes the theme's paper, ink, rule and spot, with system faces. Without `mmdc` the block stays a code block and Pandoc says once how to install it. Results are cached in `~/.cache/pandoc-diagram-filter`. A diagram keeps its drawn size and scrolls inside its figure when wider than the column, so labels are never shrunk below reading size.
 - Figures take the block spacing every other block has; `.md figure { margin-block: 0 }` sat in a later cascade layer and had been cancelling it.
+- The `repo` variable puts a link to a GitHub repository and GitHub's star button into the running head; meant for web pages, not for documents you send, because the button loads a script from `buttons.github.io`.
+- Pages rendered by the Makefile link their stylesheets with a content hash in the query, so a fresh page never pairs with a cached older stylesheet.
+- The README is shorter and in the first person, shows the review edition in a screenshot, and carries the install commands for macOS, Linux and Windows.
+- The Pages workflow grants permissions per job; the build, which installs npm packages, cannot deploy.
 
 ## 1.0.0
 
