@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 1.1.2
+
+14 October 2026.
 
 - `make install` ends with a report instead of the copy commands: where the files went, which Pandoc runs them and whether it was built with HTTP support (probed offline), other Pandoc copies on the `PATH`, whether `mmdc` draws diagrams, and a test render of a review edition with the installed files, which fails the install if the comment layer would not run. `V=1` prints the commands. `scripts/install-report.sh`; the smoke workflow runs it on Linux.
 - `make install` writes `satzspiegel-gfm-local.yaml` too; the closing line had always promised a `-local` variant of each defaults file.
