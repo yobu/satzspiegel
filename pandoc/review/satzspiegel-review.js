@@ -187,7 +187,9 @@
   function exportJson() { download(JSON.stringify(collection(), null, 2), source.replace(/\W+/g, '-') + '.annotations.json', 'application/ld+json'); }
 
   function exportMarkdown() {
-    const lines = ['# Review comments: ' + source, ''];
+    // \u0023 is the heading mark. A literal one would end this script early
+    // where Pandoc 3.12 embeds it as a data: URL without encoding the mark.
+    const lines = ['\u0023 Review comments: ' + source, ''];
     for (const a of topLevel()) {
       const q = quoteOf(a);
       lines.push('> ' + (q ? q.exact : '(no passage)'), '', '**' + who(a) + '**, ' + when(a) + ': ' + bodyText(a), '');

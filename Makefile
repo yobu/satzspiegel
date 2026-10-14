@@ -25,10 +25,12 @@ REVIEW      := $(RENDER) --embed-resources -V review -V review-css=pandoc/review
 CSSV        := ?v=$(shell cat satzspiegel.css satzspiegel-code.css fonts.css | shasum -a 256 | cut -c1-8)
 LINKS       := perl -pi -e 's/href="(?![a-z]+:)([^"\#]+)\.md(\#[^"]*)?"/href="$$1.html$$2"/g'
 
-# Fails if an embedded file still references hosted resources or carries no script.
+# Fails if an embedded file still references hosted resources, or if the
+# review script inside it, decoded the way a browser decodes it, is not the
+# whole script.
 define assert-embedded
 @if grep -q '$(HOSTED)[^"]*\.\(css\|js\)"' $(1); then echo "ERROR: $(1) still links hosted resources; nothing was embedded"; exit 1; fi
-@if ! grep -q 'src="data:text/javascript' $(1); then echo "ERROR: $(1) has no embedded review script"; exit 1; fi
+@python3 scripts/embedded-script.py $(1) pandoc/review/satzspiegel-review.js
 endef
 
 # $(call render-examples,<output dir>,<path from output dir to the repository root>)

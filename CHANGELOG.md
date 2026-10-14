@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1
+
+14 October 2026.
+
+- Review editions rendered with Pandoc 3.12 from the local defaults (`-d satzspiegel-review-local`, and every `make review`) opened without the comment layer. Pandoc 3.12 embeds a local script as a percent-encoded `data:` URL and leaves `#` unencoded, so the browser cut the script at its one `#` and stopped on a syntax error. The script no longer contains a `#`, and `make check` now decodes the embedded script the way a browser does and fails unless it is complete (`scripts/embedded-script.py`), which also accepts the `application/javascript` type Pandoc 3.12 writes for fetched scripts.
+
 ## 1.1.0
 
 17 September 2026.
