@@ -8,7 +8,7 @@ The [README](../README.md) tells the story and gives the two commands. This guid
 
 ## Pandoc, in full
 
-`make install` copies four kinds of file into Pandoc's user data directory (`pandoc --version` prints it; on a Mac it is `~/.local/share/pandoc`): the HTML template, the defaults files, the Lua filter, and, into `~/.local/share/satzspiegel`, the stylesheets and fonts for offline use. Afterwards these defaults files exist:
+`make install` copies four kinds of file into Pandoc's user data directory (`pandoc --version` prints it; on a Mac it is `~/.local/share/pandoc`): the HTML template, the defaults files, the Lua filter, and, into `~/.local/share/satzspiegel`, the stylesheets and fonts for offline use. It ends with a short report: where the files went, which Pandoc will run them and whether it can fetch the hosted stylesheet, whether `mmdc` draws diagrams, and a test render of a review edition with the installed files. A `✓` works, a `!` works with a limit the line explains, a `✗` is broken and makes `make install` fail. `make install V=1` also prints every command. Afterwards these defaults files exist:
 
 | Defaults file | Input | Output |
 |:--|:--|:--|

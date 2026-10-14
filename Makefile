@@ -23,6 +23,8 @@ REVIEW      := $(RENDER) --embed-resources -V review -V review-css=pandoc/review
 # A version tag on linked stylesheets, so a freshly deployed page never pairs
 # with a stylesheet still held in a browser or CDN cache.
 CSSV        := ?v=$(shell cat satzspiegel.css satzspiegel-code.css fonts.css | shasum -a 256 | cut -c1-8)
+# Quiet recipes; `make install V=1` prints every command.
+Q           := $(if $(V),,@)
 LINKS       := perl -pi -e 's/href="(?![a-z]+:)([^"\#]+)\.md(\#[^"]*)?"/href="$$1.html$$2"/g'
 
 # Fails if an embedded file still references hosted resources, or if the
@@ -49,20 +51,20 @@ endef
 help: ## list the targets
 	@awk 'BEGIN{FS=":.*## "} /^[a-z-]+:.*## /{printf "  make %-14s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-install: ## Pandoc template, defaults and filter into Pandoc's data dir; CSS and fonts into ~/.local/share/satzspiegel
-	@test -n "$(PANDOC_DATA)" || { echo "pandoc not found: brew install pandoc"; exit 1; }
+install: ## Pandoc template, defaults and filter into Pandoc's data dir; CSS and fonts into ~/.local/share/satzspiegel; then a test render
+	@test -n "$(PANDOC_DATA)" || { echo "pandoc not found: brew install pandoc, or https://pandoc.org/installing.html"; exit 1; }
 	@test -n "$(LOCAL)" || { echo "HOME is not set"; exit 1; }
-	mkdir -p "$(PANDOC_DATA)/templates" "$(PANDOC_DATA)/defaults" "$(PANDOC_DATA)/filters" "$(LOCAL)/pandoc/review"
-	cp pandoc/templates/satzspiegel.html "$(PANDOC_DATA)/templates/"
-	cp pandoc/defaults/satzspiegel.yaml pandoc/defaults/satzspiegel-gfm.yaml pandoc/defaults/satzspiegel-review.yaml pandoc/defaults/satzspiegel-review-light.yaml "$(PANDOC_DATA)/defaults/"
-	cp pandoc/filters/satzspiegel.lua pandoc/filters/satzspiegel-diagram.lua pandoc/filters/satzspiegel-diagram.LICENSE "$(PANDOC_DATA)/filters/"
-	cp satzspiegel.css satzspiegel-code.css fonts.css "$(LOCAL)/"
-	cp pandoc/review/satzspiegel-review.js pandoc/review/satzspiegel-review.css "$(LOCAL)/pandoc/review/"
-	rm -rf "$(LOCAL)/fonts" && cp -R fonts "$(LOCAL)/fonts"
-	for d in satzspiegel satzspiegel-review satzspiegel-review-light; do \
+	$(Q)mkdir -p "$(PANDOC_DATA)/templates" "$(PANDOC_DATA)/defaults" "$(PANDOC_DATA)/filters" "$(LOCAL)/pandoc/review"
+	$(Q)cp pandoc/templates/satzspiegel.html "$(PANDOC_DATA)/templates/"
+	$(Q)cp pandoc/defaults/satzspiegel.yaml pandoc/defaults/satzspiegel-gfm.yaml pandoc/defaults/satzspiegel-review.yaml pandoc/defaults/satzspiegel-review-light.yaml "$(PANDOC_DATA)/defaults/"
+	$(Q)cp pandoc/filters/satzspiegel.lua pandoc/filters/satzspiegel-diagram.lua pandoc/filters/satzspiegel-diagram.LICENSE "$(PANDOC_DATA)/filters/"
+	$(Q)cp satzspiegel.css satzspiegel-code.css fonts.css "$(LOCAL)/"
+	$(Q)cp pandoc/review/satzspiegel-review.js pandoc/review/satzspiegel-review.css "$(LOCAL)/pandoc/review/"
+	$(Q)rm -rf "$(LOCAL)/fonts" && cp -R fonts "$(LOCAL)/fonts"
+	$(Q)for d in satzspiegel satzspiegel-gfm satzspiegel-review satzspiegel-review-light; do \
 	  sed -e 's#$(HOSTED)#$(LOCAL)/#' "pandoc/defaults/$$d.yaml" > "$(PANDOC_DATA)/defaults/$$d-local.yaml"; \
 	done
-	@echo "installed: pandoc -d satzspiegel | -gfm | -review | -review-light, and -local variants of each for offline use"
+	@sh scripts/install-report.sh "$(PANDOC_DATA)" "$(LOCAL)"
 
 uninstall: ## remove what install put in place
 	@test -n "$(PANDOC_DATA)" || { echo "pandoc not found; nothing to remove from its data directory"; exit 1; }

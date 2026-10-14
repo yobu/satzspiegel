@@ -14,6 +14,8 @@ jobs:
           echo "89d4c9d97818c62a97157f0072844e4602c6cee795bf84abd1aee7273abcda99  pandoc.deb" | sha256sum -c -
           sudo dpkg -i pandoc.deb
       - run: make check
+      - name: make install, its report and its test render
+        run: make install
       - name: The committed home page is current
         run: |
           cp index.html /tmp/index.committed.html

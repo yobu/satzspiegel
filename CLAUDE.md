@@ -28,7 +28,7 @@ No package manager, no build step for the CSS. `make check` is the test suite (c
 
 ```bash
 brew install pandoc               # once; Pandoc 3.11 was used for development
-make install                      # Pandoc template, defaults, filter, plus CSS and fonts for offline use
+make install                      # Pandoc template, defaults, filters, CSS and fonts; ends with a report and a test render (scripts/install-report.sh); V=1 prints commands
 make sample                       # renders sample.md into build/ (patina, archive, gfm, embedded)
 make                              # lists the targets
 make check                        # contrast, every render, embed assertions, extractor; what CI runs
