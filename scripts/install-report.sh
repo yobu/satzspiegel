@@ -31,8 +31,15 @@ case $probe in
     nohttp=1 ;;
   *) ok "Pandoc" "$pver at $(tilde "$pandoc")" ;;
 esac
-others=$(which -a pandoc 2>/dev/null | grep -vx "$pandoc" | sort -u)
-for o in $others; do note "also on PATH, not used: $(tilde "$o")"; done
+# Other copies, by real path: on merged-/usr systems /bin/pandoc is /usr/bin/pandoc.
+real() { realpath "$1" 2>/dev/null || readlink -f "$1" 2>/dev/null || printf '%s' "$1"; }
+seen=$(real "$pandoc")
+for o in $(which -a pandoc 2>/dev/null); do
+  r=$(real "$o")
+  case " $seen " in *" $r "*) continue ;; esac
+  seen="$seen $r"
+  note "also on PATH, not used: $(tilde "$o")"
+done
 
 # --- diagrams
 mmdc=${MERMAID_BIN:-$(command -v mmdc)}
