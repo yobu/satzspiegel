@@ -1,5 +1,6 @@
 // Shoots docs/img/review.png: the showcase document as a review edition in
-// Patina, with comments and a reply added in the browser.
+// Patina, with comments and a reply written in the browser the way a
+// reviewer writes them: select a passage, type, Esc.
 // Needs `make showcase`, the static server on 8765, and Playwright:
 //   cd ~/.claude/skills/playwright-skill && node run.js /path/to/scripts/review-shot.js
 const { chromium } = require('playwright');
@@ -13,39 +14,40 @@ async function select(page, selector, from, to) {
     const t = document.createTreeWalker(el, NodeFilter.SHOW_TEXT).nextNode();
     const r = document.createRange(); r.setStart(t, a); r.setEnd(t, Math.min(b, t.data.length));
     const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
   }, [selector, from, to]);
-  await page.waitForSelector('.sz-fab:not([hidden])');
+  await page.waitForSelector('.sz-wait');
 }
-async function comment(page, who, selector, from, to, text) {
+async function name(page, who) {
   await page.fill('.sz-name input', who); await page.press('.sz-name input', 'Tab');
+}
+async function comment(page, selector, from, to, text) {
   await select(page, selector, from, to);
-  await page.click('.sz-fab');
-  await page.fill('.sz-new textarea', text);
-  await page.click('.sz-new .sz-editor .sz-primary');
-  await page.waitForFunction(() => !document.querySelector('.sz-new'));
+  await page.keyboard.type(text);
+  await page.keyboard.press('Escape');
+  await page.waitForFunction(() => !document.querySelector('.sz-note.sz-open'));
 }
 
 (async () => {
   const browser = await chromium.launch({ headless: true });
-  const shots = [];
-  for (const theme of ['patina']) {
-    const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
-    await page.goto(`http://127.0.0.1:8765/build/showcase/${theme}-review.html`, { waitUntil: 'networkidle' });
-    await page.evaluate(() => document.fonts.ready);
-    await comment(page, 'Mara', '.md > p:not(.runhead)', 0, 51, 'Keep this as the opening line, it carries the whole argument.');
-    await comment(page, 'Mara', '.md table caption', 0, 39, 'Add the year to the caption.');
-    await page.fill('.sz-name input', 'Jonas'); await page.press('.sz-name input', 'Tab');
-    await page.hover('.sz-card'); await page.click('.sz-card >> nth=0 >> button:has-text("Reply")');
-    await page.fill('.sz-card >> nth=0 >> textarea', 'Agreed. The Leipzig numbers should follow it directly.');
-    await page.click('.sz-card >> nth=0 >> .sz-editor .sz-primary');
-    await page.waitForTimeout(300);
-    await page.evaluate(() => document.getSelection().removeAllRanges());
-    await page.click('.sz-card >> nth=0'); await page.waitForTimeout(400);
-    await page.evaluate(() => window.scrollTo(0, 0)); await page.waitForTimeout(300);
-    shots.push(await page.screenshot({ type: 'png' }));
-    await page.close();
-  }
-  require('fs').writeFileSync(OUT, shots[0]);
+  const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
+  await page.goto('http://127.0.0.1:8765/build/showcase/patina-review.html', { waitUntil: 'networkidle' });
+  await page.evaluate(() => document.fonts.ready);
+  await name(page, 'Mara');
+  await comment(page, '.md > p:not(.runhead)', 0, 51, 'Keep this as the opening line, it carries the whole argument.');
+  await comment(page, '.md table caption', 0, 39, 'Add the year to the caption.');
+  await name(page, 'Jonas');
+  const first = '.sz-note >> nth=0';
+  await page.hover(first);
+  await page.click(first + ' >> .sz-actions button:has-text("Reply")');
+  await page.keyboard.type('Agreed. The Leipzig numbers should follow it directly.');
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(300);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  // The pointer rests on the first thread, so its passage, leader and actions show.
+  await page.hover(first + ' >> .sz-text >> nth=0');
+  await page.waitForTimeout(400);
+  require('fs').writeFileSync(OUT, await page.screenshot({ type: 'png' }));
   console.log('wrote', OUT);
   await browser.close();
 })();

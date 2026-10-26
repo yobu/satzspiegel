@@ -2,14 +2,13 @@
    Colours come from the theme tokens, copied onto .sz-review by the script,
    so the layer follows Patina or Archive. One spot colour, hairlines only. */
 
-::highlight(sz-note)        { background-color: color-mix(in oklab, var(--md-spot, #2F5B4A) 18%, transparent); }
-::highlight(sz-note-active) { background-color: color-mix(in oklab, var(--md-spot, #2F5B4A) 34%, transparent); }
 
 .sz-review {
   font-family: var(--md-face-display, system-ui, sans-serif);
   font-size: 0.8125rem; line-height: 1.45;
   color: var(--md-ink, #1D2A24);
-  font-variant-numeric: lining-nums tabular-nums;
+  /* Proportional: in some faces tabular figures widen the period and comma too. */
+  font-variant-numeric: lining-nums proportional-nums;
 }
 .sz-review *, .sz-review *::before, .sz-review *::after { box-sizing: border-box; }
 .sz-review button, .sz-review input, .sz-review textarea { font: inherit; color: inherit; }
@@ -47,59 +46,128 @@
 .sz-menu .sz-btn { border: 0; text-align: start; }
 .sz-menu .sz-btn:hover { background: var(--md-paper-sunk, #E4EBE7); }
 
-/* ---- the comment button that follows a selection ---- */
-.sz-fab {
-  position: absolute; z-index: 15;
-  padding: 0.25em 0.8em; cursor: pointer;
-  background: var(--md-spot, #2F5B4A); color: var(--md-paper, #F3F6F4);
-  border: 0; border-radius: 0;
-  box-shadow: 0 1px 2px rgba(0,0,0,.18);
+/* ---- marks: the lines under commented passages, drawn in their own layer ---- */
+.sz-marks { position: absolute; inset-block-start: 0; inset-inline-start: 0; inline-size: 0; block-size: 0; z-index: 5; pointer-events: none; }
+.sz-mark {
+  position: absolute; block-size: 1px;
+  background: linear-gradient(to right, var(--md-ink-muted, #56705F) 1px, transparent 1px) 0 0 / 3px 1px repeat-x;
+}
+.sz-mark.sz-strong { block-size: 2px; background: var(--md-spot, #2F5B4A); }
+.sz-probe { position: absolute; inset-inline-start: -9999px; inset-block-start: 0; visibility: hidden; white-space: nowrap; line-height: normal; }
+
+/* ---- the leader: from the passage to its comment, one at a time ---- */
+.sz-leader { position: absolute; block-size: 1px; background: var(--md-spot, #2F5B4A); }
+.sz-leader.sz-dotted {
+  block-size: 2px; margin-block-start: -0.5px;
+  background: radial-gradient(circle, var(--md-spot, #2F5B4A) 0.85px, transparent 1.15px) 0 50% / 6px 2px repeat-x;
 }
 
-/* ---- notes column ---- */
-.sz-notes { padding: 1rem 1rem 4rem; }
-.sz-notes.sz-empty { display: none; }
-.sz-card {
-  position: relative;
-  padding: 0.6rem 0 0.6rem 0.9rem;
-  border-inline-start: 2px solid var(--md-rule, #C7D5CC);
-  background: var(--md-paper, #F3F6F4);
-  cursor: pointer;
-  transition: border-color 120ms;
+/* ---- comments, written on the line ---- */
+.sz-notes {
+  padding: 1rem 1rem 4rem;
+  font-size: 0.9375rem; line-height: 24px;
 }
-.sz-card + .sz-card { margin-block-start: 0.75rem; }
-.sz-card.sz-active { border-inline-start-color: var(--md-spot, #2F5B4A); }
-.sz-card.sz-orphan { border-inline-start-style: dashed; }
-.sz-card p { margin: 0; }
+.sz-notes.sz-empty { display: none; }
+.sz-note { position: relative; cursor: pointer; }
+.sz-note + .sz-note { margin-block-start: 1.5rem; }
+.sz-note.sz-open { cursor: default; }
+.sz-note p { margin: 0; }
+.sz-entry { white-space: pre-wrap; }
+/* The first line of a comment sits on a hairline: the line the leader meets. */
+.sz-note > .sz-entry:first-child, .sz-note > .sz-quote + .sz-entry {
+  background: linear-gradient(var(--md-rule, #C7D5CC), var(--md-rule, #C7D5CC)) 0 23px / 100% 1px no-repeat;
+}
+.sz-note.sz-active > .sz-quote + .sz-entry, .sz-note:hover > .sz-quote + .sz-entry {
+  background-image: linear-gradient(var(--md-spot, #2F5B4A), var(--md-spot, #2F5B4A));
+}
+/* Beside its passage a comment needs no quote; the list at the end of a
+   narrow page and the printout show it. */
+@media screen and (min-width: 80rem) {
+  .sz-note:not(.sz-orphan) > .sz-quote { display: none; }
+}
+.sz-reply { margin-block-start: 0.35rem; }
+.sz-by { margin-inline-end: 0.5em; font-size: 0.8125rem; font-weight: 650; color: var(--md-ink-muted, #56705F); }
 .sz-quote {
   font-family: var(--md-face-text, Georgia, serif); font-style: italic;
   color: var(--md-ink-muted, #56705F);
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-.sz-card.sz-active .sz-quote { -webkit-line-clamp: unset; }
 .sz-orphan-note { font-style: normal; color: var(--md-spot, #2F5B4A); }
-.sz-meta { margin-block-start: 0.45rem; color: var(--md-ink-muted, #56705F); font-size: 0.92em; }
-.sz-meta b { color: var(--md-ink, #1D2A24); font-weight: 600; }
-.sz-text { margin-block-start: 0.15rem; white-space: pre-wrap; }
-.sz-reply { margin-block-start: 0.6rem; padding-inline-start: 0.9rem; border-inline-start: 1px solid var(--md-rule, #C7D5CC); }
-.sz-actions { margin-block-start: 0.5rem; display: flex; gap: 0.4rem; opacity: 0; transition: opacity 120ms; }
-.sz-card:hover .sz-actions, .sz-card.sz-active .sz-actions, .sz-card:focus-within .sz-actions { opacity: 1; }
-.sz-actions .sz-btn { padding: 0.1em 0.6em; font-size: 0.92em; }
-.sz-editor { margin-block-start: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.sz-editor textarea {
-  inline-size: 100%; padding: 0.4em 0.5em; resize: vertical;
-  border: 1px solid var(--md-rule, #C7D5CC); border-radius: 0; background: var(--md-paper, #F3F6F4);
+.sz-note.sz-orphan > .sz-quote + .sz-entry {
+  background: linear-gradient(to right, var(--md-rule, #C7D5CC) 4px, transparent 4px) 0 23px / 7px 1px repeat-x;
 }
-.sz-editor .sz-actions { display: none; }
 
-/* Wide: the notes sit in a column beside the page, aligned to their passages. */
+.sz-review textarea.sz-ruled {
+  display: block; inline-size: 100%; min-block-size: 72px; margin: 0; padding: 0;
+  border: 0; border-radius: 0; resize: none; overflow: hidden; outline: none;
+  background: repeating-linear-gradient(to bottom, transparent 0 23px, var(--md-rule, #C7D5CC) 23px 24px);
+  line-height: 24px;
+}
+.sz-review textarea.sz-ruled::placeholder { color: var(--md-ink-muted, #56705F); font-style: italic; opacity: 1; }
+.sz-foot { display: flex; align-items: center; gap: 0.9rem; margin-block-start: 0.55rem !important; font-size: 0.8125rem; line-height: 1.4; color: var(--md-ink-muted, #56705F); }
+.sz-cancel { padding: 0.3em 0.9em !important; }
+.sz-status { margin-inline-start: auto; }
+.sz-hint { color: var(--md-ink-faint, #587463); }
+
+/* The time and the actions of the comment or reply last clicked, in the gap
+   under its thread; shown on hover, focus or when active, never moving the column. */
+.sz-review .sz-actions {
+  position: absolute; inset-block-start: 100%; inset-inline: 0;
+  display: flex; align-items: center; gap: 0.75rem; block-size: 18px;
+  font-size: 0.75rem; line-height: 18px; color: var(--md-ink-muted, #56705F);
+  opacity: 0; pointer-events: none; transition: opacity 120ms;
+}
+.sz-note:hover > .sz-actions, .sz-note.sz-active > .sz-actions, .sz-note:focus-within > .sz-actions { opacity: 1; pointer-events: auto; }
+.sz-note.sz-drafting > .sz-actions { display: none; }
+.sz-actions .sz-btn {
+  padding: 0; border: 0; color: var(--md-ink, #1D2A24);
+  text-decoration: underline; text-decoration-color: var(--md-rule, #C7D5CC); text-underline-offset: 0.2em;
+}
+.sz-actions .sz-btn:hover, .sz-actions .sz-btn:focus-visible { text-decoration-color: currentColor; }
+.sz-entry.sz-target .sz-by { color: var(--md-spot, #2F5B4A); }
+
+/* The waiting line: level with a selection, "Type to comment". */
+.sz-review .sz-wait {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  block-size: 44px; padding: 0; border: 0; background: none; cursor: text; text-align: start;
+  font-style: italic; color: var(--md-ink-muted, #56705F);
+}
+.sz-wait small { font-style: normal; font-size: 0.75rem; color: var(--md-ink-faint, #587463); }
+
+/* Narrow: one field docked at the foot of the screen, and a line down to it. */
+.sz-review [hidden] { display: none !important; }
+.sz-field {
+  position: fixed; inset-inline: 0; inset-block-end: 0; z-index: 26;
+  max-block-size: 45vh; overflow-y: auto;
+  padding: 0.55rem 1rem calc(0.7rem + env(safe-area-inset-bottom, 0px));
+  background: var(--md-paper, #F3F6F4); border-block-start: 1px solid var(--md-spot, #2F5B4A);
+  font-size: 0.9375rem; line-height: 24px;
+}
+.sz-field.sz-waiting { border-block-start-style: dashed; }
+.sz-field p { margin: 0; }
+.sz-field .sz-entry + .sz-entry { margin-block-start: 0.35rem; }
+.sz-field-thread:not(:empty) { margin-block-end: 0.35rem; }
+.sz-review .sz-field textarea.sz-ruled { min-block-size: 24px; max-block-size: 120px; overflow-y: auto; }
+.sz-review .sz-field.sz-writing textarea.sz-ruled { min-block-size: 48px; }
+.sz-field .sz-foot { display: none; }
+.sz-field.sz-writing .sz-foot { display: flex; }
+.sz-review .sz-field .sz-actions { position: static; opacity: 1; pointer-events: auto; margin-block-start: 0.4rem; }
+.sz-guide { position: fixed; inset: 0; z-index: 25; pointer-events: none; }
+.sz-guide > div { position: absolute; background: var(--md-spot, #2F5B4A); }
+.sz-guide-h { block-size: 1px; }
+.sz-guide-v { inline-size: 1px; }
+.sz-guide-h.sz-dotted { block-size: 2px; margin-block-start: -0.5px; background: radial-gradient(circle, var(--md-spot, #2F5B4A) 0.85px, transparent 1.15px) 0 50% / 6px 2px repeat-x; }
+.sz-guide-v.sz-dotted { inline-size: 2px; margin-inline-start: -0.5px; background: radial-gradient(circle, var(--md-spot, #2F5B4A) 0.85px, transparent 1.15px) 50% 0 / 2px 6px repeat-y; }
+
+/* Wide: the comments sit in a column beside the page, each on its passage's line. */
 @media (min-width: 80rem) {
   body { padding-inline-end: 22rem; }
   .sz-notes {
     position: absolute; inset-block-start: 0; inset-inline-end: 0;
     inline-size: 22rem; padding-block-start: 5rem;
   }
-  .sz-card { position: absolute; inset-inline-start: 1rem; inline-size: 20rem; margin: 0 !important; }
+  .sz-note, .sz-wait { position: absolute !important; inset-inline: 1rem 1.25rem; margin: 0 !important; transition: top 180ms; }
+  .sz-field, .sz-guide { display: none !important; }
   .sz-bar { position: fixed; inset-inline: 0; }
   body { padding-block-start: 3.5rem; }
 }
@@ -110,12 +178,15 @@
   background: var(--md-ink, #1D2A24); color: var(--md-paper, #F3F6F4);
   opacity: 0; transition: opacity 160ms, transform 160ms; pointer-events: none;
 }
-.sz-toast.sz-show { opacity: 1; transform: translate(-50%, 0); }
+.sz-toast.sz-show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+/* Narrow: the foot of the screen belongs to the comment field. */
+@media (max-width: 79.99rem) { .sz-toast { inset-block-end: auto; inset-block-start: 1rem; } }
+.sz-toast .sz-btn { margin-inline-start: 0.75rem; padding: 0; border: 0; color: inherit; font-weight: 650; text-decoration: underline; }
 
 @media print {
-  .sz-bar, .sz-fab, .sz-toast { display: none; }
+  .sz-bar, .sz-toast, .sz-marks, .sz-wait, .sz-foot, .sz-field, .sz-guide { display: none !important; }
   body { padding: 0 !important; }
   .sz-notes { position: static; inline-size: auto; padding: 0; border-block-start: 1px solid #999; margin-block-start: 2em; }
-  .sz-card { position: static !important; inline-size: auto; break-inside: avoid; }
-  .sz-actions { display: none; }
+  .sz-note { position: static !important; break-inside: avoid; }
+  .sz-note + .sz-note { margin-block-start: 1rem; }
 }

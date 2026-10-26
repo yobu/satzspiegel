@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- Commenting in the review edition is rewritten. Select a passage and start typing: the passage is underlined, the line carries on into the comments column, and the comment is written on that line, level with the passage. No button over the text and no **Save comment**: every keystroke is saved, **Esc** or a click elsewhere closes, **Cancel** throws the comment away with **Undo**. Typing straight after a selection no longer scrolls the page.
+- On phones, tablets and narrow windows a comment field docks at the foot of the screen with a line from the passage down to it. The keyboard appears only on a tap into the field, and the page scrolls only when the passage would be covered.
+- Comments are kept in the browser as they are written, for that exact file, so a closed tab loses nothing; a file only read keeps nothing. **Save a copy** still makes the file one sends back.
+- Merged comments are checked more strictly: a selector, body, name or date of the wrong type is ignored, in the browser and in `scripts/annotations.mjs`, instead of stopping the comment layer.
+- Your own comments open for editing on a click; a colleague's only come forward, with **Edit** among its actions. **Delete** has Undo instead of a confirmation, and works on a single reply. A name entered later goes to your anonymous comments.
+- Commented passages are marked with drawn lines instead of the CSS Custom Highlight API, so the marks show in every current browser.
+- `scripts/review-test.js` drives the review edition in Chromium: 50 checks over http and `file://`, on a wide screen and at phone size.
+
 ## 1.1.2
 
 14 October 2026.

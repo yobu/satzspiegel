@@ -40,7 +40,7 @@ pandoc plan.md -d satzspiegel-review -o plan.html
 
 One file, about 1.1 MB, nothing to install on the other side. This is what a reviewer sees after two comments and a reply:
 
-![The review edition: highlighted passages, comment cards beside them, a reply, and the bar with Save a copy, Merge files and Export](docs/img/review.png)
+![The review edition: a passage underlined, a line from it to the comment written beside the page, a reply, and the bar with Save a copy, Merge files and Export](docs/img/review.png)
 
 ```
   you                                              your reviewer

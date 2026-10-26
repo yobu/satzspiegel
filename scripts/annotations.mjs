@@ -21,7 +21,14 @@ const read = f => {
   if (!m) return [];
   try { const d = JSON.parse(m[1]); return Array.isArray(d.items) ? d.items.filter(valid) : []; } catch { return []; }
 };
-const valid = a => a && typeof a === 'object' && typeof a.id === 'string' && a.id.length < 200 && a.type === 'Annotation';
+// The same shape check as the review layer's: anything else is ignored.
+const isStr = v => typeof v === 'string', obj = v => v && typeof v === 'object';
+const strings = (o, keys) => keys.every(k => o[k] === undefined || isStr(o[k]));
+const valid = a => obj(a) && isStr(a.id) && a.id.length < 200 && a.type === 'Annotation'
+  && strings(a, ['created', 'modified']) && (a.creator === undefined || (obj(a.creator) && strings(a.creator, ['name'])))
+  && (a.body === undefined || [].concat(a.body).every(b => obj(b) && strings(b, ['value'])))
+  && (isStr(a.target) || (obj(a.target) && (a.target.selector === undefined
+    || [].concat(a.target.selector).every(x => obj(x) && strings(x, ['type', 'exact', 'prefix', 'suffix'])))));
 const seen = new Set(), items = [];
 for (const f of files) for (const a of read(f)) if (a && a.id && !seen.has(a.id)) { seen.add(a.id); items.push(a); }
 
